@@ -1,0 +1,12 @@
+DeclareGlobalFunction( "ConvertPolynomeToRatFunc" ); 
+DeclareGlobalFunction( "ConvertToRatFunc" );
+DeclareGlobalFunction( "GcdPolynomial" );
+DeclareGlobalFunction( "LcmPolynomial" );
+DeclareGlobalFunction( "SimplifyRatFunc" );
+DeclareGlobalFunction( "ProdRatFunc" );
+DeclareGlobalFunction( "ConvertFromRatFuncToPolynom" );
+DeclareGlobalFunction( "ConvertFromRatFunc" );
+DeclareGlobalFunction( "SumRatFunc" );
+DeclareGlobalFunction( "DerivativePolynomRatFunc" );
+DeclareGlobalFunction( "DerivativeRatFunc" );
+DeclareGlobalFunction( "JacobiMatRatFunc" );

@@ -1,0 +1,2260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE BOOK SYSTEM "gapdoc.dtd">
+<Book Name="PL-manual">
+
+<TitlePage>
+	<Title>
+		The <Package>PL</Package> package
+	</Title>
+	<Version> Version 2.8.0 </Version>
+	<Author> Nurlan M. Sadikov <Email>ancleCharly@gmail.com</Email></Author>
+	<Author> Alexey I. Korepanov </Author>
+	<Author> Igor G. Korepanov </Author>
+	<Date>December, 2017</Date>
+	<Copyright><Index>License</Index>
+		&copyright; 2000-2017 by Nurlan M. Sadykov, Igor G. Korepanov, and
+		Alexey I. Korepanov <P/>
+		&PL; is free sotware; you car redistribute it and/or modify it
+		under the terms of the 
+		<URL Text="GNU General Public License">
+			http://www.fsf.org/licenses/gpl.html
+		</URL> as published by
+		Free Software Foundation; either version 2 of the License, or (at
+		any your options) any later version.
+	</Copyright>
+</TitlePage>
+
+<TableOfContents/>
+<Body>
+
+    <Chapter><Heading>Ball complexes</Heading>
+
+		Package <Package>PL</Package> deals with piecewise-linear manifolds. They are
+		described combinatorially as <E>ball complexes</E>.
+
+		A ball complex is, simply speaking, such kind of a
+		cell complex where all <E>closed</E> cells ( =
+		balls) are <E>embedded</E>. In particular, their
+		boundaries are genuine spheres, not crumpled/folded. The
+		formal definition of <Package>PL</Package> ball complex reads:
+
+		A PL ball complex is a pair <M>(X, U)</M>, where
+		<M>X</M> is a compact Euclidean polyhedron and <M>U</M>
+		is a covering of <M>X</M> by closed PL-balls such that
+		the following axioms are satisfied:
+		
+		<List>
+			<Item> the relative interiors of balls from <M>U</M> form
+				a partition of <M>X</M>, </Item>
+			<Item> the boundary of each ball from <M>U</M> is a union of
+				balls from	<M>U</M>.</Item>
+		</List>
+
+		We also call PL ball complexes ``polytopes'', for brevity, hence
+		prefix ``Pol'' in the names of some of our functions.
+
+		<Section><Heading>Representation of a PL ball complex</Heading>
+
+			A PL ball complex is determined up to a PL homeomorphism only by
+			the combinatorics of adjunctions of its balls. Due to this,
+			we represent them combinatorially in the following way.
+
+			First, we assume that all vertices in the complex are
+			numbered from 1 to their total number <M>N_0</M>. Hence, in
+			this sense, the 0-skeleton of the complex is described.
+			Next, assuming that the <M>k</M>-skeleton is already given,
+			which implies (in particular) the numeration of all
+			<M>k</M>-cells, we describe the <M>(k+1)</M>-skeleton as the
+			list of all <M>(k+1)</M>-cells, each of which, in its turn,
+			is the set of numbers of <M>k</M>-cells in its boundary.
+			Then we compose the list of length <M>n</M>, where <M>n</M>
+			is the dimension of the complex, whose elements are lists of
+			1-,..., <M>n</M>-cells.
+
+			Thus, a three-dimensional ball <M>B^3</M> may be represented
+			by the following PL ball complex with two vertices 1 and 2:
+
+			<Example>
+[
+  [ [1,2], [1,2] ], # two one-dimensional simplexes, each with
+                    # ends 1 and 2, of which the first is referred to
+                    # in the next line as 1, the second - as 2;
+  [ [1,2], [1,2] ], # two disks - bigons - bounded each by
+                    # one-dimensional simplexes 1 and 2;
+  [ [1,2] ]         # the three-ball bounded by bigons 1 and 2
+]
+			</Example>
+
+			Actually, we add a list of vertices with their names, or numbers, or
+			something like that in the beginning of the above ball
+			complex representation. For instance, our function
+			<C>ballAB</C><M>(n)</M> calls them <C>"A"</C>
+			and <C>"B"</C>. So, our &GAP; representation of the mentioned ball in
+			is the following record:
+
+			<Example>
+gap> ballAB(3);  
+rec( vertices := [ "A", "B" ], 
+  faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ] ] ] 
+ )
+			</Example>
+			Also, other useful information may be added in this record, describing,
+			for instance, the <E>symmetries</E> of the polytope.
+
+		<ManSection><Func Name="IsPolytope"  Arg="pol" />
+
+			<Description>
+				This function checks that <M>pol</M> satisfies the formal
+				rules describing how our polytopes must be built. It returns
+				<C>true</C> if no error has been found, and <C>false</C> otherwise.
+                <!--***What formal rules exactly?***-->
+				In the following example, <C>T2</C> is a two-dimensional torus.
+				<Example>
+gap> IsPolytope(T2);
+true
+				</Example>
+				As there is no algorithm for recognizing an <M>n</M>-sphere (at least,
+				for an arbitrary <M>n</M>), the verification of whether each cell
+				is indeed a sphere has been dropped. This of course may lead to a
+				mistake in the case where the data satisfies the formal rules
+				except that some cells are not spheres: the function will still
+				return <C>true</C> in this case.
+			</Description>
+		</ManSection>
+		</Section>
+
+		<Section><Heading>Classical invariants</Heading>
+
+			Here are functions computing some classical manifold invariants,
+			including the fundamental group.
+
+			<ManSection><Func Name="EulerNumber" Arg="pol" />
+				<Description>
+					Compute the Euler number for a ball complex.
+					This function is polymorphic and can accept as its input
+					data in the polytope format (<C>IsPolytope</C>), 
+                    <!--***or some other stuff: named lists where the polytope structure
+					is described in each dimension, or a named list whose elements
+                    are the numbers of cells of all dimensions***.-->
+					<Example>
+gap> EulerNumber(T2);
+0
+gap> EulerNumber(sphereAB(4));
+2
+gap> EulerNumber(sphereAB(3));
+0
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="FundGroup" Arg="pol" />
+				<Description>
+					Computes a corepresentation of the fundamental group of a given
+					polytope. Uses &GAP;'s algorithm to simplify it.
+				</Description>
+			</ManSection>
+		</Section>
+
+			<Section><Heading>General information about a ball complex</Heading>
+
+				<ManSection><Func Name="LengthPol" Arg="pol" />
+					<Description>
+						Returns the following record:
+						<C>LengthPol.</C><M>d</M> is the cardinality of the
+						<M>d</M>-skeleton in polytope <M>pol</M>.
+					 	<Example>
+gap> LengthPol(T2);
+total16
+rec( 0 := 4, 1 := 8, 2 := 4 )
+					  	</Example>
+				  </Description>
+			</ManSection>
+
+				<ManSection><Func Name="PolBoundary"  Arg="pol" />
+					<Description>
+						Computes the boundary of polytope <M>pol</M>. Returns
+						the list of boundary <M>(n-1)</M>-cells (<M>n</M> is the
+						dimension of <M>pol</M>.
+						<Example>
+gap> PolBoundary(T2);
+[ ]
+gap> s1:=sphereAB(1);;
+gap> d2:=ballAB(2);;
+gap> ft2:=PolProduct(d2,s1);;
+gap> PolBoundary(ft2);
+[ 1, 2, 3, 4 ]
+						</Example>
+						Here <C>T2</C> is a 2-torus, <C>s1</C> -
+						a 1-sphere, <C>d2</C> - a 2-ball, and
+						<C>ft2</C> - a solid torus obtained as the Cartesian
+						product of <C>d2</C> and <C>s1</C>.
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="PolInnerFaces"  Arg="pol" />
+					<Description>
+						Builds the list whose <M>i</M>-th entry is the list
+						of inner faces of polytope <M>pol</M> of dimension
+						<M>(i-1)</M>. Any face is outer if it has at most one adjacent
+                        face of a higher <!--***or the following?***--> dimension, or
+                        if it lies in the boundary of such a face <!--***unclear***-->.
+						Inner faces are, of course, the faces the are not outer.
+						<Example>
+gap> PolInnerFaces(T2);
+[ [ 1 .. 4 ], [ 1 .. 8 ] ]
+gap> PolInnerFaces(ft2);
+[ [  ], [  ], [ 5, 6 ] ]
+						</Example>
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="MaxTree"  Arg="pol" />
+					<Description>
+						finds a maximal tree in the 1-skeleton of a polytope as
+						a list of edges.
+					</Description>
+				</ManSection>
+
+				Let cells <M>a</M> and <M>b</M> have dimensions <M>n</M> and
+				<M>n-1</M>, respectively, and let <M>b</M> lie in the boundary
+				of <M>a</M>. We introduce incidence numbers, or <E>relative
+				orientations</E> <M>\epsilon(b|a)=\pm 1</M>, satisfying
+				<M>\epsilon(b_1|a)\epsilon(c|b_1) =
+					-\epsilon(b_2|a)\epsilon(c|b_2),</M>
+				where cell <M>c</M> is of dimension <M>n-2</M> and <M>b_1, b_2 \subset a</M>, 					<M>c \subset b_1 \cap b_2</M>. If <M>a</M> is an edge, then the
+				relative orientation is negative for its vertex with the smaller number,
+				and positive for its vertex with the bigger number.
+
+				<ManSection><Func Name="CellOrient" Arg="pol" />
+					<Description>
+						Computes inductively relative orientations for cells of
+						dimensions <M>1..n=dim(pol)</M> of polytope <M>pol</M>.
+						<Example>
+gap> b1 := ballAB(1);
+rec( faces := [ [ [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+gap> square := PolProduct(b1,b1);
+rec( 
+  faces := [ [ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ] ], [ [ 1, 2, 3, 4 ] ] ],
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+gap> CellOrient(square);
+[ [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ -1, 1 ] ], [ [ -1, 1, 1, -1 ] ] ]
+						</Example>
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="PolOrient" Arg="pol" />
+					<Description>
+						If <M>pol</M> is orientable, gives a consistent
+						orientation of <M>n</M>-faces (<M>n=\dim(pol)</M>),
+						otherwise returns <M>fail</M>.
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="OrientTriangulated"  Arg="pol" />
+					<Description>
+						Function computes a consistent orientation for the simplices of
+						the greatest dimension of a given <E>triangulated</E> complex
+						<M>pol</M>. Returns array of <M>-1, 1</M>-s corresponding to
+						the orientation of simplices of greatest dimension of
+						<M>pol</M>.
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="dataPachner"  Arg="dim,k" />
+					<Description>
+						Returns the description of the Pachner move in dimension
+						<M>dim</M>, whose initial configuration, or <E>left-hand 
+						side</E> (l.h.s.), consists of <M>k</M> simplices (hence, the
+						final configuration, or <E>right-hand 
+						side</E> (r.h.s.), consists of <M>dim-k+2</M> simplices).
+						The description is returned in the form of a record, where
+						<C>.l</C> describes the polytope (cluster of simplices) in the
+						l.h.s., while <C>.r</C> describes the polytope in the r.h.s.
+						<Example>
+gap> Print(dataPachner(3,2));
+rec(
+  l := rec(
+      pol := rec(
+          faces :=
+           [
+              [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ],
+                  [ 1, 5 ], [ 2, 5 ], [ 3, 5 ] ],
+              [ [ 1, 4, 5 ], [ 1, 7, 8 ], [ 2, 4, 6 ], [ 2, 7, 9 ],
+                  [ 3, 5, 6 ], [ 3, 8, 9 ], [ 1, 2, 3 ] ],
+              [ [ 1, 3, 5, 7 ], [ 2, 4, 6, 7 ] ] ],
+          vertices := [ 1, 2, 3, 4, 5 ] ),
+      sim := [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 5 ] ],
+      vnut := [ 7 ] ),
+  r := rec(
+      pol := rec(
+          faces :=
+           [
+              [ [ 1, 2 ], [ 1, 4 ], [ 2, 4 ], [ 1, 5 ], [ 2, 5 ], [ 4, 5 ],
+                  [ 1, 3 ], [ 3, 4 ], [ 3, 5 ], [ 2, 3 ] ],
+              [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 7, 8 ], [ 4, 7, 9 ],
+                  [ 3, 8, 10 ], [ 5, 9, 10 ], [ 2, 4, 6 ], [ 3, 5, 6 ],
+                  [ 6, 8, 9 ] ],
+              [ [ 1, 2, 7, 8 ], [ 3, 4, 7, 9 ], [ 5, 6, 8, 9 ] ] ],
+          vertices := [ 1, 2, 3, 4, 5 ] ),
+      sim := [ [ 1, 2, 4, 5 ], [ 1, 3, 4, 5 ], [ 2, 3, 4, 5 ] ],
+      vnut := [ 7, 8, 9 ] ) )
+  						</Example>
+						Both <C>.l</C> and <C>.r</C> are, in their turn, also
+						records. Each of them contains an entry <C>.pol</C>
+						representing the corresponding polytope in the form of a
+						triangulated ball complex, an entry <C>.sim</C> representing
+						the same polytope as a list of <M>dim</M>-simplices each
+						given <E>as the list of its vertices</E>, and an entry
+						<C>.vnut</C> - the list of the (numbers of the) <E>inner</E> 
+						<M>(n-1)</M>-cells.
+					</Description>
+				</ManSection>
+			
+				Simplicial complex are often understood in a restricted sense, namely,
+				it is requried that no two simplices have the same
+				sets of vertices. In this case, a simplicial complex can be given in the form
+				of a list of simplices,
+				each of those specified by the list of its vertices.
+				For an <M>n</M>-dimensional manifold with boundary, it is enough to list
+				just its <M>n</M>-simplices. For instance, the boundary of 4-simplex 12345
+				can be written as
+				<Example>
+gap> sim := [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 5 ], [ 1, 2, 4, 5 ],
+				[ 1, 3, 4, 5 ], [ 2, 3, 4, 5 ] ];
+				</Example>
+
+				<ManSection><Func Name="FromSimplexToPolytope"  Arg="sim" />
+					<Description>
+						turns a list <M>sim</M> of simplices into a ball complex.
+						<Example>
+gap> FromSimplexToPolytope(sim);
+rec(
+  faces :=
+    [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ],
+          [ 2, 5 ], [ 3, 5 ], [ 4, 5 ] ],
+      [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [ 1, 7, 8 ],
+          [ 2, 7, 9 ], [ 3, 8, 9 ], [ 4, 7, 10 ], [ 5, 8, 10 ], [ 6, 9, 10 ] ]
+        , [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 2, 5, 8, 9 ], [ 3, 6, 8, 10 ],
+          [ 4, 7, 9, 10 ] ] ], vertices := [ 1, 2, 3, 4, 5 ] )
+						</Example>
+					</Description>
+				</ManSection>
+			</Section>
+
+			<Section><Heading>Working with cells</Heading>
+
+				In this Section, we describe the functions providing information
+				about a cell in a triangulation of a PL manifold.
+
+				The cell is determined by the pair of numbers <M>[dim,ind]</M>,
+				where <M>dim</M> is its dimension, and <M>ind</M> - its position in the list
+				<C>pol.faces[</C><M>dim</M><C>]</C>. Such a pair will be called below
+				the <E>address</E> of the cell, or simply "cell", and denoted
+				<M>adr=[dim,ind]</M>.
+			
+				<ManSection><Func Name="PolBnd"  Arg="pol,adr" />
+					<Description>
+						Creating an index of boundary faces of face
+						<M>adr=[dim,ind]</M> of complex <M>pol</M> in the form of a
+						list. Its <M>i</M>'th entry
+						is the list of <M>(i-1)</M>-dimensional faces
+						of <M>pol</M> which are in the boundary of <M>adr</M>.
+						<Example>
+gap> PolBnd(T2,[2,3]);
+[ [ 1, 2, 3, 4 ], [ 2, 4, 5, 7 ] ]
+						</Example>
+					</Description>
+
+				</ManSection>
+				<ManSection><Func Name="FaceComp"  Arg="pol,adr" />
+					<Description>
+						A function similar to <C>PolBnd</C>, but the output is in the
+						form of a record with entries <M>.d</M>, where <M>d</M> is
+						the cell dimension. Also, the input cell is included.
+						<Example>
+gap> FaceComp(T2,[2,3]);
+rec( 0 := [ 1, 2, 3, 4 ], 1 := [ 2, 4, 5, 7 ], 2 := [ 3 ] )
+						</Example>
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="StarFace"  Arg="pol,adr" />
+					<Description>
+						Computes the star of cell <M>adr</M>, that is, all cells
+						of higher dimensions containing <M>adr</M>, in the
+						ball complex <M>pol</M>, in the form of a record. The entry
+						<M>.i</M> contains the numbers of
+						<M>i</M>-cells contained in the star.
+						<Example>
+gap> StarFace(T2,[0,3]);
+rec( 1 := [ 2, 3, 6, 7 ], 2 := [ 1, 2, 3, 4 ] )
+						</Example>
+						In this example, 1-cells indexed 2, 3, 6 and 7, and
+						2-cells indexed 1, 2, 3 and 4, form the star of vertex
+						no. 3 of the ball complex <C>T2</C>.
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="PolCheckComb"  Arg="pol, adr" />
+					<Description>
+						Checks whether face <M>adr</M> of ball complex <M>pol</M>
+						is "strictly combinatorial",
+						that is, whether every its subface of lower
+						dimension is uniquely determined by its vertices (and
+						dimension).
+					</Description>
+				</ManSection>
+			</Section>
+
+			<Section><Heading>Changing the ball complex representation of the same manifold
+				</Heading>
+
+				<ManSection><Func Name="PolTriangulate"  Arg="pol" />
+					<Description>
+						Triangulates polytope <M>pol</M>.
+						Triangulation is understood in a broader sense, as a ball
+						complex made only of simplices, but a simplex may <E>not</E>
+						be determined by its boundary (not to say its vertices).
+						<Example>
+gap> PolTriangulate(sphereAB(2));
+rec(
+  faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ] ],
+      [ [ 1, 3, 4 ], [ 2, 3, 4 ], [ 1, 5, 6 ], [ 2, 5, 6 ] ] ],
+  vertices := [ "A", "B", "V1", "V2" ] )
+						</Example>
+					</Description>
+				</ManSection>
+                <ManSection><Func Name="PolCanonicalOrder" Arg="pol" />
+                    <!--<Description>
+                        Функция создает каноническое упорядочение клеток внутри
+                        триангулированного политопа. Каноническим упорядочением
+                        мы называем порядок внесенный вершинами клеток, то есть
+                        клетка d1 меньше клетки d2, если множество вершин d1
+                        меньше множества вершин d2 в лексикографическом смысле.
+                    </Description>-->
+                    <Description>
+                        Produce canonical order of cells in a triangulated
+                        polytope. Canonical order of cells is the
+                        lexicographical order of cells presents by vertices.
+                        <!-- Создает каноническое упорядочение клеток
+                        триангулированного политопа. Каноническим упорядочением
+                        называется лексикографическое упорядочение клеток по
+                        наборам вершин. -->
+                    </Description>
+                </ManSection>
+
+				<ManSection><Func Name="FirstBoundary"  Arg="pol" />
+					<Description>
+						Changes the order of polytope <M>pol</M> cells in such way
+						that the boundary cells go first in the lists
+						<M>pol</M><C>.faces[</C><M>dim</M><C>]</C>.
+						The order of cells within the boundary remains unchanged.
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="PermFaces"  Arg="pol,perm,dim" />
+					<Description>
+						Re-orders of <M>dim</M>-cells in polytope <M>pol</M>
+					according to permutation <M>perm</M>. Important note: works correctly
+					on <M>pol</M><C>.vertices</C> (<M>dim=0</M>) and 
+					<M>pol</M><C>.faces</C>, but <E>ignores</E> additional entries
+					(if any), such as symmetries (<M>pol</M><C>.syms</C>).
+					</Description>
+				</ManSection>
+
+
+				We call a<M>d</M>-cell in a ball complex <E>minimal</E> if its boundary
+				consists of only two <M>(d - 1)</M>-cells.
+
+				<ManSection><Func Name="ContractMiniFace"  Arg="pol,adr" />
+					<Description>
+						Collapses minimal cell <M>adr</M> in polytope <M>pol</M>.
+						That is, withdraws <M>adr</M> from the complex, and
+						its two boundary cells (of dimension less by 1 than 
+						<M>adr</M>) are, accordingly, glued together into one cell.
+						<Example>
+gap> s1:=sphereTriangul(1); # triangulated sphere of dimension 1
+rec( faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ] ], vertices := [ 1 .. 3 ] )
+gap> s1:=ContractMiniFace(s1,[1,1]);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ 1, 3 ] )
+						</Example>
+						In some cases, the result of collapsing a minimal cell
+						may <E>not</E> be a ball complex. This function does not
+						check this, this is left to the user!
+
+						For instance, if we try to collapse one more edge in the above
+						circle <M>s1</M>, we get
+						<Example>
+gap> s1:=ContractMiniFace(s1,[1,1]);
+rec( faces := [ [ [ 1 ] ] ], vertices := [ 1 ] )
+gap> IsPolytope(s1);
+false
+						</Example>
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="DivideFace"  Arg="pol,adr,set" />
+					<Description>
+						Let there be a cell <M>adr</M> of dimension
+						<M>d=adr[1]</M> in ball complex <M>pol</M>, and let cells
+						<M>set</M> lie on the boundary of cell <M>adr</M> and form 							together a <M>(d-2)</M>-sphere <M>S^{d-2}</M>. 
+                        <!--***<M>set</M> is necessarily a set or can be a list?***-->
+						The function breaks the cell <M>adr</M> into two parts
+						by spanning a disk <M>D^{d-1}</M> over <M>S^{d-2}</M>
+						and inside cell <M>adr</M>.
+						<Example>
+gap> octahedron;
+rec(
+  faces :=
+	[ [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 2, 5 ], [ 3, 5 ], 
+  		[ 4, 5 ], [ 1, 6 ], [ 2, 6 ], [ 3, 6 ], [ 4, 6 ] ],
+	  [ [ 1, 5, 6 ], [ 2, 6, 7 ], [ 3, 7, 8 ], [ 4, 5, 8 ], [ 1, 9, 10 ],
+	  	[ 2, 10, 11 ], [ 3, 11, 12 ], [ 4, 9, 12 ] ], [ [ 1 .. 8 ] ] ], 
+	vertices := [ 1 .. 6 ] )
+gap> DivideFace(octahedron,[3,1],[1,2,3,4]);
+rec(
+  faces :=
+ 	[ [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 2, 5 ], [ 3, 5 ],
+  		[ 4, 5 ], [ 1, 6 ], [ 2, 6 ], [ 3, 6 ], [ 4, 6 ] ],
+	  [ [ 1, 5, 6 ], [ 2, 6, 7 ], [ 3, 7, 8 ], [ 4, 5, 8 ], [ 1, 9, 10 ], 
+	    [ 2, 10, 11 ], [ 3, 11, 12 ], [ 4, 9, 12 ], [ 1, 2, 3, 4 ] ],
+	  [ [ 1, 4, 2, 3, 9 ], [ 5, 6, 7, 8, 9 ] ] ], 
+		vertices := [ 1 .. 6 ] )
+						</Example>
+					
+						There is also a
+						special case where a 1-cell <M>adr</M> is divided,
+						by adding a vertex in its middle. In this case,
+						the name of this new vertex is indicated instead
+						of the set <M>set</M>.
+						<Example>
+gap> s1:=sphereAB(1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+gap> DivideFace(s1,[1,1],3);
+rec( faces := [ [ [ 1, 3 ], [ 1, 2 ], [ 2, 3 ] ] ], vertices := [ "A", "B", 3 ] )
+						</Example>
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="UnionFaces" Arg="pol, kl1, kl2" />
+					<Description>
+						The input is ball compex <M>pol</M> and two cells
+						<M>kl1</M> and <M>kl2</M> of the same dimension.
+						The function unites these cells into one. So this is the
+						operation inverse to <M>DivideFace</M>.
+						<Example>
+gap> UnionFace(p3,[3,1],[3,2]);
+rec(
+  faces :=
+    [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ],
+          [ 2, 5 ], [ 3, 5 ], [ 4, 5 ] ],
+      [ [ 2, 4, 6 ], [ 2, 7, 9 ], [ 4, 7, 10 ], [ 3, 5, 6 ], [ 3, 8, 9 ],
+          [ 5, 8, 10 ], [ 1, 4, 5 ], [ 1, 7, 8 ] ],
+      [ [ 1, 2, 4, 5, 7, 8 ], [ 3, 6, 7, 8 ] ] ],
+  vertices := [ 1, 2, 3, 4, 5 ] )
+						</Example>
+
+						Cells <M>D^k_1</M> and <M>D^k_2</M> in polytope <M>pol</M>
+						can be united only if the star of their intersection
+						in the union of <M>D^k_1</M> and <M>D^k_2</M>.
+
+						This function checks that the intersection of the mentioned
+                        cells in a <M>(k-1)</M>-disk. <!--**More details?***-->
+						If the result of uniting these cells is no longer a ball
+                        complex <!--***apparently, this is checked by IsPolytope***-->,
+						the function will return the <E>initial</E> polytope,
+						together with the explanation why the function refuses
+                        to work. <!--***Check grammar in the comments in the following
+                        example!***-->
+						<Example>
+gap> UnionFace(T2,[2,1],[2,3]);;
+This faces intersected on some balls or not intersected.
+I cannot union the faces in a polytope.
+						</Example>
+					</Description>
+				</ManSection>
+				<ManSection><Func Name="PolSimplify" Arg="pol" />
+					<Description>
+						Simplifies polytope <M>pol</M> using
+						<C>UnionFaces</C>. The function searches through all
+						possibilities, starting from the cells of the maximal
+						dimension. Note, however, that, after applying this function,
+						new possibilities may occur. So, the function can be
+						applied several times, in order to simplify the polytope
+						as far as possible.
+						<Example>
+gap> a:=ballTriangul(3); # triangulated 3-ball (tetrahedron)
+rec( 
+  faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ], 
+      [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 2, 3, 6 ], [ 4, 5, 6 ] ], [ [ 1 .. 4 ] ] ]
+    , vertices := [ 1 .. 4 ] )
+gap> PolSimplify(a);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ] ] ]
+    , vertices := [ 1, 2 ] )
+						</Example>
+					</Description>
+				</ManSection>
+
+			</Section>
+			<Section><Heading>Topological operations</Heading>
+				<ManSection><Func Name="FreeUnionPol"  Arg="pol1,pol2" />
+					<Description>
+						Free union of polytopes
+						<Example>
+gap> FreeUnionPol(s1,s1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ] ] ],
+  vertices := [ [ 1, "A" ], [ 1, "B" ], [ 2, "A" ], [ 2, "B" ] ] )
+						</Example>
+						The free union is performed by concatenating the lists
+						of faces. The indices (numbers) of faces belonging to the
+						second polytope are shifted - increased by the number 
+						of corresponding faces in the first polytope.
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="PolDoubleCone"  Arg="pol" />
+					<Description>
+						Makes a double cone with vertices V1 and V2 over the
+						given polytope <M>pol</M>.
+						<Example>
+gap> PolDoubleCone(s1);
+rec(
+  faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ] ],
+      [ [ 1, 3, 4 ], [ 2, 3, 4 ], [ 1, 5, 6 ], [ 2, 5, 6 ] ] ],
+  vertices := [ "A", "B", "V1", "V2" ] )
+						</Example>
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="ConnectedSum" Arg="N,M" />
+					<Description>
+						Makes a connected sum of two polytopes <M>N</M> and
+						<M>M</M> of the same dimension.
+                        <!--***Here must be two functions, with different
+                        orientations!# -->
+						<Example>
+gap> s2:=sphereAB(2);;
+gap> ConnectedSum(s2,s2);
+rec(
+  faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 1, 2 ], [ 1, 2 ] ],
+      [ [ 1, 3 ], [ 1, 2 ], [ 3, 4 ], [ 2, 4 ] ] ],
+  vertices := [ [ 1, "A" ], [ 1, "B" ] ] )
+						</Example>
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="PolProduct"  Arg="pol1,pol2" />
+					<Description>
+						Calculates the Cartesian product of two ball complexes
+						<M>pol1</M> and <M>pol2</M>. This is the ball complex made
+						of all balls <M>D^s_i \times D^t_j</M>, where <M>D^s_i</M>
+						and <M>D^t_j</M> are cells in <M>M</M> and <M>N</M>,
+						respectively.
+						<Example>
+gap> PolProduct(s1,s1);
+rec(
+  faces :=
+    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ],
+          [ 2, 4 ] ],
+      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ],
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+						</Example>
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="ImageInPolProduct" Arg="pol1,pol2,cells" />
+					<Description>
+						Auxiliary function for calculating the Cartesian product
+						of polytopes <M>pol1</M> and <M>pol2</M>. The last
+						argument <M>cells</M> is the list of two cells <M>kl1</M>
+						and <M>kl2</M> belonging to these two respective polytopes. 
+						Computes the address of cell <M>kl1 \times kl2</M> in the
+						mentioned Cartesian product.
+						<Example>
+gap> s1:=sphereAB(1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+gap> ImageInPolProduct(s1,s1,[[1,2],[1,1]]);
+[ 2, 3 ]
+						</Example>
+
+						One more possibility for the input is named lists
+						instead of polytopes <M>pol1</M> and <M>pol2</M>. In these,
+						to each dimension <M>k</M> corresponds the cardinality
+						of the set of <M>k</M>-cells. This possibility helps if the
+						function is frequently called for one and the same
+						Cartesian product.
+						<Example>
+gap> ls1:=rec(0:=2, 1:=2);
+rec( 0 := 2, 1 := 2 )
+gap> ImageInPolProduct(ls1,ls1,[[1,2],[1,1]]);
+[ 2, 3 ]
+						</Example>
+						Note that the function is valid only for the complex
+						obtained by <C>PolProduct</C>. If the complex has changed
+						somehow, the address may become incorrect.
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="PreimageInPolProduct" Arg="pol1, pol2, imageface" />
+					<Description>
+						For a given cell <M>imageface</M> in the Cartesian product
+						of polytopes <M>pol1</M> and <M>pol2</M>, returns the list
+						of two cells whose Cartesian product is <M>imageface</M>.
+						The Cartesian product is of course made according to
+						<C>PolProduct</C>.
+					</Description>
+				</ManSection>
+
+					<!-- TODO give the description of what symmetries mean for our
+					polytopes -->
+				<ManSection><Func Name="PolProductSyms"  Arg="" />
+					<Description>
+						Cartesian product of two polytopes with symmetries of
+					multipliers transferred to it. First go the symmetries of
+					the first multiplier, then - the second. 
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="PolProductSymsDict"  Arg="" />
+					<Description>
+						Cartesian product of two polytopes with symmetries of
+					multipliers transferred to it. First go the symmetries of
+					the first multiplier, then - the second.
+					Also returns the face dictionary. 
+					</Description>
+				</ManSection>
+
+				<ManSection><Func Name="PolFactorInvolution" Arg="pol, invol" />
+					<Description>
+					<M>pol</M> is polytope with symmetries, <M>invol</M> is such
+					a list of some of its symmetries (repetitions possible) that
+					it is known that the product of symmetries in s is an
+					involution returns the factored polytope.
+                    <!--***What is "s"? And make this all clear, about symmetries and
+                    involutions!***-->
+					</Description>
+				</ManSection>
+
+			</Section>
+
+		<Section><Heading>Main principles of ball complex re-buildings</Heading>
+
+			Here, we expalin the main principles of ball complex re-buildings
+			that are related to the change of cell indexation (numbers of cells
+			in the lists).
+
+			Change of cell indexation is one of the main difficulties for
+			writing our programs in a fast and easy way. In the second version of
+			package <Package>PL</Package>, we used the following idea.
+
+			As far as it is feasible, the addresses of cells not taking part in an operation
+			must remain unchanged. This is, however, not always possible. For instance,
+			this is impossible if a cell is removed from a polytope. If shifting indices
+			cannot be avoided, then we must try to change the minimal amount of indices.
+
+			The fact that all the polytope construction is based upon the cell numbers
+			in the lists <M>pol</M><C>.faces[</C><M>k</M><C>]</C>, complicates the work
+			related to complex re-buildings. Starting from the third version of package
+			<Package>PL</Package>, a possibility will be implemented for a rigid cell
+			indexation, where the position of a cell in <M>pol</M><C>.faces[</C><M>k</M><C>]</C>
+			will be also the name of this cell. This will mean, in particular, that empty
+			entries may appear in the lists <M>pol</M><C>.faces[</C><M>k</M><C>]</C>.
+			
+			At this moment, there are the following functions that permit to change
+			the polytope structure and attached information.
+
+			<ManSection><Func Name="DelFace" Arg="pol,adr" />
+				<Description>
+					Cell <M>adr</M> is removed from polytope
+					<M>pol</M>. Note that the result may still bo not a correct polytope:
+					<Example>
+gap> s1:=sphereAB(1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+gap> t2:=PolProduct(s1,s1);
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], 
+          [ 2, 4 ] ], 
+      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ], 
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+gap> pol:=DelFace(t2,[1,2]);
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], [ 2, 4 ] ]
+        , [ [ 1, 2, 4, 5 ], [ 3, 4, 5 ], [ 1, 2, 6, 7 ], [ 3, 6, 7 ] ] ], 
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+gap> IsPolytope(pol);
+false
+					</Example>
+					This function contains the most frequently used code that permits
+					to remove all mentionings of the given cell and prepare the data
+                    for the further work of the algorithm. <!--***State this
+                    more clearly!***-->
+				</Description> 
+			</ManSection>
+
+			<ManSection><Func Name="wasDelFace" Arg="pol, adr" />
+				<Description>
+					Corrects the information attached to polytope
+					<M>pol</M> that may have changed after removing cell <M>adr</M>.
+					The indices of the cells of the same dimension as <M>adr</M>
+					and that go after <M>adr</M> must be decreased by 1.
+
+  					If the cell has been deleted from some kind of attached information,
+					then the relevant message will be displayed, but the changes will
+                    be performed. <!--***Make this clearer!***-->
+
+					When manipulating information about a 2-knot in a polytope,
+					in the case if a 2-cell is removed, the relevant message will be
+					displayed, the index of the 2-cell will be removed from the list
+					<C>.2knot.sheets</C> and, if there is a reference to this 2-cell
+					in <C>.2knot.dpoints.(</C><M>1kl</M><C>)</C>, then the 
+					corresponding positiion will be cleared.
+				</Description>
+			</ManSection>
+
+			In order to simplify polytope re-buildings, we will stick to the following
+			principle in the following releases of <Package>PL</Package>.
+			The index of a <M>k</M>-cell in the list
+			<C>pol.faces[</C><M>k</M><C>]</C> is simultaneously its identifier.
+			This will allow us to create lists (skeletons)
+			<C>pol.faces[</C><M>k</M><C>]</C> with empty positions. If a cell is removed from
+			a skeleton, the corresponding position in
+			<C>pol.faces[</C><M>k</M><C>]</C> is emptied. This will alow us to 
+			simplify the calculations related to the re-enumerating of cells.
+
+			This principle will be supported starting from the third version of Package
+			<Package>PL</Package>. Starting from the fourth version, <E>only</E> this
+			way of re-building will be supported.
+		</Section>
+
+        <Section><Heading>The library of polytopes</Heading>
+
+            Here we list some ball complex realizations of "standard" manifolds.
+            
+            There are the following functions for the disks and spheres of a given dimension.
+
+            <ManSection><Func Name="ballAB" Arg="dim" />
+                <Description>
+                    Creates the minimal ball complex decomposition of a <M>dim</M>-ball, with just two
+		vertices "A" and "B".
+                    <Example>
+gap> ballAB(3);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ] ] ]
+    , vertices := [ "A", "B" ] )
+                    </Example>
+                </Description>
+
+            </ManSection>
+            <ManSection><Func Name="sphereAB" Arg="dim" />
+                <Description>
+                    Creates the minimal ball complex decomposition of a <M>dim</M>-sphere, with just two
+		vertices "A" and "B".
+                    <Example>
+gap> sphereAB(3);
+rec(
+faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ],
+  [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+                    </Example>
+                </Description>
+            </ManSection>
+
+            There are also <E>triangulated</E> balls and spheres.
+            <ManSection><Func Name="ballTriangul"  Arg="dim" />
+                <Description>
+                    Creates a simplex of dimension <M>dim</M>.
+                    <Example>
+gap> ballTriangul(2);
+rec( faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ], [ [ 1 .. 3 ] ] ],
+vertices := [ 1 .. 3 ] )
+                    </Example>
+                </Description>
+            </ManSection>
+            <ManSection><Func Name="sphereTriangul"  Arg="dim" />
+                <Description>
+                    Creates a triangulated sphere in the form of the boundary of a
+                    <M>(dim+1)</M>simplex.
+                    <Example>
+gap> sphereTriangul(1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ] ], vertices := [ 1 .. 3 ] )
+                    </Example>
+                </Description>
+            </ManSection>
+            <ManSection><Func Name="projectivePlane"  Arg="dim" />
+                <!--<Description>
+                    Вещественное проективное пространство размерности
+                    <C>dim</C>.
+                </Description>-->
+                <Description>
+                    Projective space under real space.
+                </Description>
+            </ManSection>
+
+            <ManSection><Var Name="s2s2twisted" />
+                <!--<Decription>
+                    Шаровое разбиение скрученного произведения двух двумерных
+                    сфер.
+                </Decription>-->
+                <Description>
+                    Polytope of twisted product of <M>S^2 \times S^2</M>.
+                </Description>
+            </ManSection>
+
+            <ManSection><Var Name="cp2" />
+                <!--<Decription>
+                    Комплексная проективная плоскость.
+                </Decription>-->
+                <Description>
+                    Complex projective plane.
+                </Description>
+            </ManSection>
+
+            <ManSection><Var Name="PoincareSphere" />
+                <!--<Description>
+                    Шаровое разбиение сферы Пуанкаре.
+                </Description>-->
+                <Description>
+                    Polytope of Poincare sphere
+                </Description>
+            </ManSection>
+
+            <ManSection><Func Name="TorTwist" Arg="n" />
+                <Description>
+                    Produce of <C>n</C>-times twisted tor under action of matrix
+                    <M> \begin{bmatrix}
+                           1 & -1 & 0 \\
+                           0 & 1  & 0 \\
+                           0 & 0  & 1
+                        \end{bmatrix}^n
+                    </M>.
+                </Description>
+            </ManSection>
+            <!--<ManSection><Func Name="TorTwist" Arg="n" />
+                <Description>
+                    Создаем <M>n > 0</M> раз скрученный тор, под действием
+                    матрицы
+                    <M> \begin{bmatrix}
+                           1 & -1 & 0 \\
+                           0 & 1  & 0 \\
+                           0 & 0  & 1
+                        \end{bmatrix}^n
+                    </M>.
+                </Description>
+            </ManSection>-->
+
+            <ManSection><Func Name="KummerSurface" Arg="" />
+                <Description>
+                Creates the Kummer surface, with singularities resolved - i.e., a true 4-manifold.
+                </Description>
+            </ManSection>
+
+            <ManSection><Func Name="Lens" Arg="n, k" />
+                <Description>
+                Three-dimensional lens space <M>L(n,k)</M>.
+                </Description>
+            </ManSection>
+        </Section>
+
+	</Chapter>
+
+	<Chapter><Heading>Subpolytopes and embeddings</Heading>
+
+		Subpolytope <M>subpol</M> will be understood as a set of cells of a given dimension
+		<M>k</M> if the union of these cells (cells are understood as <E>closed</E>)
+		forms a PL submanifold  <M>N \subset M</M>.
+		The simplest example of a subpolytope is a disk represented as the list of just one element
+		of any dimension of a polytope <M>pol</M>.
+
+		We will not, however, define subpolytope as any rigid construction.
+		It will be clear from the context what we mean each time.
+
+		<Section><Heading>Subpolytopes, boundaries, gluing, removing neighborhoods...</Heading>
+
+			<ManSection><Func Name="SetOfFacesBoundary"  Arg="pol,subpol,dim" />
+				<Description>
+					Returns the boundary of subpolytope <M>subpol</M> of dimension
+					<M>dim</M> of polytope <M>pol</M>. To be exact, <M>subpol</M>
+					here is a list of some <M>dim</M>-cells in <M>pol</M>. The returned
+					boundary is, accordingly, a list of <M>(dim-1)</M>-cells.
+					<Example>
+gap> s1 := sphereAB(1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+gap> t2 := PolProduct(s1,s1);
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], 
+          [ 2, 4 ] ], 
+      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ], 
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+gap> SetOfFacesBoundary(t2,[1],2);
+[ 1, 3, 5, 6 ]
+gap> SetOfFacesBoundary(t2,[2],2);
+[ 2, 4, 5, 6 ]
+gap> SetOfFacesBoundary(t2,[2,1],2);
+[ 1, 2, 3, 4 ]
+					</Example>
+					<!-- TODO тут можно вставить иллюстрацию -->
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="SubPolytope" Arg="pol,subpol,dim" />
+				<Description>
+					<M>subpol</M> is a list of some <M>dim</M>-cells in polytope
+					<M>pol</M>. The function returns (the closure of) <M>subpol</M>
+					as a separate polytope.
+					<Example>
+gap> SubPolytope(t2,[1,2],1);
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ],
+  vertices := [ [ "A", "A" ], [ "A", "B" ] ] )
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="ParallelSimplify" Arg="pol,subpol,dim" />
+				<Description>
+					Polytope <M>pol</M> is simplified using function
+					<C>UnionFaces</C>, along with its subpolytope
+					<M>subpol</M> of dimension <M>dim</M> which is simplified
+					simultaneously. The result is in the form of polytope
+					but with an additional named list <C>.subpol</C>
+					containing the numbers of <M>dim</M>-cells of the simplified
+					polytope that belong to the simplified subpolytope. The function
+					works only for subpolytopes whose dimension <M>dim</M> is strictly
+					less than the dimension of <M>pol</M>.
+
+					For a submanifold <M>A</M> of the same dimension as polytope
+					<M>M</M>, parallel simplification can be done of <M>pol</M>
+					and the intersection <M>C = A \cap \overline{(M\A)}.</M>
+                    <!--***But this is not done automatically?***-->
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="PolMinusFace"  Arg="pol,adr" />
+				<Description>
+					Cuts out a neighborhood of a face with adress <M>adr</M> from
+					polytope <M>pol</M>. In this way, new cells may appear, while
+					some of the old cells are returned in several copies.
+					The function is organized in such way that the olds cells
+					retain the same positions in lists
+					<M>pol</M><C>.faces[</C><M>i</M><C>]</C> and 
+					<M>pol</M><C>.vertices</C> as they they had in the input polytope
+					<M>pol</M>; for a multiplicated cell, one of its copies stays
+					in that position (while the other copies are added of course
+					somewhere on the right of the corresponding list).
+				</Description>
+
+			</ManSection>
+			<ManSection><Func Name="PolMinusFaceDoublingMethod"  Arg="pol,adr" />
+				<Description>
+					Suppose there is a neighborhood of a <M>k</M>-cell <M>adr</M> in
+					a ball complex <M>pol</M> homeomorphic to several <M>n</M>-disks
+					<M>D^n_i</M> glued along the cell <M>adr</M>. Then, the withdrawal
+					of <M>adr</M> can be performed more economically, namely by creating,
+					for each <M>n</M>-disk, its own copy of <M>adr</M>.
+
+					The following simple example deals with a bouquet of line segments
+					glued together in vertex <M>adr=[0,1]</M>.
+					<Example>
+gap> buket:=rec( vertices := [ 1, 2, 3, 4 ],
+faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ] ] ] );;
+gap> PolMinusFaceDoublingMethod(buket,[0,1]);
+rec( vertices := [ 1, 2, 3, 4, 5, 6 ],
+ faces:=[ [ [ 1, 2 ], [ 3, 5 ], [ 4, 6 ] ] ] )
+					</Example>
+
+                    <!--***Here I commented out some Russian text which must
+                    be presented in a clearer way***.-->
+					<!-- Каждый диск <M>D^n_i</M> может иметь свое подразбиение
+					внутри pl-многообразия <M>M</M>. При этом очевидно, что в
+					pl-комплексе существует такое подразбиение шарового
+					комплекса, что линк клетки <M>a</M> распадается на несколько
+					связных компонент (по числу дисков <M>D^n_i</M>). Именно это
+					свойство взято в качестве критерия нахождения и разделения
+					дисков <M>D^n_i.</M>
+
+					Данное вырезание не затрагивает границу клетки, оставляя ее
+					на месте, при этом индексы не участвующих в разрезании
+					клеток не изменяются. -->
+					<!-- TODO этот абзац надо пояснить -->
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="PolMinusPol" Arg="pol, subpol, dim" />
+				<Description>
+					Cuts out subpolytope <M>subpol</M> of dimension <M>dim</M>
+					from polytope <M>pol</M>. As far as possible, the most economical
+					way is chosen for doing this.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="GlueFaces" Arg="pol, pair, dim" />
+                <Description>
+                    Glues together two cells in polytope <M>pol</M>, <E>assuming
+                    that their boundaries coincide</E>. The cells have dimension
+                    <M>dim</M>, and <M>pair</M> is the list of their two
+                    numbers. Function returns <C>fail</C> if can't glue the
+                    faces.
+                    <!-- Склеить две клетки в многообразие у которых общая граница. Если склейку
+                    указанных дисков провести невозможно функция вернет fail. Переменная
+                    <C>faces</C> список из двух индексов клеток которые необходимо склеить,
+                    <C>dim</C> размерность этих клеток. -->
+                    <!--
+                    Мы говорим, что невозможно склеивать только в том случае, если нарушется
+                    свойство комбинаторности политопа (когда существуют клетки косающиеся
+                    сами себя). Если бы существовали клетки в которых бы нарушилась
+                    комбинаторность (клетка стала косаться сама себя), то эти клетки имели
+                    бы размерность `d+1` (мы склеиваем `d`-клетки). Из этого следует, что
+                    существует такая `(d+k)`-клетка которая содержит обе склеиваемые клетки,
+                    следовательно либо эта клетка содержит только эти две клетки в своей
+                    границе, либо в ней нарушается комбинаторность, так как возникает
+                    условие склеивания по границе.
+                    
+                    Ну и конечно проверить, что скливаемые клетки имеют одинаковые границы
+                    очень легко.
+                    -->
+                </Description>
+                <!-- <Description>
+					Glues together two cells in polytope <M>pol</M>, <E>assuming
+					that their boundaries coincide</E>. The cells have dimension
+					<M>dim</M>, and <M>pair</M> is the list of their two numbers.
+			 		Remark: the function does <E>not</E> check whether the cells have
+					indeed the same boundary. Neither does it check that the result
+					is a valid ball complex.
+			 		Here is a simple example where the result is <E>not</E> a ball
+					complex:
+					<Example>
+gap>d2:=ballAB(2);;
+gap>GlueFaces(d2,[1,2],1);
+rec(faces:=[ [ [1,2] ], [ [1] ] ],
+	vertices:= ["A","B"]
+					</Example>
+                </Description> -->
+			</ManSection>
+
+ 			<ManSection><Func Name="VerticesRullGlueFace" Arg="pol,pair,dim" />
+  	 	 		<Description>
+ 					Glues together two cells in polytope <M>pol</M>. The cells have
+					dimension <M>dim</M>, and <M>pair</M> is the list of their two 
+                    numbers. <!--***And this time something <E>is</E> checked!
+					Apparently, the cells must have the same
+                    <E>vertices</E>!***-->
+ 			   </Description>
+ 			</ManSection>
+
+            <ManSection><Func Name="GlueIndenticalSubpolitops" Arg="pol, sub1, sub2, dim" />
+                <!--<Description>
+                    Склеить два подполитопа которые имею идентичные разбиеня на
+                    клетки. Клетки с одинаковыми индексами в различным
+                    подполитопах отождествляются и склеиваются.
+                </Description>-->
+                <Description>
+                    Gluing two polytopes with identical subpolitopes. Faces with
+                    indetical indexe will be gluing.
+                </Description>
+            </ManSection>
+
+			<ManSection><Func Name="VerticesRullGluePol" Arg="pol,subpol1,subpol2,dim" />
+	 			<Description>
+                    <E>Identical</E> subpolytopes <M>subpol1</M> and
+                    <M>subpol2</M> of polytope <M>pol</M> and of dimension
+                    <M>dim</M> are glued into one.  Each of these subpolytopes
+                    must have at least one <M>dim</M>-cell with at least
+                    <M>dim+1</M> vertices.
+				<P/>
+                    The gluing rules are determined by the <E>vertex names</E>
+                    in the list <M>pol</M><C>.vertices</C>. The function begins
+                    with each pair of same-named vertices into one. Then the
+                    process continues inductively on the cell of <M>subpol1</M>
+                    and <M>subpol2</M> of higher dimensions. The presence of a
+                    <M>dim</M>-cell with at least <M>dim+1</M> vertices ensures
+                    that the gluing is performed in a unique way. <!--***Hmm... I
+                    must think a bit here...***-->
+				<P/>
+					If <E>two</E> polytopes are to be glued together by identifying
+					their identical subpolytopes, then <C>FreeUnionPol</C> can be used
+					first.
+
+				<!--
+				</Description>
+					В политопе указывается два набора связных подполитопов,
+					которые необходимо склеить. Правила склеики подполитопов
+					указываются в именах вершин (вершины с одинаковыми именами
+					склеиваются в одну), далее все это индуцируется на клетки
+					большей размерности. Для работы данного алгоритма
+					необходимо, что бы у подполитопов были одинаковые
+					pl-разбиения, а также, что бы в этом pl-разбиении
+					содержалась хоть одна n-клетка натянутая на хотябы на (n+1)
+					вершин.
+				--> 
+  	 	 		  </Description>
+			</ManSection>
+
+		</Section>
+	</Chapter>
+
+	<Chapter><Heading>Immersions and knots</Heading>
+
+		Package <Package>PL</Package> provides the possibility to work with usual 
+		one-dimensional knots and with two-dimensional knotted surfaces. 
+
+		<Section><Heading>Classical knots</Heading>
+
+			There are two different ways of describing a knot diagram in package 
+			<Package>PL</Package>. Both of these have their own advantages.
+
+			<Subsection><Heading>Describing a knot diagram</Heading>
+
+				The first way of describing a knot diagram is as follows.
+				Assign a name to each double point, call these names "generators",
+				choose arbitrarily the initial point (not being a double point
+				of the diagram) and the positive direction on the knot.
+				Go along the knot in the positive direction and make the <E>word</E>
+				according to the following rule: at the beginning, the word is empty,
+				then each double point is written on the right of the word and in the
+				degree <M>-1</M> if we are moving along the underpass, or
+				<M>1</M> if we are moving along the overpass. The word is ready when
+				we have returned to the initial point.
+				<P/>
+																	 					Additionally, each double point has its <E>orientation</E>.
+				<!-- TODO нужно указать когда двойной точке сопоставляется
+				положительная ориентация, когда отрицательная. Думаю это можно
+				будет сделать следующим образом, но это нужно проверить -->
+				If the pair "positive directions of the overpass and underpass" at a double
+				point determine the positive orientation of the plane, then the
+				orientation is <M>1</M>, otherwise <M>-1</M>.
+				<P/>
+				The mirror image of a knot corresponds to changing all orientations.
+				<!-- TODO нарисовать рисунки с ориентациями -->
+				<P/>
+				For the trefoil knot, the simplest diagram yields the word
+				<M>ac^{-1}ba^{-1}cb^{-1}</M>, and all orientations are negative.
+				Here is how this diagram is represented in the package 
+				<Package>PL</Package> library.
+				<Example>
+gap> Trefoil;
+rec( kod := [ [ "a", 1 ], [ "c", -1 ], [ "b", 1 ],
+              [ "a", -1 ], [ "c", 1 ], [ "b", -1 ] ],
+     orient := [ [ "a", -1 ], [ "b", -1 ], [ "c", -1 ] ] )
+  				</Example>
+				The word and the orientations are thus represented as <C>.kod</C> and
+				<C>.orient</C>, and the example makes it clear how exactly this is done.
+			<!-- TODO создать рисунок трилистника с отмеченной точкой и
+			ориентациями в одной из двойных точек или во всех -->
+
+				To describe <E>links</E> in this way is slightly more complicated,
+				because the link components must be identified additionally.
+                <!--***Nevertheless, it seems everything works perfectly well
+                with links!-->
+				For instance, <C>TorusKnot(2,4);</C> produces a beautiful <E>link</E>
+				as follows:
+				<Example>
+gap> TorusKnot(2,4);
+rec( 
+  kod := rec( 1 := [ [ 1, 1 ], [ 2, -1 ], [ 3, 1 ], [ 4, -1 ] ], 
+      2 := [ [ 1, -1 ], [ 2, 1 ], [ 3, -1 ], [ 4, 1 ] ] ), 
+  orient := [ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ] ] )
+                </Example>
+				<!--
+				В случае,
+				если стоит необходимость вручную задать диаграмму обычного узла
+				данный способ является лучшим поскольку информация легко
+				проверяется. Предполагается, что данная диаграмма лежит на
+				двумерной плоскости, отсюда мы будем называть этот способ
+				задания "плоским", чтобы различать два способа описания
+				диаграмм узлов.
+				-->
+
+				The second way of describing a knot diagram consists in building
+				the ball complex decomposition of sphere <M>S^2</M> corresponding
+				naturally to the diagram. In this description, the knot goes along
+                the 1-cells of the complex. <!--***Necessarily all 1-cells or not?***-->
+				<!--
+				Отсюда, для удобства, этот способ далее будем называть
+				сферическим. -->
+				The details can be seen on the following example.
+
+			<Example>
+rec(
+  1knot :=
+    rec(
+      dpoints := rec( 1 := [ 6, 1, 3, 4 ], 2 := [ 2, 3, 5, 6 ],
+          3 := [ 4, 5, 1, 2 ] ), sheets := [ 1 .. 6 ] ),
+  faces := [ [ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ] ],
+      [ [ 1, 3, 5 ], [ 1, 4 ], [ 2, 4, 6 ], [ 2, 5 ], [ 3, 6 ] ] ],
+  vertices := [ "a", "b", "c" ] )
+			</Example>
+				This example shows a trefoil diagram made as a ball complex decomposition
+				of <M>S^2</M> with the additional information concerning the knot itself,
+				and included in the named list <C>.1knot</C> (meaning "one-dimensional knot",
+				in contrast with knotted 2-surfaces). This latter contains the list
+                <C>.sheets</C> <!--***even if the word "sheets" looks strange here... but
+				keep in mind that there is a parallel construction for
+                2-knots!***-->
+				of all 1-cells along which the knot diagram goes, and
+				the named list <C>.dpoints</C> which assigns 4-lists to the names - double
+				point indices. The first two entries in each of these 4-lists are the
+				indices of two 1-cells forming the overpass at the double point, while
+				the second two entries are the indices of two 1-cells forming the underpass.
+			<!-- TODO создать рисунок сферы в которой отмечена диаграмма
+			трилистника и указаны индексы всех клеток, создать пояснение к
+			описанной выше конструкции по данному рисунку -->
+				<P/>
+				This desription contains redundant information and is not really
+				convenient for writing it manually looking at a knot diagram.
+				It has, nevertheless, some advantages. First, it allows to work directly
+				with link diagrams. Second, this way of description is easily generalized
+				to two-dimensional knotted surfaces, which will be explained below.
+			</Subsection>
+
+			<!--</Section>
+		<Section><Heading>Классические узлы</Heading> -->
+			<ManSection><Func Name="Knot1OnSphere2" Arg="knot" />
+				<Description>
+					Creates a ball complex decomposition of sphere <M>S^2</M> with
+					all information about the <M>knot</M> diagram, as explained above.
+					<Example>
+gap> Knot1OnSphere2(Figure8);
+rec(
+  1knot :=
+    rec(
+      dpoints := rec( 1 := [ 8, 1, 4, 3 ], 2 := [ 4, 5, 8, 7 ],
+          3 := [ 2, 3, 5, 6 ], 4 := [ 6, 7, 1, 2 ] ), sheets := [ 1 .. 8 ] ),
+  faces :=
+    [ [ [ 1, 4 ], [ 3, 4 ], [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 2, 4 ],
+          [ 1, 2 ] ],
+      [ [ 1, 3, 6 ], [ 1, 4, 7 ], [ 2, 5, 7 ], [ 2, 6 ], [ 3, 5, 8 ], [ 4, 8 ]
+         ] ], vertices := [ "a", "b", "c", "d" ] )
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="KnotInS3" Arg="knot" />
+				<Description>
+                    Creates a ball complex decomposition of
+                    <E>three</E>-dimensional sphere <M>S^3</M>. The 1-cells
+                    along which the <M>knot</M> goes are shown in the named list
+                    <C>.knot</C>.
+					<Example>
+gap> KnotInS3(Figure8);
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 1, 7 ], [ 2, 8 ], [ 5, 7 ], 
+          [ 6, 8 ], [ 1, 5 ], [ 2, 6 ], [ 1, 3 ], [ 2, 4 ], [ 3, 5 ], 
+          [ 4, 6 ], [ 5, 7 ], [ 6, 8 ], [ 3, 7 ], [ 4, 8 ], [ 1, 3 ], 
+          [ 2, 4 ], [ 1, 8 ], [ 5, 8 ], [ 2, 5 ], [ 2, 3 ], [ 3, 6 ], 
+          [ 6, 7 ], [ 4, 7 ], [ 1, 4 ] ], 
+      [ [ 1, 6, 21 ], [ 3, 8, 22 ], [ 1, 9, 23 ], [ 1, 11, 24 ], 
+          [ 2, 14, 25 ], [ 3, 15, 26 ], [ 2, 17, 27 ], [ 1, 20, 28 ], 
+          [ 5, 11, 17 ], [ 6, 12, 18 ], [ 7, 13, 17 ], [ 8, 14, 18 ], 
+          [ 7, 15 ], [ 8, 16 ], [ 9, 13, 19 ], [ 10, 14, 20 ], [ 11, 19 ], 
+          [ 12, 20 ], [ 4, 5, 21 ], [ 4, 7, 22 ], [ 3, 10, 23 ], 
+          [ 2, 12, 24 ], [ 3, 13, 25 ], [ 4, 16, 26 ], [ 4, 18, 27 ], 
+          [ 2, 19, 28 ] ], 
+      [ [ 1, 4, 7, 9, 10, 19, 22, 25 ], [ 2, 5, 7, 11, 12, 20, 23, 25 ], 
+          [ 2, 6, 13, 14, 20, 24 ], [ 3, 5, 8, 15, 16, 21, 23, 26 ], 
+          [ 4, 8, 17, 18, 22, 26 ], 
+          [ 1, 3, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 24 ] ] ], 
+  knot := [ 21, 22, 23, 24, 25, 26, 27, 28 ], 
+  vertices := [ [ "a", "1" ], [ "a", "0" ], [ "b", "1" ], [ "b", "0" ], 
+      [ "c", "1" ], [ "c", "0" ], [ "d", "1" ], [ "d", "0" ] ] )
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="Reidemeister10Everywhere" Arg="knot" />
+				<Description>
+					Checks the <M>knot</M> diagram for presence of free loops that can
+					be removed by the first Reidemeister move
+                    <M>R^{-1}_0</M>. <!--***And does what?***-->
+
+					The numbers <M>10</M> in the function name are because such
+					a Reidemeister takes 1 vertex and returns (locally) 0 vertices.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="ZeroLinkFromKnot" Arg="knot" />
+				<Description>
+                    <!--***Looks like this function does not work. I temporarily commented
+					out the Russian text. -->
+					<!--
+					Не изменяя самого узла, данная функция создает такую
+					диаграмму, которая будет иметь нулевой коэффициент
+					зацепления с диаграммой составленной следующим образом. Для
+					узла создается трубчатая окрестность в трехмерном
+					пространстве. Проекция узла параллельно оси <M>Oz</M> на
+					трубчатую окрестность создает новый узел (по сути дела тот
+					же самый). Два узла созданных по предложенной диаграмме
+					образуют зацепление с нулевым коэффициентом.
+					-->
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="KnotGroup" Arg="knot" />
+				<Description>
+					Calculates the knot group, i.e., the fundamental group of the knot
+					complement in <M>S^3</M>. Wirtinger relations are used.
+				</Description>
+			</ManSection>
+
+
+			<!--<ManSection><Func Name="ComplementOfKnot" Arg="knot" />
+				<Description>
+					Создает политоп являющийся дополнением узла в <M>S^3.</M>
+					Разбиение дополнения по возможности минимизируется. Граница
+					получившегося многообразия является тором составленным из
+					четырех прямоугольников. -->
+					<!-- TODO проверить указывает ли программа меридиану и
+					параллель, если указывает описать это -->
+			<!--	</Description>
+			</ManSection>
+			<ManSection><Func Name="TriangulateComplementOfKnot" Arg="knot" />
+				<Description>
+					аналогично функции ComplementOfKnot создаем дополнение узла
+					в трехмерной сфере, но в данном случае дополнение
+					триангулированное. Граница имеет фиксированную триагуляцию
+					из восьми треугольников.
+				</Description>
+			</ManSection> -->
+			<ManSection><Func Name="TorusKnot" Arg="q,p" />
+				<Description>
+				Creates a diagram of the torus knot <M>(q,p)</M>, if <M>q</M> and
+				<M>p</M> are coprime, or otherwise of the corresponding link.
+				Parameter <M>q > 0</M> is the number of threads, while
+                <M>p</M> is the number of revolutions. <!--***Hmm, maybe
+                understandable...***-->
+					<Example>
+gap> k:=TorusKnot(2,3);
+rec( kod := [ [ 1, 1 ], [ 2, -1 ], [ 3, 1 ], [ 1, -1 ], [ 2, 1 ], [ 3, -1 ] ],
+  orient := [ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ] )
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="ZeifertSurface" Arg="knot" />
+				<Description>
+					Creates a Seifert surface of the <M>knot</M>, embedded in the
+					3-sphere. All 2-cells belonging to the Seifert surface are listed
+					in the list <C>.zeifert</C>.
+					<Example>
+gap> pol:=ZeifertSurface(Knot7_7);;
+gap> zeif:=SubPolytope(pol, pol.zeifert, 2);;
+gap> PolOrient(zeif);
+[ 1, 1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, 1 ]
+					</Example>
+					Here we have created a sphere with a Seifert surface in it,
+					then singled out this Seifert surface as a separate polytope,
+					and checked that this latter is orientable by constructing
+					an explicit orientation of its 2-cells.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="ZeifertSurfaceWithSimplyBoundary" Arg="knot" />
+				<Description>
+				Creates a Seifert surface of the <M>knot</M> whose boundary consists of only
+				two 1-cells (and the knot goes, accordinly, along these two cells).
+				<Example>
+gap> pol:=ZeifertSurfaceWithSimplyBoundary(Knot7_7);;
+gap> SetOfFacesBoundary(pol,pol.zeifert,2);
+[ 49, 159 ]
+				</Example>
+				</Description>
+			</ManSection>
+		</Section>
+
+		<Section><Heading>Knotted surfaces</Heading>
+
+			Here we understand a knotted surface, or surface-knot, as a 2-surface,
+			connected or not, and embedded in the four-dimensional Euclidean space
+			<M>\mathbb{R}^4</M>. Projection <M>\pi \colon:\;
+				\mathbb{R}^4 \to \mathbb{R}^3</M> is <E>generic</E> for
+			knotted surface <M>T</M> if the image <M>\pi (T) </M> is
+			<M>\mathbb{R}^3</M> is locally homeomorphic to either (1) 2-disk, (2) two
+			2-disks intersecting transversally, (3) three 2-disks intersecting transversally,
+			or (4) Whitney umbrella. Points having neighborhoods of types
+			(2), (3) or (4) are called <E>double points</E>, <E>triple points</E>, or
+			<E>branching points</E>, respectively. The set of all points (2), (3) and (4) 
+			is called <E>singularity set</E>. The <E>diagram</E> of <M>T</M> is its image
+			<M>\pi (T)</M> together with the information on which sheet is "higher"
+			or "lower" near all double points, w.r.t. to the projection <M>\pi</M>.
+			
+			<Subsection><Heading>Defining knotted surfaces</Heading>
+
+				By a one-point compactification, we pass from <M>\mathbb{R}^3</M>
+				to the 3-sphere <M>S^3</M>. We pepresent a knotted surface <M>T</M> diagram
+				as a ball decomposition of <M>S^3</M> such that all sheets of <M>T</M>
+				lie in its 2-skeleton. All information concerning the diagram within the
+				polytope is contained in the attached named list <C>.2knot</C>. This list
+				contains, in its turn, named list <C>.sheets</C> where the indiced of all
+				2-cells are collected belonging to the surface knot, and
+				named list <C>.dpoints</C> where the names are the double point edges, and
+				to each edge, a four-element list is attached of the 2-cells lying in the
+				diagram and in the star of this edge. The first two entries in this list
+				are the 2-cells lying in the upper sheet, while the two last - the 2-cells
+				lying in the lower sheet. This information is of course enough
+				to identify also the triple and branching points.
+				<P/>
+
+				<!--
+				Внутри программ мы не будем проводить четкого разделения между
+				двумерными заузленными поверхностями и двумерными узлами. Вся
+				информация о данных структурах будет собираться в прикрепленном
+				списке .2knot.
+				-->
+			</Subsection>
+
+			<ManSection><Func Name="PolSimplifyWith2Knot" Arg="pol" />
+				<Description>
+					Simplifies polytope <M>pol</M> containing a knotted surface.
+					Uses function <C>UnionFaces</C> which unites pairs of balls in the
+					polytope.
+					<P/>
+
+					This function, similarly to <C>PolSimplify</C>, does not check
+					whether further simplifications of the obtained polytope are
+					possible. So, its makes sense to apply this function several
+					times.
+  				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="SingularitySet2Knot" Arg="pol" />
+				<Description>
+					Returns the singularity set, i.e., the double point graph
+					(actually containing also triple and branching points)
+					for the knotted surfaces diagram which is supposed to be
+					contained in the record <M>pol</M>. The list <C>.graf</C>
+					contains all 1-cells of the ambient polytope <M>pol</M>
+					that enter in the double point graph. Also, there is the
+					named list <C>.order</C> where the names are the indices of 
+					vertices, and the corresponding entry describes the vertex star
+					in the following format. For a triple point, the first two
+					elements are the "upper" edges - those formed by the intersection
+					of the upper and the middle sheets; the second two elements
+					are the "middle" edges - those formed by the intersection
+					of the upper and the lower sheets; and the last two elements
+					are the "lower" edges - those formed by the intersection
+					of the middle and the lower sheets. For a double point, the
+					list contains just two edges, and for a branching point - just
+					one edge.
+					<Example>
+gap> SingularitySet2Knot(TurnKnot(Trefoil,2));
+	...
+rec( graf := [ 7, 4, 5, 6, 19, 20, 21, 22, 17, 18, 23, 8, 9, 10, 12, 45, 32,
+      31, 25, 26, 51, 54, 55, 64, 112, 113, 114, 115, 134, 136, 137, 138,
+      131, 130, 129, 119, 109, 118, 127, 106, 124, 105, 123, 104, 122, 102,
+      99, 98, 79, 97, 78, 53, 94, 52, 59, 93, 92, 57, 73, 56, 72, 90, 70, 69,
+      68, 67, 66, 65 ],
+  order := rec( 1 := [ 137, 92 ], 10 := [ 12, 102 ], 11 := [ 10, 12 ],
+      13 := [ 4 ], 14 := [ 22, 17, 19, 20, 104, 97 ],
+      15 := [ 19, 18, 21, 22, 105, 98 ], 16 := [ 20, 21, 18, 23, 106, 99 ],
+      19 := [ 25 ], 2 := [ 138, 94 ], 20 := [ 32, 31, 25, 26, 109, 102 ],
+      21 := [ 23, 26 ], 23 := [ 17, 32 ], 24 := [ 31, 112 ],
+      25 := [ 113, 104 ], 26 := [ 114, 105 ], 27 := [ 115, 106 ],
+      30 := [ 45, 109 ], 34 := [ 45, 112 ], 36 := [ 113, 118 ],
+      37 := [ 115, 119 ], 40 := [ 51, 56, 54, 53, 118, 122 ],
+      41 := [ 53, 52, 55, 56, 114, 123 ], 42 := [ 54, 55, 52, 57, 119, 124 ],
+      45 := [ 127, 59 ], 46 := [ 59, 57 ], 48 := [ 51 ],
+      49 := [ 64, 69, 67, 66, 129, 122 ], 5 := [ 4, 9, 7, 6, 97, 92 ],
+      50 := [ 66, 65, 69, 68, 130, 123 ], 51 := [ 68, 67, 70, 65, 131, 124 ],
+      54 := [ 72 ], 55 := [ 79, 78, 73, 72, 134, 127 ], 56 := [ 73, 70 ],
+      58 := [ 64, 79 ], 59 := [ 136, 78 ], 6 := [ 5, 6, 8, 9, 98, 93 ],
+      60 := [ 137, 129 ], 61 := [ 130, 93 ], 62 := [ 138, 131 ],
+      64 := [ 134, 90 ], 67 := [ 136, 90 ], 7 := [ 7, 8, 5, 10, 99, 94 ] ) )
+					</Example>
+				</Description>
+			</ManSection>
+
+ 			<ManSection><Func Name="TripleDoubleBranchPoints" Arg="pol" />
+ 				<Description>
+                    Returns, for a ball complex <M>pol</M> with a knotted
+                    surface diagram inside it, a named list (record) containing,
+                    in its turn, named lists <C>.triple</C>, <C>.double</C> and
+                    <C>.branch</C> where the names are those polytope vertices
+                    which are triple, double or branching points of the diagram,
+                    respectively.  In <C>.triple</C>, for each vertex <M>v</M>
+                    again a named list is returned, containing the fields
+                    <C>.u</C>, <C>.m</C> and <C>.d</C> being the lists of the
+                    2-cells belonging to the upper, middle, and lower sheets and
+                    lying in the star of <M>v</M>. In <C>.double</C>, there are
+                    only lists <C>.u</C> and <C>.d</C>. As for the named list
+                    <C>.branch</C>, it simply returns, for each branching vertex
+                    <M>v</M>, the list of 2-cells belonging to the knotted
+                    surface and lying in the star of <M>v</M>.
+					<Example>
+ gap> pol:=TurnKnot(Trefoil,1);;
+ ...
+ gap> TripleDoubleBranchPoints(pol);
+rec( branch := rec( 13 := [ 2, 6, 22, 30 ], 19 := [ 13, 16, 37, 44 ] ),
+  double :=
+    rec( 1 := rec( d := [ 24, 25, 41, 57 ], u := [ 22, 57, 51, 27 ] ),
+      10 := rec( d := [ 28, 37, 38 ], u := [ 2, 30, 7 ] ),
+      11 := rec( d := [ 28, 36, 38 ], u := [ 2, 6, 7 ] ),
+      2 := rec( d := [ 23, 28, 55, 52, 55 ], u := [ 25, 41, 26 ] ),
+      21 := rec( d := [ 36, 38, 43 ], u := [ 8, 12, 14 ] ),
+      23 := rec( d := [ 30, 39, 48 ], u := [ 8, 12, 16 ] ),
+      24 := rec( d := [ 7, 46, 47 ], u := [ 13, 44, 14 ] ),
+      25 := rec( d := [ 24, 40, 41 ], u := [ 27, 39, 51 ] ),
+      26 := rec( d := [ 26, 42, 27 ], u := [ 23, 24, 40 ] ),
+      27 := rec( d := [ 23, 43, 52 ], u := [ 26, 42, 41 ] ),
+      30 := rec( d := [ 47, 48, 51, 57 ], u := [ 19, 44, 20, 43 ] ),
+      34 := rec( d := [ 46, 54, 57, 47 ], u := [ 14, 20, 19, 44 ] ) ),
+  triple :=
+    rec(
+      14 := rec( d := [ 32, 33, 40, 41 ], m := [ 27, 30, 35, 39 ],
+          u := [ 8, 9, 11, 12 ] ),
+      15 := rec( d := [ 27, 34, 35, 42 ], m := [ 23, 31, 32, 40 ],
+          u := [ 9, 10, 11, 12 ] ),
+      16 := rec( d := [ 23, 31, 36, 43 ], m := [ 33, 34, 41, 42 ],
+          u := [ 8, 9, 10, 12 ] ),
+      20 := rec( d := [ 37, 38, 43, 44 ], m := [ 7, 30, 47, 48 ],
+          u := [ 8, 13, 14, 16 ] ),
+      5 := rec( d := [ 24, 25, 32, 33 ], m := [ 22, 27, 30, 35 ],
+          u := [ 2, 3, 5, 6 ] ),
+      6 := rec( d := [ 26, 27, 34, 35 ], m := [ 23, 24, 31, 32 ],
+          u := [ 3, 4, 5, 6 ] ),
+      7 := rec( d := [ 23, 28, 31, 36 ], m := [ 25, 26, 33, 34 ],
+          u := [ 2, 3, 4, 6 ] ) ) )
+					</Example>
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="IsDiagrammOf2Knot" Arg="pol" />
+				<Description>
+ 					Check a 2-knot diagram in a 3-manifold. Namely: (1) the correctness
+					of all references to polytope cells, (2) the double point graph,
+                    (3) the absence of self-osculation points. <!--***Well... if the diagram
+					lies in a 3-manifold <M>M</M>, then the knotted surface lies,
+                    apparently, in <M>M</M> cross <M>[0,1]</M>.-->
+					<Example>
+ gap> pol:=TurnKnot(Figure8,-1);;
+
+  All good!
+
+ gap> IsDiagrammOf2Knot(pol);
+ true
+					</Example>
+				</Description>
+			</ManSection>
+			<!--<ManSection><Func Name="Preimage2Knot" Arg="pol" />
+ 				<Description>
+	 				Построение прообраза заузленной поверхности по диаграмме.
+					<Example>
+gap> pol:=TurnKnot(Trefoil,0);;
+ ...
+gap> sp:=Preimage2Knot(pol);
+rec(
+  faces :=
+    [ [ [ 2, 3 ], [ 2, 7 ], [ 7, 9 ], [ 8, 9 ], [ 1, 8 ], [ 5, 6 ], [ 5, 10 ],
+          [ 10, 12 ], [ 11, 12 ], [ 4, 11 ], [ 7, 10 ], [ 8, 11 ], [ 3, 6 ],
+          [ 7, 10 ], [ 8, 11 ], [ 3, 6 ], [ 9, 12 ], [ 2, 5 ], [ 9, 12 ],
+          [ 1, 4 ], [ 1, 4 ], [ 2, 5 ] ],
+      [ [ 20, 21 ], [ 1, 6, 13, 22 ], [ 2, 7, 11, 22 ], [ 3, 8, 11, 17 ],
+          [ 4, 9, 12, 17 ], [ 5, 10, 12, 20 ], [ 13, 16 ], [ 1, 6, 16, 18 ],
+          [ 2, 7, 14, 18 ], [ 3, 8, 14, 19 ], [ 4, 9, 15, 19 ],
+          [ 5, 10, 15, 21 ] ] ],
+  vertices := [ [ 1, "a" ], [ 1, "b" ], [ 1, "c" ], [ 2, "a" ], [ 2, "b" ],
+      [ 2, "c" ], 7, 8, 9, 10, 11, 12 ] )
+gap> PolSimplify(sp);
+...
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ] ],
+  vertices := [ [ 1, "a" ], [ 1, "b" ] ] )
+					</Example>
+				</Description>
+			</ManSection> -->
+			<ManSection><Func Name="SurfaceOf2Knot" Arg="M3" />
+				<Description>
+					For a 3-manifold <M>M^3</M> equipped with a knotted surface
+					diagram, the preimage of the surface is returned, that is, the
+					2-manifold, where also the preimages of double, triple, and
+					branching points are indicated. The named list
+					<C>.preimages</C>contains lists <C>.1</C> and <C>.0.</C>.
+					List <C>.1</C> consists of pairs of preimages of double point
+					edges; the first entry is the edge lying in the lower sheet,
+					and the second entry is the edge lying in the upper sheet.
+					List <C>.0</C> consists of lists of length either 1 or 3;
+					these are the lists of preimages of branching and triple points,
+					respectively. For a triple points, the preimages go in the 
+					following order: the vertex on the lower sheet first, then
+					the middle, and then the upper vertex.
+					<Example>
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="TurnKnot" Arg="knot, number" />
+ 				<Description>
+ 					Returns a diagram, embedded in the 3-sphere <M>S^3</M>, of the
+                    2-knot that is obtained by the SpunTwist algorithm <!--***SpinTwist
+                    or maybe SpunTwisted?***--> from the 1-knot diagram <M>knot</M>.
+					The <M>number</M> is the number of twists; it can be positive,
+					negative or zero. In the last case, we get just a spun-diagram.
+					<Example>
+gap> TurnKnot(Trefoil,0);
+I'm trying simplify a polytope.
+
+  ...
+
+ All good!
+
+rec(
+  2knot :=
+    rec( dpoints := rec( 11 := [ 12, 7, 9, 10 ], 12 := [ 8, 9, 11, 12 ],
+          13 := [ 10, 11, 13, 8 ], 14 := [ 18, 7, 15, 16 ],
+          15 := [ 14, 15, 17, 18 ], 16 := [ 16, 17, 13, 14 ] ),
+      sheets := [ 7, 8, 14, 9, 15, 10, 16, 11, 17, 12, 18, 13 ] ),
+  faces :=
+    [ [ [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 5, 6 ], [ 4, 5 ],
+          [ 4, 6 ], [ 5, 6 ], [ 4, 5 ], [ 1, 4 ], [ 2, 5 ], [ 3, 6 ],
+          [ 1, 4 ], [ 2, 5 ], [ 3, 6 ] ],
+      [ [ 1, 3, 5 ], [ 1, 4 ], [ 2, 5 ], [ 6, 8, 10 ], [ 6, 9 ], [ 7, 10 ],
+          [ 11, 14 ], [ 1, 6, 12, 13 ], [ 2, 7, 11, 12 ], [ 3, 8, 11, 13 ],
+          [ 4, 9, 12, 13 ], [ 5, 10, 11, 12 ], [ 13, 16 ], [ 1, 6, 15, 16 ],
+          [ 2, 7, 14, 15 ], [ 3, 8, 14, 16 ], [ 4, 9, 15, 16 ],
+          [ 5, 10, 14, 15 ] ],
+      [ [ 7, 10, 13, 16 ], [ 1, 4, 8, 10, 12 ], [ 2, 5, 8, 11 ],
+          [ 3, 6, 9, 12 ], [ 1, 4, 14, 16, 18 ], [ 2, 5, 14, 17 ],
+          [ 3, 6, 15, 18 ] ] ],
+  vertices := [ [ 1, "a" ], [ 1, "b" ], [ 1, "c" ], [ 2, "a" ], [ 2, "b" ],
+      [ 2, "c" ] ] )
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="2KnotInS4" Arg="pol" />
+				<Description>
+					Given a three-dimensional polytope <M>pol</M> with a surface knot
+					<M>T</M> diagram in it, returns an embedding of <M>T</M>
+					into the 4-sphere <M>S^4</M>. The result is a ball complex 
+					decomposition of <M>S^4</M> with the additional list <C>.2knot</C>
+					containing the 2-faces that form the surface knot.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="OrientBrockenDiagramm" Arg="s3" />
+				<Description>
+					Returns a broken diagram for an orientable connected knotted
+					surface. 
+				<P/>
+					For an orientable 2-knot in 3-sphere <M>s3</M>, its broken
+					diagram and double point graph are computed. Returns a named
+					list, as explained below.
+					<Example>
+gap> s3:=TurnKnot(Trefoil,2);;
+gap> rez:=OrientBrockenDiagramm(s3);;
+gap> RecNames(date);          
+[ "images", "preimages", "manifold", "colines", "cosheets", "cofaces", 
+  "coorient" ]
+					</Example>
+				<P/>
+					The list <C>rez.manifold</C> contains the preimage of the
+					2-knot, that is, a 2-manifold.
+					<Example>
+gap> RecNames(rez.manifold);  
+[ "vertices", "faces" ]
+					</Example>
+				<P/>
+					The list <C>rez.images</C> contains the images of the singular
+					points in the 2-knot diagram.
+					<Example>
+gap> PrintObj(rez.images);
+rec(
+  0 := [ 4, 5, 6, 11, 12, 13, 14, 17, 18, 38, 39, 40, 45, 46, 47, 48, 51, 52 
+     ],
+  1 := [ 7, 4, 5, 6, 19, 20, 21, 22, 24, 16, 17, 18, 8, 9, 10, 11, 25, 54, 
+                . . .
+					</Example>
+					The list <C>rez.images.0</C> contains the vertex indices in 
+					polytope <M>s3</M> for the triple and branching points. The list
+					<C>rez.images.1</C> contains the edge indices in <M>s3</M>
+					for the double point edges.
+				<P/>
+					The list <C>rez.preimages</C> contains the preimages of singular
+					points in the 2-knot diagram.
+					<Example>
+gap> PrintObj(rez.preimages);
+rec(
+  0 := [ [ 69, 4, 70 ], [ 71, 5, 72 ], [ 6, 73, 74 ], [ 11 ], 
+                . . .
+  1 := [ [ 7, 143 ], [ 4, 144 ], [ 5, 145 ], [ 6, 146 ], [ 19, 147 ], 
+                . . .
+					</Example>
+					The list <C>rez.preimages.0</C> contains the indices of the triple
+					and branching points preimages, and the list <C>rez.preimages.1</C>
+					contains the indices of the double edges. These indices correspond 
+					to the record <C>rez.manifold</C>. The numerations in
+					<C>rez.images.i</C> and <C>rez.preimages.i</C> coincide in the
+					sense that the preimage of element <C>rez.images.</C><M>i[k]</M>
+					consists of the elements in <C>rez.preimages.</C><M>i[k]</M>.
+                    For instance, the preimage of vertex 14 - a triple <!--***here
+                    "branching" was written - apparently a mistake***--> point - 
+					consists of three points in <C>rez.manifold</C>. Vertex
+					11 in polytope <M>s3</M> is a branching point in the 2-knot
+					diagram, so we get just one point as its preimage in polytope
+					<C>rez.manifold</C>
+					<Example>
+gap> pos:=Position(rez.images.0,14);;
+gap> rez.preimages.0[pos];
+[ 82, 14, 81 ]
+gap> pos:=Position(rez.images.0,11);;
+gap> rez.preimages.0[pos];          
+[ 11 ]
+					</Example>
+					And finally, each double edge has exactly two preimages.
+				<P/>
+					The singular point graph has the triple and branching points
+					as its vertices, and the diagram's double edges as its edges.
+					An edge of the singular point graph may pass through several
+					edges of the ball complex. The singular point 
+					graph edges are numbered in some arbitrary way. The list
+					<C>rez.colines</C> assigns to each
+					<M>i</M>-th double edge from <C>rez.images.1</C>
+					the singular point graph edges that passes through it.
+				<P/>
+					The list <C>rez.cosheets</C> shows, for an <M>i</M>-th 2-cell
+					from <C>s3.2knot</C>, to which 2-cell of the broken diagram
+					it belongs.
+				<P/>
+					As it is assumed that the preimage of the 2-knot is orientable,
+					it follows that the double edges can also be oriented, and
+					orientations can be assigned to the graph vertices as well. Namely, 						the direction of a double edge is positive if it makes a positive
+					vector triple together with the normal vectors to the 
+					corresponding upper and lower sheets. Triple point orientation is
+                    the sign of the triple of the outgoing double edges, <!--***in which 
+                    order?***--> and branching point orientation tells whether the
+                    oriented double edge points at or from it. <!--***but how
+                    exactly?***-->
+					These orientations are contained in the lists
+					<C>rez.coorient.</C><M>dim</M>, where <M>dim=0</M> or <M>1</M>.
+                    <!--***And here I commented out one sentence that I could not
+                    understand.***-->
+					<!--
+					Заметим, что ориентации в <C>rez.coorient.1</C>
+					сопоставляются не по дугам и по двойным ребрам, то есть
+					двойному ребру из <C>rez.images.1</C> присваивается такая
+					ориентация, при которой его направление совпадало бы с
+					направлением на дуге, которой он принадлежит.
+					-->
+				<P/>
+					The list <C>rez.cofaces.0</C> contains, in its <M>i</M>-th
+					position, the list of double point graph edges that contain
+					the <M>i</M>-th vertex of the graph. If this vertex is a triple 
+					point, then there are six such edges. The first three in their
+					list <C>rez.cofaces.0[</C><M>i</M><C>]</C> are the edges pointing
+					into the <M>i</M>th vertex, while the last three point out of
+					the vertex. Moreover, the edges in the lists
+					<C>rez.cofaces.0</C>, for triple points, are strictly ordered.
+					The 1st and 4th entries are the upper edges, the 2nd and 5th
+					entries are the middle edges, and the 3rd and 6th entries
+					are the lower edges.
+				<P/>
+					The list <C>rez.cofaces.1</C> gives, for each double point graph
+					edge, the list of three entries, of which the first is the
+					index of the upper sheet, the second is the index of that
+					lower sheet that lies in the direction of the positive normal
+					vector to the upper sheet, and the third is the index of that
+					lower sheet that lies against the direction of the positive normal
+					vector to the upper sheet.
+				</Description>
+			</ManSection>
+
+		</Section>
+	</Chapter>
+
+    <Chapter><Heading>Дискретное действие.</Heading>
+        <ManSection><Var Name="actionlib" />
+            <!--<Description>
+                Структура данных содержащая нетривиальные действия для различных
+                характеристик. Все действия представляют из себя однородные
+                многочлены над некоторыми конечными полями. Список
+                <C>actionlib.char.deg</C> содержит некоторые примеры действий
+                степени <C>deg</C> для характеристики <C>char</C>.
+                <Example>
+gap> actionlib.2.3[1];
+rec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],
+  monoms := [ [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 3, 5 ], [ 2, 3, 5 ], [ 2, 4, 5 ] ] )
+                </Example>
+                Действия представляют из себя словать с двумя полями
+                <C>coeffs</C> и <C>monoms</C>. В списке <C>monoms</C> содержатся
+                мономы многочлена действия (переменные представлены индексами),
+                в списке <C>coeffs</C> указаны коэффициенты соответствующих
+                мономов в многочлене действия. Так, действие из примера выше
+                представляет из себя следующий многочлен <M>x_1x_2x_4 +
+                    x_1x_3x_4 + x_1x_3x_5 + x_2x_3x_5 + x_2x_4x_5</M>.
+            </Description>-->
+            <Description>
+                Date structure consists non trivial disret actions for different
+                characteristics. Action is homogenious polynome of a fixed
+                degree over a prime field <M>\mathbf F_p</M>. Lists
+                <C>actionlib.char.deg</C> consist from some examples of action
+                degree <C>deg</C> under characteristic <C>char</C>.
+                <Example>
+gap> actionlib.2.3[1];
+rec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],
+  monoms := [ [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 3, 5 ], [ 2, 3, 5 ], [ 2, 4, 5 ] ] )
+                </Example>
+                Action is represented by dictionary with keys <C>coeffs</C> and
+                <C>monoms</C>. The list <C>monoms</C> consists from monomials of
+                a polynome, the list <C>coeffs</C> consists from coeffs of
+                coresponding monom in the polynome. For example, action in
+                <C>actionlib.2.3[1]</C> is <M>x_1x_2x_4 + x_1x_3x_4 + x_1x_3x_5 + x_2x_3x_5 + x_2x_4x_5</M>.
+            </Description>
+        </ManSection>
+        <ManSection><Func Name="getLsystem" Arg="pol, action" />
+            <!--<Description>
+               По действию на стандартном пентахоре (12345) вычисляется
+               действие на всем многообразии <C>pol</C>. 
+            </Description>-->
+            <Description>
+                Produce action for polytope by action by pentachoron <M>u = 12345</M>.
+            </Description>
+            <!--<Description>
+               Действие на стандартном пентахоре (12345) задается во
+               входном параметре <C>action</C>. Предполагается, что тетраэдрам
+               1234, 1235, 1245, 1345, 2345 сопоставляются некоторые переменные
+               с индексами 1, 2, 3, 4, 5, соответственно.
+            </Description>-->
+            <Description>
+                Action for pentachoron <M>u = 12345</M> is set in <C>action</C>.
+                Suppeses that tetrahedras have next indexes 1234 - 1, 1235 - 2,
+                1245 - 3, 1345 - 4, 2345 - 5.
+            </Description>
+            <!--<Description>
+               Результат будет содержать поля <C>dim</C> - количество
+               уникальных переменных в многочлене действия, <C>triplets</C> -
+               мономы многочлена действия, <C>rough_invariant</C> - грубый
+               инвариант.
+               <Example>
+gap> action := actionlib.2.3[1];;
+gap> t4syst := getLsystem(t4, action);
+rec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],
+  dim := 6, monomes := [ [ 1, 1, 6 ], [ 1, 6, 6 ], [ 5, 6, 6 ], [ 5, 5, 6 ],
+      [ 2, 2, 5 ], [ 3, 3, 4 ], [ 3, 4, 4 ], [ 2, 5, 5 ] ], rough_invariant := 6 )
+               </Example>
+           </Description>-->
+            <Description>
+                The result contains field <C>dim</C> - number of unic
+                independet variations in a polynome of action, <C>monoms</C> -
+                monomes in the polynome, <C>rough_invariant</C> - rough
+                invariant of the manifold.
+               <Example>
+gap> action := actionlib.2.3[1];;
+gap> t4syst := getLsystem(t4, action);
+rec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],
+  dim := 6, monomes := [ [ 1, 1, 6 ], [ 1, 6, 6 ], [ 5, 6, 6 ], [ 5, 5, 6 ],
+      [ 2, 2, 5 ], [ 3, 3, 4 ], [ 3, 4, 4 ], [ 2, 5, 5 ] ], rough_invariant := 6 )
+               </Example>
+           </Description>
+        </ManSection>
+        <ManSection><Func Name="lookover", Arg="lsystem, k" />
+            <!--<Decription>
+                Вычисляются чистоты по многочлену дискретного дейсвия над
+                указанным полем Галуа степени <M>k</M> (характеристика полня
+                определяется на основе многочлена действия). На вход функции
+                поступает дискретное действие (формат описан в <C>actionlib</C>)
+                и степень поля Галуа. Результатом будет список частот каждого
+                элемента поля (порядок следования элементов задается
+                <C>List(field, x -> x)</C>.
+                <Example>
+gap> lookover(t4syst, 2);
+[ 2080, 0, 2016, 0 ]
+gap> List(GF(4), x -> x);
+[ 0*Z(2), Z(2^2), Z(2)^0, Z(2^2)^2 ]
+                </Example>
+                Посокольку <C>t4syst</C> вычислялось для действия над полем
+                <C>GF(2)</C> и мы положили <C>k = 2</C> в данном примере, то
+                результатом стали частоты элементов поля <C>GF(2^2)</C>.
+            </Decription>-->
+            <Decription>
+                Produce of frequencies by polynome <C>lsystem</C> of discret
+                action for Galua field of degree <C>k</C> (characteristic tooks
+                form action polynome). Order of field elements produced by
+                function <C>List(filed, x -> x)</C>.
+                <Example>
+gap> lookover(t4syst, 2);
+[ 2080, 0, 2016, 0 ]
+gap> List(GF(4), x -> x);
+[ 0*Z(2), Z(2^2), Z(2)^0, Z(2^2)^2 ]
+                </Example>
+                Becouse <C>t4syst</C> computed over field <C>GF(2)</C> and we
+                put <C>k = 2</C> in the example, then the result is elements
+                frequencies from field <C>GF(4)</C>.
+            </Decription>
+        </ManSection>
+
+    </Chapter>
+
+	<Chapter><Heading>Related structures, auxiliary functions</Heading>
+		<Section><Heading>Some useful lists</Heading>
+
+			<ManSection><Func Name="ConnectedSubset" Arg="list" />
+				<Description>
+					Let <M>list</M> be a list of lists. We say that its entries
+                    <M>list[i]</M> and <M>list[k]</M> <E>can be joined</E> if there
+					exist such chain of entries <M>list[i]=list[j_0], list[j_1],
+                    \ldots,list[j_n]=list[k]</M> where every two neighbors have a
+					non-empty intersection. The function returns all
+					indiced <M>i</M> of those entries that can be joined with 
+					<M>list[1]</M>.
+					<Example>
+gap> list:=[[2,3],[4,5],[6,7],[1,4],[2,1]];;
+gap> ConnectedSubset(list);
+[ 1, 5, 4, 2 ]
+gap> ConnectedSubset(T2.faces[1]);
+[ 1, 4, 5, 8, 2, 6, 3, 7 ]
+					</Example>
+					This function is applied to finding the connected components of a
+					manifold, hence its name.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="SortCircle" Arg="list" />
+				<Description>
+					The input <M>list</M> must consist of two-element lists;
+					these can be thought of as edges of a graph.
+					The function sorts <M>list</M>, assuming that this graph is a cycle.
+					<Example>
+gap> list:=T2.faces[1]{T2.faces[2][3]};
+[ [ 2, 3 ], [ 1, 4 ], [ 1, 2 ], [ 3, 4 ] ]
+gap> SortCircle(list);
+[ [ 2, 3 ], [ 1, 2 ], [ 1, 4 ], [ 3, 4 ] ]
+gap> list;
+[  ]
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="LineOrdering" Arg="list" />
+				<Description>
+					The input <M>list</M> must consist of two-element lists;
+					these can be thought of as edges of a graph. Assuming that the
+					graph is just a chain of <M>n</M> edges joining <M>n+1</M>
+					vertices, the function returns one of the two corresponding
+					linear orderings of the edges as list <C>.order</C>, and their
+					consistent orientations as <C>.orient</C>.
+					<Example>
+gap> list:=[ [ 2, 3 ], [ 4, 1 ], [ 2, 4 ], [ 15, 1 ], [ 15, 5 ] ];;
+gap> LineOrdering(list);
+rec( order := [ 5, 4, 2, 3, 1 ], orient := [ 1, -1, 1, -1, 1 ] )
+					</Example>
+					If the graph is not such a chain, the fuction finds some subgraph
+                    in it <!--***maximal?***--> that <E>is</E> a chain.
+					<Example>
+gap> cycle:=[[1,2],[3,4],[4,2],[1,3]];;
+gap> LineOrdering(cycle);
+rec( order := [ 3, 1, 4, 2 ], orient := [ 1, -1, 1, 1 ] )
+					</Example>
+				</Description>
+			</ManSection>
+
+		</Section>
+
+		<Section><Heading>Rational functions</Heading>
+
+		Given a polynomial <M>f</M>, it can be factored, using the GAP's <C>Factors</C>
+		algorithm, as <M>f = a f_1^{k_1} \cdots
+		f_n^{k_n}</M>. We will write such factorization as
+		<M>[a, f_1, k_1, ... , f_n, k_n]</M>.
+		The first element in this list is the coefficient <M>a</M>, and then each even element
+		is a factor, and each odd element is the multiplicity of the preceding factor.
+		We call such way of describing a polynomial RatFunc format.
+		<P/>
+
+		A <E>rational function</E> <M>r</M> is represented in RatFunc format as a two-element
+		list. The first element is its numerator, and the second - its denominator. If one of these
+		elements is empty, this means that the numerator or denominator is 1.
+
+			<ManSection><Func Name="ConvertPolynomeToRatFunc" Arg="f" />
+				<Description>
+					Converts polynomial <M>f</M> into the RatFunc format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="ConvertToRatFunc" Arg="f" />
+				<Description>
+					Converts rational function <M>f</M> into the RatFunc format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="ConvertFromRatFuncToPolynom" Arg="f" />
+				<Description>
+					Converts polynomial <M>f</M> from RatFunc to usual format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="ConvertFromRatFunc" Arg="f" />
+				<Description>
+					Converts rational function <M>f</M> from RatFunc to usual format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="SimplifyRatFunc" Arg="f" />
+				<Description>
+                    Simplifies a rational function <M>f</M>. <!--***Here <M>f</M> can 
+                    be given either in the usual or RatFunc format, yes?***-->
+					<Example>
+gap> x:=Indeterminate(Rationals,"x");;
+gap> y:=Indeterminate(Rationals,"y");;
+gap> f:=(x^2-y^2)/(x+y)^2;;
+gap> f1:=ConvertToRatFunc(f);
+[ [ 1, x-y, 1, x+y, 1 ], [ 1, x+y, 2 ] ]
+gap> SimplifyRatFunc(f1);
+[ [ 1, x-y, 1 ], [ 1, x+y, 1 ] ]
+					</Example>
+					<Example>
+gap> g:=[[2,x-y^2,0],[]];;
+gap> SimplifyRatFunc(g);
+[ [ 2 ], [ 1 ] ]
+					</Example>
+					<Example>
+gap> x:=Indeterminate(GF(2),"x");
+gap> y:=Indeterminate(GF(2),"y");
+gap> z:=Indeterminate(GF(2),"z");
+gap> f:=x^2+y^2+z^2;;
+gap> ConvertToRatFunc(f);
+[ [ Z(2)^0, x+y+z, 2 ], [ Z(2)^0 ] ]
+					</Example>
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="SumRatFunc" Arg="f,g" />
+				<Description>
+					Calculates the sum of rational functions <M>f</M> and <M>g</M>
+					given in the RatFunc format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="ProdRatFunc" Arg="f,g" />
+				<Description>
+					Calculates the product of rational functions <M>f</M> and <M>g</M>
+					given in the RatFunc format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="GcdPolynomial" Arg="f,g" />
+				<Description>
+					Calculates the greatest common divisor of polynomials <M>f</M> 
+					and <M>g</M>. These can be entered either in RatFunc or usual,
+					format; the result is in RatFunc format.
+				<P/>
+					This calculation does not involve the overall coefficients of
+					<M>f</M> and <M>g</M>, their gcd must be calculated separately.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="LcmPolynomial" Arg="f,g" />
+				<Description>
+					Calculates the least common multiple of polynomials <M>f</M> 
+					and <M>g</M>. These can be entered either in RatFunc or usual,
+					format; the result is in RatFunc format.
+				<P/>
+					This calculation does not involve the overall coefficients of
+					<M>f</M> and <M>g</M>, their lcm must be calculated separately.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="DerivativePolynomRatFunc" Arg="f,x" />
+				<Description>
+					Calculates the derivative of polynomial <M>f</M>
+					given in RatFunc format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="DerivativeRatFunc" Arg="f,x" />
+				<Description>
+					Calculates the derivative of rational function <M>f</M>
+					given in RatFunc format.
+				</Description>
+			</ManSection>
+			<ManSection><Func Name="JacobiMatRatFunc" Arg="listf,listx" />
+				<Description>
+					For list <M>listf</M> of rational functions, and list <M>listx</M>
+					of variables, the Jacobian matrix is calculated.
+					The data in <M>listf</M> can be given in a mixed format:
+					some entries in the usual, and others in the RatFunc format.
+				</Description>
+			</ManSection>
+		</Section>
+
+		<Section><Heading>Matrices</Heading>
+			<ManSection><Func Name="Pfaffian" Arg="mat" />
+				<Description>
+				Calculates the Pfaffian of a skew-symmetric matrix <M>mat</M>.
+				Uses an analogue of the Gauss algorithm.
+				<Example>
+gap> mat:=[[0,-3,-1,1],[3,0,-1,2],[1,1,0,3],[-1,-2,-3,0]];;
+gap> PrintArray(mat);
+[ [   0,  -3,  -1,   1 ],
+  [   3,   0,  -1,   2 ],
+  [   1,   1,   0,   3 ],
+  [  -1,  -2,  -3,   0 ] ]
+gap> Pfaffian(mat);
+-8
+				</Example>
+				</Description>
+			</ManSection>
+
+		</Section>
+
+		<Section><Heading>Grassmann algebras</Heading>
+
+		At the moment, we don't have any realization of Grassmann algebra structures that
+		could allow to declare variables as `Grassmann'. Nevertheless, here is how we can
+		operate with Grassmann monomials and their sums - arbitrary Grassmann algebra elements.
+		<P/>
+
+		We assume that all Grassmann variables are numbered. The default ordering of
+        Grassmann variables is lexicographical. <!--***Not completely
+        clear***-->
+		<P/>
+
+		A Grassmann monomial - product of some Grassmann variables and a scalar - is represented
+		as a two-element list whose first element is the list of indices of the Grassmann variables,
+		and whose second element is the scalar (element of a field, or commutative ring or algebra).
+		<P/>
+
+		A Grassmann algebra element ( = function of Grassmann variables)
+		<M>f(x_1, x_2, \dots, x_k) = \sum a_{i_1, \ldots, i_s} x_{i_1} \cdots
+			x_{i_s}</M> is represented as a named list with two fields
+		<M>f</M><C>.monomials</C> and <M>f</M><C>.coeffs</C>. The first of these contains, at its
+        <M>j</M>-th position, a word of Grassmann variables, <!--***can there be repeated variables
+        in the word? If yes, when and how the word is simplified?***--> while the second contains,
+		at the same position, the coefficient corresponding to this word (that is, 
+		<M>f</M><C>.monomials[</C><M>j</M><C>]</C> and <M>f</M><C>.coeffs[</C><M>j</M><C>]</C>
+		describe together one monomial entering in <M>f</M>.
+
+			<ManSection><Func Name="GrassmannMonomialsProduct" Arg="mon1,mon2" />
+				<Description>
+					Calculate the product of two Grassmann monomials <M>mon1</M> and
+					<M>mon2</M>.
+
+					Here is how this works for the following two products:
+					<M> (2\ a_1a_2) * (3\ a_5a_4a_6)=-6\ a_1a_2a_3a_4a_5 a_6</M>
+					and <M>(2\ a_1 a_2) * ( 3\ a_5 a_2 a_6) = 0</M>.
+					<Example>
+gap> GrassmannMonomialsProduct([[1,2],2],[[5,4,6],3]);
+[ [ 1, 2, 4, 5, 6 ], -6 ]
+gap> GrassmannMonomialsProduct([[1,2],2],[[5,2,6],3]);
+[ [  ], 0 ]
+					</Example>
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="GrassmannProduct" Arg="f,g" />
+				<Description>
+					Calculates the product of Grassmann algebra elements <M>f</M>
+					and <M>g</M>.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="GrassmannSum" Arg="f,g" />
+				<Description>
+					Calculates the sum of Grassmann algebra elements <M>f</M>
+					and <M>g</M>.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="BerezinIntegral" Arg="f, a" />
+				<Description>
+					Calculates the Berezin integral of function <M>f</M> w.r.t.
+					Grassmann variable (indexed as) <M>a</M>.
+				</Description>
+			</ManSection>
+
+			<ManSection><Func Name="BerezinMultipleIntegral" Arg="f,list" />
+				<Description>
+					Calculates the multiple Berezin integral of function <M>f</M>
+					w.r.t. those Grassmann variables whose indices are in <M>list</M>.
+					The order of integration is determined by the order of variables 
+					in <M>list</M>.
+				</Description>
+			</ManSection>
+
+            <!--***Well, great. What is missing in this section is the Grassmann exponential function.
+		Also, the user should keep in mind that the <C>Pfaffian</C> command can help for 
+		calculating integrals involving exponentials of quadratic forms.
+        But these things can wait...***-->
+		</Section>
+	</Chapter>
+</Body>
+<Bibliography Databases="PL-manual" />
+<TheIndex/>
+</Book>

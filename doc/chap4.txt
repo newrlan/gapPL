@@ -1,0 +1,397 @@
+  
+  [1X4 [33X[0;0YRelated structures, auxiliary functions[133X[101X
+  
+  
+  [1X4.1 [33X[0;0YSome useful lists[133X[101X
+  
+  [1X4.1-1 ConnectedSubset[101X
+  
+  [29X[2XConnectedSubset[102X( [3Xlist[103X ) [32X function
+  
+  [33X[0;0YLet [22Xlist[122X be a list of lists. We say that its entries [22Xlist[i][122X and [22Xlist[k][122X [13Xcan
+  be joined[113X if there exist such chain of entries [22Xlist[i]=list[j_0], list[j_1],
+  ...,list[j_n]=list[k][122X   where   every   two   neighbors   have  a  non-empty
+  intersection.  The  function returns all indiced [22Xi[122X of those entries that can
+  be joined with [22Xlist[1][122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xlist:=[[2,3],[4,5],[6,7],[1,4],[2,1]];;[127X[104X
+    [4X[25Xgap>[125X [27XConnectedSubset(list);[127X[104X
+    [4X[28X[ 1, 5, 4, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XConnectedSubset(T2.faces[1]);[127X[104X
+    [4X[28X[ 1, 4, 5, 8, 2, 6, 3, 7 ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  function is applied to finding the connected components of a manifold,
+  hence its name.[133X
+  
+  [1X4.1-2 SortCircle[101X
+  
+  [29X[2XSortCircle[102X( [3Xlist[103X ) [32X function
+  
+  [33X[0;0YThe input [22Xlist[122X must consist of two-element lists; these can be thought of as
+  edges  of  a  graph.  The function sorts [22Xlist[122X, assuming that this graph is a
+  cycle.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xlist:=T2.faces[1]{T2.faces[2][3]};[127X[104X
+    [4X[28X[ [ 2, 3 ], [ 1, 4 ], [ 1, 2 ], [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XSortCircle(list);[127X[104X
+    [4X[28X[ [ 2, 3 ], [ 1, 2 ], [ 1, 4 ], [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xlist;[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-3 LineOrdering[101X
+  
+  [29X[2XLineOrdering[102X( [3Xlist[103X ) [32X function
+  
+  [33X[0;0YThe input [22Xlist[122X must consist of two-element lists; these can be thought of as
+  edges of a graph. Assuming that the graph is just a chain of [22Xn[122X edges joining
+  [22Xn+1[122X  vertices,  the  function  returns  one  of the two corresponding linear
+  orderings  of the edges as list [10X.order[110X, and their consistent orientations as
+  [10X.orient[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xlist:=[ [ 2, 3 ], [ 4, 1 ], [ 2, 4 ], [ 15, 1 ], [ 15, 5 ] ];;[127X[104X
+    [4X[25Xgap>[125X [27XLineOrdering(list);[127X[104X
+    [4X[28Xrec( order := [ 5, 4, 2, 3, 1 ], orient := [ 1, -1, 1, -1, 1 ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  the  graph is not such a chain, the fuction finds some (random) subgraph
+  in it that [13Xis[113X a chain.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcycle:=[[1,2],[3,4],[4,2],[1,3]];;[127X[104X
+    [4X[25Xgap>[125X [27XLineOrdering(cycle);[127X[104X
+    [4X[28Xrec( order := [ 3, 1, 4, 2 ], orient := [ 1, -1, 1, 1 ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2 [33X[0;0YRational functions[133X[101X
+  
+  [33X[0;0YGiven a polynomial [22Xf[122X, it can be factored, using the GAP's [10XFactors[110X algorithm,
+  as  [22Xf  =  a  f_1^k_1 ⋯ f_n^k_n[122X. We will write such factorization as [22X[a, f_1,
+  k_1,  ...  , f_n, k_n][122X. The first element in this list is the coefficient [22Xa[122X,
+  and  then  each  even  element  is  a  factor,  and  each odd element is the
+  multiplicity  of  the  preceding  factor.  We  call such way of describing a
+  polynomial RatFunc format.[133X
+  
+  [33X[0;0YA  [13Xrational  function[113X  [22Xr[122X  is  represented in RatFunc format as a two-element
+  list.  The first element is its numerator, and the second - its denominator.
+  If  one  of  these  elements  is  empty,  this  means  that the numerator or
+  denominator is 1.[133X
+  
+  [1X4.2-1 ConvertPolynomeToRatFunc[101X
+  
+  [29X[2XConvertPolynomeToRatFunc[102X( [3Xf[103X ) [32X function
+  
+  [33X[0;0YConverts polynomial [22Xf[122X into the RatFunc format.[133X
+  
+  [1X4.2-2 ConvertToRatFunc[101X
+  
+  [29X[2XConvertToRatFunc[102X( [3Xf[103X ) [32X function
+  
+  [33X[0;0YConverts rational function [22Xf[122X into the RatFunc format.[133X
+  
+  [1X4.2-3 ConvertFromRatFuncToPolynom[101X
+  
+  [29X[2XConvertFromRatFuncToPolynom[102X( [3Xf[103X ) [32X function
+  
+  [33X[0;0YConverts polynomial [22Xf[122X from RatFunc to usual format.[133X
+  
+  [1X4.2-4 ConvertFromRatFunc[101X
+  
+  [29X[2XConvertFromRatFunc[102X( [3Xf[103X ) [32X function
+  
+  [33X[0;0YConverts rational function [22Xf[122X from RatFunc to usual format.[133X
+  
+  [1X4.2-5 SimplifyRatFunc[101X
+  
+  [29X[2XSimplifyRatFunc[102X( [3Xf[103X ) [32X function
+  
+  [33X[0;0YSimplifies  a  rational  function  [22Xf[122X. It can be given either in the usual or
+  RatFunc format.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xx:=Indeterminate(Rationals,"x");;[127X[104X
+    [4X[25Xgap>[125X [27Xy:=Indeterminate(Rationals,"y");;[127X[104X
+    [4X[25Xgap>[125X [27Xf:=(x^2-y^2)/(x+y)^2;;[127X[104X
+    [4X[25Xgap>[125X [27Xf1:=ConvertToRatFunc(f);[127X[104X
+    [4X[28X[ [ 1, x-y, 1, x+y, 1 ], [ 1, x+y, 2 ] ][128X[104X
+    [4X[25Xgap>[125X [27XSimplifyRatFunc(f1);[127X[104X
+    [4X[28X[ [ 1, x-y, 1 ], [ 1, x+y, 1 ] ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xg:=[[2,x-y^2,0],[]];;[127X[104X
+    [4X[25Xgap>[125X [27XSimplifyRatFunc(g);[127X[104X
+    [4X[28X[ [ 2 ], [ 1 ] ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xx:=Indeterminate(GF(2),"x");[127X[104X
+    [4X[25Xgap>[125X [27Xy:=Indeterminate(GF(2),"y");[127X[104X
+    [4X[25Xgap>[125X [27Xz:=Indeterminate(GF(2),"z");[127X[104X
+    [4X[25Xgap>[125X [27Xf:=x^2+y^2+z^2;;[127X[104X
+    [4X[25Xgap>[125X [27XConvertToRatFunc(f);[127X[104X
+    [4X[28X[ [ Z(2)^0, x+y+z, 2 ], [ Z(2)^0 ] ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-6 SumRatFunc[101X
+  
+  [29X[2XSumRatFunc[102X( [3Xf[103X, [3Xg[103X ) [32X function
+  
+  [33X[0;0YCalculates  the  sum  of  rational  functions  [22Xf[122X  and [22Xg[122X given in the RatFunc
+  format.[133X
+  
+  [1X4.2-7 ProdRatFunc[101X
+  
+  [29X[2XProdRatFunc[102X( [3Xf[103X, [3Xg[103X ) [32X function
+  
+  [33X[0;0YCalculates  the  product  of rational functions [22Xf[122X and [22Xg[122X given in the RatFunc
+  format.[133X
+  
+  [1X4.2-8 GcdPolynomial[101X
+  
+  [29X[2XGcdPolynomial[102X( [3Xf[103X, [3Xg[103X ) [32X function
+  
+  [33X[0;0YCalculates  the greatest common divisor of polynomials [22Xf[122X and [22Xg[122X. These can be
+  entered either in RatFunc or usual, format; the result is in RatFunc format.[133X
+  
+  [33X[0;0YThis calculation does not involve the overall coefficients of [22Xf[122X and [22Xg[122X, their
+  gcd must be calculated separately.[133X
+  
+  [1X4.2-9 LcmPolynomial[101X
+  
+  [29X[2XLcmPolynomial[102X( [3Xf[103X, [3Xg[103X ) [32X function
+  
+  [33X[0;0YCalculates  the  least  common multiple of polynomials [22Xf[122X and [22Xg[122X. These can be
+  entered either in RatFunc or usual, format; the result is in RatFunc format.[133X
+  
+  [33X[0;0YThis calculation does not involve the overall coefficients of [22Xf[122X and [22Xg[122X, their
+  lcm must be calculated separately.[133X
+  
+  [1X4.2-10 DerivativePolynomRatFunc[101X
+  
+  [29X[2XDerivativePolynomRatFunc[102X( [3Xf[103X, [3Xx[103X ) [32X function
+  
+  [33X[0;0YCalculates the derivative of polynomial [22Xf[122X given in RatFunc format.[133X
+  
+  [1X4.2-11 DerivativeRatFunc[101X
+  
+  [29X[2XDerivativeRatFunc[102X( [3Xf[103X, [3Xx[103X ) [32X function
+  
+  [33X[0;0YCalculates the derivative of rational function [22Xf[122X given in RatFunc format.[133X
+  
+  [1X4.2-12 JacobiMatRatFunc[101X
+  
+  [29X[2XJacobiMatRatFunc[102X( [3Xlistf[103X, [3Xlistx[103X ) [32X function
+  
+  [33X[0;0YFor  list  [22Xlistf[122X  of  rational  functions,  and list [22Xlistx[122X of variables, the
+  Jacobian  matrix  is  calculated.  The data in [22Xlistf[122X can be given in a mixed
+  format: some entries in the usual, and others in the RatFunc format.[133X
+  
+  
+  [1X4.3 [33X[0;0YMatrices[133X[101X
+  
+  [1X4.3-1 Pfaffian[101X
+  
+  [29X[2XPfaffian[102X( [3Xmat[103X ) [32X function
+  
+  [33X[0;0YCalculates  the Pfaffian of a skew-symmetric matrix [22Xmat[122X. Uses an analogue of
+  the Gauss algorithm.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xmat:=[[0,-3,-1,1],[3,0,-1,2],[1,1,0,3],[-1,-2,-3,0]];;[127X[104X
+    [4X[25Xgap>[125X [27XPrintArray(mat);[127X[104X
+    [4X[28X[ [   0,  -3,  -1,   1 ],[128X[104X
+    [4X[28X  [   3,   0,  -1,   2 ],[128X[104X
+    [4X[28X  [   1,   1,   0,   3 ],[128X[104X
+    [4X[28X  [  -1,  -2,  -3,   0 ] ][128X[104X
+    [4X[25Xgap>[125X [27XPfaffian(mat);[127X[104X
+    [4X[28X-8[128X[104X
+    [4X[28X				[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.4 [33X[0;0YGrassmann algebras[133X[101X
+  
+  [33X[0;0YAt the moment, we don't have any realization of Grassmann algebra structures
+  that  could allow to declare variables as `Grassmann'. Nevertheless, here is
+  how  we  can  operate  with  Grassmann  monomials and their sums - arbitrary
+  Grassmann algebra elements.[133X
+  
+  [33X[0;0YWe assume that all Grassmann variables are numbered. The default ordering of
+  Grassmann   variables  is  lexicographical:  for  instance,  the  result  of
+  multiplication  of  two  Grassmann  polynomials  (see  below)  will have its
+  monomials ordered lexicographically.[133X
+  
+  [33X[0;0YA Grassmann monomial - product of some Grassmann variables and a scalar - is
+  represented as a two-element list whose first element is the list of indices
+  of  the Grassmann variables, and whose second element is the scalar (element
+  of a field, or commutative ring or algebra).[133X
+  
+  [33X[0;0YA Grassmann algebra element ( = function of Grassmann variables) [22Xf(x_1, x_2,
+  dots,  x_k) = ∑ a_i_1, ..., i_s x_i_1 ⋯ x_i_s[122X is represented as a named list
+  with  two  fields  [22Xf[122X[10X.monomials[110X and [22Xf[122X[10X.coeffs[110X. The first of these contains, at
+  its [22Xj[122X-th position, a word of Grassmann variables, while the second contains,
+  at  the  same position, the coefficient corresponding to this word (that is,
+  [10Xf.monomials[j][110X and [10Xf.coeffs[j][110X describe together one monomial entering in [22Xf[122X.[133X
+  
+  [33X[0;0YNote  that  a  monomial may contain [13Xrepeated variables[113X, which would mean its
+  vanishing,  of  course.  Using  [10XGrassmannProduct[110X  with unity (represented as
+  [10Xrec(monomials  :=  [[]],  coeffs := [1])[110X) brings a Grassmann polynomial into
+  the canonical form, deleting, in particular, such monomials.[133X
+  
+  [1X4.4-1 GrassmannMonomialsProduct[101X
+  
+  [29X[2XGrassmannMonomialsProduct[102X( [3Xmon1[103X, [3Xmon2[103X ) [32X function
+  
+  [33X[0;0YCalculate  the product of two Grassmann monomials [22Xmon1[122X and [22Xmon2[122X. Here is how
+  this  works  for  the  following two products: [22X(2 a_1a_2) * (3 a_5a_4a_6)=-6
+  a_1a_2a_3a_4a_5 a_6[122X and [22X(2 a_1 a_2) * ( 3 a_5 a_2 a_6) = 0[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XGrassmannMonomialsProduct([[1,2],2],[[5,4,6],3]);[127X[104X
+    [4X[28X[ [ 1, 2, 4, 5, 6 ], -6 ][128X[104X
+    [4X[25Xgap>[125X [27XGrassmannMonomialsProduct([[1,2],2],[[5,2,6],3]);[127X[104X
+    [4X[28X[ [  ], 0 ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X4.4-2 GrassmannProduct[101X
+  
+  [29X[2XGrassmannProduct[102X( [3Xf[103X, [3Xg[103X ) [32X function
+  
+  [33X[0;0YCalculates the product of Grassmann algebra elements [22Xf[122X and [22Xg[122X.[133X
+  
+  [1X4.4-3 GrassmannSum[101X
+  
+  [29X[2XGrassmannSum[102X( [3Xf[103X, [3Xg[103X ) [32X function
+  
+  [33X[0;0YCalculates the sum of Grassmann algebra elements [22Xf[122X and [22Xg[122X.[133X
+  
+  [1X4.4-4 BerezinIntegral[101X
+  
+  [29X[2XBerezinIntegral[102X( [3Xf[103X, [3Xa[103X ) [32X function
+  
+  [33X[0;0YCalculates  the  Berezin  integral  of  function [22Xf[122X w.r.t. Grassmann variable
+  (indexed as) [22Xa[122X.[133X
+  
+  [1X4.4-5 BerezinMultipleIntegral[101X
+  
+  [29X[2XBerezinMultipleIntegral[102X( [3Xf[103X, [3Xlist[103X ) [32X function
+  
+  [33X[0;0YCalculates  the  multiple  Berezin  integral  of  function  [22Xf[122X  w.r.t.  those
+  Grassmann  variables  whose indices are in [22Xlist[122X. The order of integration is
+  determined by the order of variables in [22Xlist[122X.[133X
+  
+  
+  [1X4.5 [33X[0;0YFour-manifold invariants from hexagon cohomology[133X[101X
+  
+  [33X[0;0YHexagon  cohomologies  produce  "discrete  action  densities"  for piecewise
+  linear  TQFT's, see [7Xhttps://arxiv.org/abs/1707.02847[107X. These action densities
+  are  polynomials  over  a  field  of  finite characteristic. Currently, this
+  package   provides   tools  for  calculating  manifold  invariants  only  in
+  characteristic  two,  although  some functions can already work in different
+  characteristics.[133X
+  
+  [1X4.5-1 actionlib[101X
+  
+  [29X[2Xactionlib[102X[32X global variable
+  
+  [33X[0;0YA  data  structure  containing  nontrivial  discrete  action  densities  for
+  different  characteristics.  It  consists  of lists [10Xactionlib.[110X[22Xchar.deg[122X, each
+  containing  (some)  action  densities  that  are  [13Xhomogeneous[113X polynomials of
+  degree  [22Xdeg[122X over the prime field of characteristic [22Xchar[122X. Our discrete action
+  densities  are  actually  actions  for  a  single  pentachoron, and they are
+  written in [10Xactionlib[110X for pentachoron 12345 with the standard orientation.[133X
+  
+  [33X[0;0YThe   nontriviality  of  a  discrete  action  density  means  here  that  it
+  corresponds to a nontrivial (not being a coboundary) hexagon cocycle.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xactionlib.2.3[1];[127X[104X
+    [4X[28Xrec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],[128X[104X
+    [4X[28X  monoms := [ [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 3, 5 ], [ 2, 3, 5 ], [ 2, 4, 5 ] ] )[128X[104X
+    [4X[28X                [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  we  see,  the  action  density  is represented as a dictionary with keys
+  [10Xcoeffs[110X  and  [10Xmonoms[110X.  The  list [10X.monoms[110X consists of the monomials, while the
+  list  [10X.coeffs[110X consists of their coefficients, making together the polynomial
+  in  question.  So,  the  action  density in the above example is [22Xx_1x_2x_4 +
+  x_1x_3x_4  +  x_1x_3x_5  +  x_2x_3x_5 + x_2x_4x_5[122X. The variables [22Xx_1,...,x_5[122X
+  correspond  to  the 3-faces of pentachoron 12345, going in the lexicographic
+  order: 1234, ..., 2345.[133X
+  
+  [1X4.5-2 getLsystem[101X
+  
+  [29X[2XgetLsystem[102X( [3Xpol[103X, [3Xaction[103X ) [32X function
+  
+  [33X[0;0YProduces  a  simplified form of the action for the whole polytope [22Xpol[122X from a
+  given  input  [22Xaction[122X  for  pentachoron  [22Xu  = 12345[122X - i.e., here [22Xaction[122X is an
+  action  density as stored in [10Xactionlib[110X. Also, produces the "rough invariant"
+  of the manifold, as introduced in [7Xhttps://arxiv.org/abs/1707.02847[107X.[133X
+  
+  [33X[0;0YThe  simplified  form means the following. The action for the whole polytope
+  is  the  sum  over  all  pentachora  (with  proper signs determined by their
+  orientations),  hence  it  depends  on a humongous lot of variables [22Xx_i[122X. But
+  actually there exists a huge subspace [22XW[122X in the linear space of all variables
+  [22Xx_i[122X,  such  that  the action is always constant along [22XW[122X, see again the above
+  mentioned  paper.  This  means that the action depends in fact only on a few
+  linear combinations of [22Xx_i[122X.[133X
+  
+  [33X[0;0YSo, the result contains field [10X.dim[110X - number of these linear combinations now
+  thought  of  as  independent  variables  on  which  the  (polynomial) action
+  depends,  field  [10X.monomes[110X  - the monomials entering in the action, and field
+  [10X.coeffs[110X   -   their  coefficients.  There  is  also  field  [10X.rough_invariant[110X
+  containing the "rough invariant" of the manifold.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs1:=sphereAB(1);;[127X[104X
+    [4X[25Xgap>[125X [27Xt2:=PolProduct(s1,s1);;[127X[104X
+    [4X[25Xgap>[125X [27Xt4:=PolProduct(t2,t2);; # we made thus a 4-torus[127X[104X
+    [4X[25Xgap>[125X [27Xaction := actionlib.2.3[1];;[127X[104X
+    [4X[25Xgap>[125X [27Xt4syst := getLsystem(t4, action);[127X[104X
+    [4X[28Xrec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],[128X[104X
+    [4X[28X  dim := 6, monomes := [ [ 1, 1, 6 ], [ 1, 6, 6 ], [ 5, 6, 6 ], [ 5, 5, 6 ],[128X[104X
+    [4X[28X      [ 2, 2, 5 ], [ 3, 3, 4 ], [ 3, 4, 4 ], [ 2, 5, 5 ] ], rough_invariant := 6 )[128X[104X
+    [4X[28X               [128X[104X
+  [4X[32X[104X
+  
+  [1X4.5-3 lookover[101X
+  
+  [29X[2Xlookover[102X( [3Xlsystem[103X, [3Xk[103X ) [32X function
+  
+  [33X[0;0YHere  [22Xlsystem[122X  is  a  polynomial  given  by  its  monomials  [10X.monomes[110X, their
+  corresponding  coefficients  [10X.coeffs[110X, and the number of variables [10X.dim[110X, like
+  produced by the [10XgetLsystem[110X command (but [10Xrough_invariant[110X is not needed here).
+  When  the  variables take all the values in the field of degree [22Xk[122X (note that
+  the   characteristic  is  automatically  taken  from  the  polynomial),  the
+  polynomials takes values in the same field with some [13Xfrequencies[113X (numbers of
+  times).[133X
+  
+  [33X[0;0YThe  command  produces  these frequencies for all field elements, written in
+  the  form  of  a list. The order of corresponding field elements can be seen
+  using function [10XList(field, x -> x)[110X (exactly this function!).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xlookover(t4syst, 2);[127X[104X
+    [4X[28X[ 2080, 0, 2016, 0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(GF(4), x -> x);[127X[104X
+    [4X[28X[ 0*Z(2), Z(2^2), Z(2)^0, Z(2^2)^2 ][128X[104X
+    [4X[28X                [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  we  have  computed  [10Xt4syst[110X over the field [10XGF(2)[110X, and we put [22Xk = 2[122X in the
+  example, the result contains the frequencies of elements from field [10XGF(4)[110X.[133X
+  

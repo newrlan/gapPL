@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (PL-manual) - Chapter 1: Ball complexes</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap1"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p><a id="X841C96F37BA55DBD" name="X841C96F37BA55DBD"></a></p>
+<div class="ChapSects"><a href="chap1.html#X841C96F37BA55DBD">1 <span class="Heading">Ball complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X7A57CB8E853465BB">1.1 <span class="Heading">Representation of a PL ball complex</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X81EA74AA7B4B6DDB">1.1-1 IsPolytope</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X83BE61CF795EE5CC">1.2 <span class="Heading">Classical invariants</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7F2B23508384AD56">1.2-1 EulerNumber</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7E2C717A7CE81114">1.2-2 FundGroup</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X783BE9F58414A95D">1.3 <span class="Heading">General information about a ball complex</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X82674C6C7C537F9E">1.3-1 LengthPol</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7826D40B82C44A08">1.3-2 PolBoundary</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7DF0C625871788B7">1.3-3 PolInnerFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7DDF02FE8581EF3D">1.3-4 MaxTree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X82CF2896859B26C6">1.3-5 CellOrient</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7A1EAA26847A1C43">1.3-6 PolOrient</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X81AE197083B0A56A">1.3-7 OrientTriangulated</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X83986ED47DDF8E20">1.3-8 dataPachner</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X873915C482448F75">1.3-9 FromSimplexToPolytope</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X84F6B7837CCA4EAE">1.4 <span class="Heading">Working with cells</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7AB8BF4E7E72C22D">1.4-1 PolBnd</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7B4C20C784524379">1.4-2 FaceComp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7E4697E984788243">1.4-3 StarFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7BBC530C857D247E">1.4-4 PolCheckComb</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X856D417E845781C9">1.5 <span class="Heading">Changing the ball complex representation of the same manifold
+				</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X79EBAEC68713D5FE">1.5-1 PolTriangulate</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X82D5FE8884324786">1.5-2 PolCanonicalOrder</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7DE97F0184E8F0BE">1.5-3 FirstBoundary</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X863CAD14822179DC">1.5-4 PermFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X844FBAF17BC1B42B">1.5-5 ContractMiniFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7AF2A3E286F2E10F">1.5-6 DivideFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X81F8A08386AC2C68">1.5-7 UnionFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X784F04327D5BD9A8">1.5-8 PolSimplify</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X84A34BC282FD8BF3">1.6 <span class="Heading">Topological operations</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X833B125E832EA5F5">1.6-1 FreeUnionPol</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X813B0AA1829E736E">1.6-2 PolDoubleCone</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7F680736784EA2B0">1.6-3 ConnectedSum</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7A9E18837F637D8D">1.6-4 PolProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7F0929CD82A0CE28">1.6-5 ImageInPolProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7C2DFBEA78356D9D">1.6-6 PreimageInPolProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7A32AE2D8733963A">1.6-7 PolProductSyms</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7B4164647D6C5EC6">1.6-8 PolProductSymsDict</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7A3091A38613DA64">1.6-9 PolFactorInvolution</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X8075B08079BDE7F4">1.7 <span class="Heading">Main principles of ball complex re-buildings</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7F4B33CD85588148">1.7-1 DelFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X8371078A7CD87B96">1.7-2 wasDelFace</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X81281B4283BA7F71">1.8 <span class="Heading">The library of polytopes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X83EC07DE83EC07DE">1.8-1 ballAB</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X791C9DFE87250DEF">1.8-2 sphereAB</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X82DB526A7F364516">1.8-3 ballTriangul</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X80EEACD2781E40F7">1.8-4 sphereTriangul</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X87EEC49B7E1457D8">1.8-5 projectivePlane</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X85AAD06F7C9492C8">1.8-6 s2s2twisted</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X83ACE6A984BDC4F7">1.8-7 cp2</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X847517A37F6E2C3B">1.8-8 PoincareSphere</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X847B369C82DCDA9D">1.8-9 TorTwist</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7BB7FEDB878DC7B1">1.8-10 KummerSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X783B77F17E964030">1.8-11 Lens</a></span>
+</div></div>
+</div>
+
+<h3>1 <span class="Heading">Ball complexes</span></h3>
+
+<p>Package <strong class="pkg">PL</strong> deals with piecewise-linear manifolds. They are described combinatorially as <em>ball complexes</em>. A ball complex is, simply speaking, such kind of a cell complex where all <em>closed</em> cells ( = balls) are <em>embedded</em>. In particular, their boundaries are genuine spheres, not crumpled/folded. The formal definition of <strong class="pkg">PL</strong> ball complex reads: A PL ball complex is a pair <span class="SimpleMath">(X, U)</span>, where <span class="SimpleMath">X</span> is a compact Euclidean polyhedron and <span class="SimpleMath">U</span> is a covering of <span class="SimpleMath">X</span> by closed PL-balls such that the following axioms are satisfied:</p>
+
+
+<ul>
+<li><p>the relative interiors of balls from <span class="SimpleMath">U</span> form a partition of <span class="SimpleMath">X</span>,</p>
+
+</li>
+<li><p>the boundary of each ball from <span class="SimpleMath">U</span> is a union of balls from <span class="SimpleMath">U</span>.</p>
+
+</li>
+</ul>
+<p>We also call PL ball complexes ``polytopes'', for brevity, hence prefix ``Pol'' in the names of some of our functions.</p>
+
+<p><a id="X7A57CB8E853465BB" name="X7A57CB8E853465BB"></a></p>
+
+<h4>1.1 <span class="Heading">Representation of a PL ball complex</span></h4>
+
+<p>A PL ball complex is determined up to a PL homeomorphism only by the combinatorics of adjunctions of its balls. Due to this, we represent them combinatorially in the following way. First, we assume that all vertices in the complex are numbered from 1 to their total number <span class="SimpleMath">N_0</span>. Hence, in this sense, the 0-skeleton of the complex is described. Next, assuming that the <span class="SimpleMath">k</span>-skeleton is already given, which implies (in particular) the numeration of all <span class="SimpleMath">k</span>-cells, we describe the <span class="SimpleMath">(k+1)</span>-skeleton as the list of all <span class="SimpleMath">(k+1)</span>-cells, each of which, in its turn, is the set of numbers of <span class="SimpleMath">k</span>-cells in its boundary. Then we compose the list of length <span class="SimpleMath">n</span>, where <span class="SimpleMath">n</span> is the dimension of the complex, whose elements are lists of 1-,..., <span class="SimpleMath">n</span>-cells. Thus, a three-dimensional ball <span class="SimpleMath">B^3</span> may be represented by the following PL ball complex with two vertices 1 and 2:</p>
+
+
+<div class="example"><pre>
+[
+  [ [1,2], [1,2] ], # two one-dimensional simplexes, each with
+                    # ends 1 and 2, of which the first is referred to
+                    # in the next line as 1, the second - as 2;
+  [ [1,2], [1,2] ], # two disks - bigons - bounded each by
+                    # one-dimensional simplexes 1 and 2;
+  [ [1,2] ]         # the three-ball bounded by bigons 1 and 2
+]
+			</pre></div>
+
+<p>Actually, we add a list of vertices with their names, or numbers, or something like that in the beginning of the above ball complex representation. For instance, our function <code class="code">ballAB</code><span class="SimpleMath">(n)</span> calls them <code class="code">"A"</code> and <code class="code">"B"</code>. So, our <strong class="pkg">GAP</strong> representation of the mentioned ball in is the following record:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ballAB(3);  </span>
+rec( vertices := [ "A", "B" ], 
+  faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ] ] ] 
+ )
+			</pre></div>
+
+<p>Also, other useful information may be added in this record, describing, for instance, the <em>symmetries</em> of the polytope.</p>
+
+<p><a id="X81EA74AA7B4B6DDB" name="X81EA74AA7B4B6DDB"></a></p>
+
+<h5>1.1-1 IsPolytope</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolytope</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>This function checks that <span class="SimpleMath">pol</span> satisfies the formal rules describing how our polytopes must be built. It returns <code class="code">true</code> if no error has been found, and <code class="code">false</code> otherwise.</p>
+
+<p>The formal rules are as follows:</p>
+
+
+<ul>
+<li><p>the presence of fields <code class="code">.vertices</code> and <code class="code">.faces</code>,</p>
+
+</li>
+<li><p>the absence of dead links: each cell is a list of actually existing cells making its boundary,</p>
+
+</li>
+<li><p>also, the Euler characteristic of each cell is checked.</p>
+
+</li>
+</ul>
+<p>In the following example, <code class="code">T2</code> is a two-dimensional torus.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsPolytope(T2);</span>
+true
+				</pre></div>
+
+<p>As there is no algorithm for recognizing an <span class="SimpleMath">n</span>-sphere (at least, for an arbitrary <span class="SimpleMath">n</span>), the verification of whether each cell is indeed a sphere has been dropped. This of course may lead to a mistake in the case where the data satisfies the formal rules except that some cells are not spheres: the function will still return <code class="code">true</code> in this case.</p>
+
+<p><a id="X83BE61CF795EE5CC" name="X83BE61CF795EE5CC"></a></p>
+
+<h4>1.2 <span class="Heading">Classical invariants</span></h4>
+
+<p>Here are functions computing some classical manifold invariants, including the fundamental group.</p>
+
+<p><a id="X7F2B23508384AD56" name="X7F2B23508384AD56"></a></p>
+
+<h5>1.2-1 EulerNumber</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EulerNumber</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Computes the Euler number for a ball complex. This function is polymorphic and can accept as its input data in the polytope format (<code class="code">IsPolytope</code>), or a named list whose elements are the numbers of cells of all dimensions, as is returned by the function <code class="code">LengthPol</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerNumber(T2);</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerNumber(sphereAB(4));</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerNumber(sphereAB(3));</span>
+0
+					</pre></div>
+
+<p><a id="X7E2C717A7CE81114" name="X7E2C717A7CE81114"></a></p>
+
+<h5>1.2-2 FundGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FundGroup</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Computes a corepresentation of the fundamental group of a given polytope. Uses <strong class="pkg">GAP</strong>'s algorithm to simplify it.</p>
+
+<p><a id="X783BE9F58414A95D" name="X783BE9F58414A95D"></a></p>
+
+<h4>1.3 <span class="Heading">General information about a ball complex</span></h4>
+
+<p><a id="X82674C6C7C537F9E" name="X82674C6C7C537F9E"></a></p>
+
+<h5>1.3-1 LengthPol</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LengthPol</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns the following record: <code class="code">LengthPol.</code><span class="SimpleMath">d</span> is the cardinality of the <span class="SimpleMath">d</span>-skeleton in polytope <span class="SimpleMath">pol</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LengthPol(T2);</span>
+total16
+rec( 0 := 4, 1 := 8, 2 := 4 )
+					  	</pre></div>
+
+<p><a id="X7826D40B82C44A08" name="X7826D40B82C44A08"></a></p>
+
+<h5>1.3-2 PolBoundary</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolBoundary</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Computes the boundary of polytope <span class="SimpleMath">pol</span>. Returns the list of boundary <span class="SimpleMath">(n-1)</span>-cells (<span class="SimpleMath">n</span> is the dimension of <span class="SimpleMath">pol</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolBoundary(T2);</span>
+[ ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=sphereAB(1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d2:=ballAB(2);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ft2:=PolProduct(d2,s1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolBoundary(ft2);</span>
+[ 1, 2, 3, 4 ]
+						</pre></div>
+
+<p>Here <code class="code">T2</code> is a 2-torus, <code class="code">s1</code> - a 1-sphere, <code class="code">d2</code> - a 2-ball, and <code class="code">ft2</code> - a solid torus obtained as the Cartesian product of <code class="code">d2</code> and <code class="code">s1</code>.</p>
+
+<p><a id="X7DF0C625871788B7" name="X7DF0C625871788B7"></a></p>
+
+<h5>1.3-3 PolInnerFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolInnerFaces</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Builds the list whose <span class="SimpleMath">i</span>-th entry is the list of inner faces of polytope <span class="SimpleMath">pol</span> of dimension <span class="SimpleMath">(i-1)</span>. Here <span class="SimpleMath">i</span> ranges from 1 to the polytope dimension. Any face is outer if it has at most one adjacent face of a higher dimension, or if it lies in the boundary of an outer face. Inner faces are, of course, the faces that are not outer.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolInnerFaces(T2);</span>
+[ [ 1 .. 4 ], [ 1 .. 8 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolInnerFaces(ft2);</span>
+[ [  ], [  ], [ 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolInnerFaces(ballAB(5));</span>
+[ [  ], [  ], [  ], [  ], [  ] ]
+						</pre></div>
+
+<p><a id="X7DDF02FE8581EF3D" name="X7DDF02FE8581EF3D"></a></p>
+
+<h5>1.3-4 MaxTree</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaxTree</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>finds a maximal tree in the 1-skeleton of a polytope as a list of edges.</p>
+
+<p>Let cells <span class="SimpleMath">a</span> and <span class="SimpleMath">b</span> have dimensions <span class="SimpleMath">n</span> and <span class="SimpleMath">n-1</span>, respectively, and let <span class="SimpleMath">b</span> lie in the boundary of <span class="SimpleMath">a</span>. We introduce incidence numbers, or <em>relative orientations</em> <span class="SimpleMath">ϵ(b|a)=± 1</span>, satisfying <span class="SimpleMath">ϵ(b_1|a)ϵ(c|b_1) = -ϵ(b_2|a)ϵ(c|b_2),</span> where cell <span class="SimpleMath">c</span> is of dimension <span class="SimpleMath">n-2</span> and <span class="SimpleMath">b_1, b_2 ⊂ a</span>, <span class="SimpleMath">c ⊂ b_1 ∩ b_2</span>. If <span class="SimpleMath">a</span> is an edge, then the relative orientation is negative for its vertex with the smaller number, and positive for its vertex with the bigger number.</p>
+
+<p><a id="X82CF2896859B26C6" name="X82CF2896859B26C6"></a></p>
+
+<h5>1.3-5 CellOrient</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CellOrient</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Computes inductively relative orientations for cells of dimensions <span class="SimpleMath">1..n=dim(pol)</span> of polytope <span class="SimpleMath">pol</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">b1 := ballAB(1);</span>
+rec( faces := [ [ [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">square := PolProduct(b1,b1);</span>
+rec( 
+  faces := [ [ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ] ], [ [ 1, 2, 3, 4 ] ] ],
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CellOrient(square);</span>
+[ [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ -1, 1 ] ], [ [ -1, 1, 1, -1 ] ] ]
+						</pre></div>
+
+<p><a id="X7A1EAA26847A1C43" name="X7A1EAA26847A1C43"></a></p>
+
+<h5>1.3-6 PolOrient</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolOrient</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>If <span class="SimpleMath">pol</span> is orientable, gives a consistent orientation of <span class="SimpleMath">n</span>-faces (<span class="SimpleMath">n=dim(pol)</span>), otherwise returns <span class="SimpleMath">fail</span>.</p>
+
+<p><a id="X81AE197083B0A56A" name="X81AE197083B0A56A"></a></p>
+
+<h5>1.3-7 OrientTriangulated</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OrientTriangulated</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Function computes a consistent orientation for the simplices of the greatest dimension of a given <em>triangulated</em> complex <span class="SimpleMath">pol</span>. Returns array of <span class="SimpleMath">-1, 1</span>-s corresponding to the orientation of simplices of greatest dimension of <span class="SimpleMath">pol</span>.</p>
+
+<p><a id="X83986ED47DDF8E20" name="X83986ED47DDF8E20"></a></p>
+
+<h5>1.3-8 dataPachner</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; dataPachner</code>( <var class="Arg">dim</var>, <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns the description of the Pachner move in dimension <span class="SimpleMath">dim</span>, whose initial configuration, or <em>left-hand side</em> (l.h.s.), consists of <span class="SimpleMath">k</span> simplices (hence, the final configuration, or <em>right-hand side</em> (r.h.s.), consists of <span class="SimpleMath">dim-k+2</span> simplices). The description is returned in the form of a record, where <code class="code">.l</code> describes the polytope (cluster of simplices) in the l.h.s., while <code class="code">.r</code> describes the polytope in the r.h.s.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print(dataPachner(3,2));</span>
+rec(
+  l := rec(
+      pol := rec(
+          faces :=
+           [
+              [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ],
+                  [ 1, 5 ], [ 2, 5 ], [ 3, 5 ] ],
+              [ [ 1, 4, 5 ], [ 1, 7, 8 ], [ 2, 4, 6 ], [ 2, 7, 9 ],
+                  [ 3, 5, 6 ], [ 3, 8, 9 ], [ 1, 2, 3 ] ],
+              [ [ 1, 3, 5, 7 ], [ 2, 4, 6, 7 ] ] ],
+          vertices := [ 1, 2, 3, 4, 5 ] ),
+      sim := [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 5 ] ],
+      vnut := [ 7 ] ),
+  r := rec(
+      pol := rec(
+          faces :=
+           [
+              [ [ 1, 2 ], [ 1, 4 ], [ 2, 4 ], [ 1, 5 ], [ 2, 5 ], [ 4, 5 ],
+                  [ 1, 3 ], [ 3, 4 ], [ 3, 5 ], [ 2, 3 ] ],
+              [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 7, 8 ], [ 4, 7, 9 ],
+                  [ 3, 8, 10 ], [ 5, 9, 10 ], [ 2, 4, 6 ], [ 3, 5, 6 ],
+                  [ 6, 8, 9 ] ],
+              [ [ 1, 2, 7, 8 ], [ 3, 4, 7, 9 ], [ 5, 6, 8, 9 ] ] ],
+          vertices := [ 1, 2, 3, 4, 5 ] ),
+      sim := [ [ 1, 2, 4, 5 ], [ 1, 3, 4, 5 ], [ 2, 3, 4, 5 ] ],
+      vnut := [ 7, 8, 9 ] ) )
+  						</pre></div>
+
+<p>Both <code class="code">.l</code> and <code class="code">.r</code> are, in their turn, also records. Each of them contains an entry <code class="code">.pol</code> representing the corresponding polytope in the form of a triangulated ball complex, an entry <code class="code">.sim</code> representing the same polytope as a list of <span class="SimpleMath">dim</span>-simplices each given <em>as the list of its vertices</em>, and an entry <code class="code">.vnut</code> - the list of the (numbers of the) <em>inner</em> <span class="SimpleMath">(n-1)</span>-cells.</p>
+
+<p>Simplicial complex are often understood in a restricted sense, namely, it is requried that no two simplices have the same sets of vertices. In this case, a simplicial complex can be given in the form of a list of simplices, each of those specified by the list of its vertices. For an <span class="SimpleMath">n</span>-dimensional manifold with boundary, it is enough to list just its <span class="SimpleMath">n</span>-simplices. For instance, the boundary of 4-simplex 12345 can be written as</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">sim := [ [ 1, 2, 3, 4 ], [ 1, 2, 3, 5 ], [ 1, 2, 4, 5 ],</span>
+				[ 1, 3, 4, 5 ], [ 2, 3, 4, 5 ] ];
+				</pre></div>
+
+<p><a id="X873915C482448F75" name="X873915C482448F75"></a></p>
+
+<h5>1.3-9 FromSimplexToPolytope</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FromSimplexToPolytope</code>( <var class="Arg">sim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>turns a list <span class="SimpleMath">sim</span> of simplices into a ball complex.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FromSimplexToPolytope(sim);</span>
+rec(
+  faces :=
+    [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ],
+          [ 2, 5 ], [ 3, 5 ], [ 4, 5 ] ],
+      [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [ 1, 7, 8 ],
+          [ 2, 7, 9 ], [ 3, 8, 9 ], [ 4, 7, 10 ], [ 5, 8, 10 ], [ 6, 9, 10 ] ]
+        , [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 2, 5, 8, 9 ], [ 3, 6, 8, 10 ],
+          [ 4, 7, 9, 10 ] ] ], vertices := [ 1, 2, 3, 4, 5 ] )
+						</pre></div>
+
+<p><a id="X84F6B7837CCA4EAE" name="X84F6B7837CCA4EAE"></a></p>
+
+<h4>1.4 <span class="Heading">Working with cells</span></h4>
+
+<p>In this Section, we describe the functions providing information about a cell in a triangulation of a PL manifold. The cell is determined by the pair of numbers <span class="SimpleMath">[dim,ind]</span>, where <span class="SimpleMath">dim</span> is its dimension, and <span class="SimpleMath">ind</span> - its position in the list <code class="code">pol.faces[</code><span class="SimpleMath">dim</span><code class="code">]</code>. Such a pair will be called below the <em>address</em> of the cell, or simply "cell", and denoted <span class="SimpleMath">adr=[dim,ind]</span>.</p>
+
+<p><a id="X7AB8BF4E7E72C22D" name="X7AB8BF4E7E72C22D"></a></p>
+
+<h5>1.4-1 PolBnd</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolBnd</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creating an index of boundary faces of face <span class="SimpleMath">adr=[dim,ind]</span> of complex <span class="SimpleMath">pol</span> in the form of a list. Its <span class="SimpleMath">i</span>'th entry is the list of <span class="SimpleMath">(i-1)</span>-dimensional faces of <span class="SimpleMath">pol</span> which are in the boundary of <span class="SimpleMath">adr</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolBnd(T2,[2,3]);</span>
+[ [ 1, 2, 3, 4 ], [ 2, 4, 5, 7 ] ]
+						</pre></div>
+
+<p><a id="X7B4C20C784524379" name="X7B4C20C784524379"></a></p>
+
+<h5>1.4-2 FaceComp</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceComp</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>A function similar to <code class="code">PolBnd</code>, but the output is in the form of a record with entries <span class="SimpleMath">.d</span>, where <span class="SimpleMath">d</span> is the cell dimension. Also, the input cell is included.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceComp(T2,[2,3]);</span>
+rec( 0 := [ 1, 2, 3, 4 ], 1 := [ 2, 4, 5, 7 ], 2 := [ 3 ] )
+						</pre></div>
+
+<p><a id="X7E4697E984788243" name="X7E4697E984788243"></a></p>
+
+<h5>1.4-3 StarFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StarFace</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Computes the star of cell <span class="SimpleMath">adr</span>, that is, all cells of higher dimensions containing <span class="SimpleMath">adr</span>, in the ball complex <span class="SimpleMath">pol</span>, in the form of a record. The entry <span class="SimpleMath">.i</span> contains the numbers of <span class="SimpleMath">i</span>-cells contained in the star.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StarFace(T2,[0,3]);</span>
+rec( 1 := [ 2, 3, 6, 7 ], 2 := [ 1, 2, 3, 4 ] )
+						</pre></div>
+
+<p>In this example, 1-cells indexed 2, 3, 6 and 7, and 2-cells indexed 1, 2, 3 and 4, form the star of vertex no. 3 of the ball complex <code class="code">T2</code>.</p>
+
+<p><a id="X7BBC530C857D247E" name="X7BBC530C857D247E"></a></p>
+
+<h5>1.4-4 PolCheckComb</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolCheckComb</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Checks whether face <span class="SimpleMath">adr</span> of ball complex <span class="SimpleMath">pol</span> is "strictly combinatorial", that is, whether every its subface of lower dimension is uniquely determined by its vertices (and dimension).</p>
+
+<p><a id="X856D417E845781C9" name="X856D417E845781C9"></a></p>
+
+<h4>1.5 <span class="Heading">Changing the ball complex representation of the same manifold
+				</span></h4>
+
+<p><a id="X79EBAEC68713D5FE" name="X79EBAEC68713D5FE"></a></p>
+
+<h5>1.5-1 PolTriangulate</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolTriangulate</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Triangulates polytope <span class="SimpleMath">pol</span>. Triangulation is understood in a broader sense, as a ball complex made only of simplices, but a simplex may <em>not</em> be determined by its boundary (not to say its vertices).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolTriangulate(sphereAB(2));</span>
+rec(
+  faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ] ],
+      [ [ 1, 3, 4 ], [ 2, 3, 4 ], [ 1, 5, 6 ], [ 2, 5, 6 ] ] ],
+  vertices := [ "A", "B", "V1", "V2" ] )
+						</pre></div>
+
+<p><a id="X82D5FE8884324786" name="X82D5FE8884324786"></a></p>
+
+<h5>1.5-2 PolCanonicalOrder</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolCanonicalOrder</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Produces the canonical order of cells in a triangulated polytope. The canonical order is the lexicographical order of cells when these are represented by their vertices.</p>
+
+<p><a id="X7DE97F0184E8F0BE" name="X7DE97F0184E8F0BE"></a></p>
+
+<h5>1.5-3 FirstBoundary</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstBoundary</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Changes the order of polytope <span class="SimpleMath">pol</span> cells in such way that the boundary cells go first in the lists <span class="SimpleMath">pol</span><code class="code">.faces[</code><span class="SimpleMath">dim</span><code class="code">]</code>. The order of cells within the boundary remains unchanged.</p>
+
+<p><a id="X863CAD14822179DC" name="X863CAD14822179DC"></a></p>
+
+<h5>1.5-4 PermFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PermFaces</code>( <var class="Arg">pol</var>, <var class="Arg">perm</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Re-orders of <span class="SimpleMath">dim</span>-cells in polytope <span class="SimpleMath">pol</span> according to permutation <span class="SimpleMath">perm</span>. Important note: works correctly on <span class="SimpleMath">pol</span><code class="code">.vertices</code> (<span class="SimpleMath">dim=0</span>) and <span class="SimpleMath">pol</span><code class="code">.faces</code>, but <em>ignores</em> additional entries (if any), such as symmetries (<span class="SimpleMath">pol</span><code class="code">.syms</code>).</p>
+
+<p>We call a<span class="SimpleMath">d</span>-cell in a ball complex <em>minimal</em> if its boundary consists of only two <span class="SimpleMath">(d - 1)</span>-cells.</p>
+
+<p><a id="X844FBAF17BC1B42B" name="X844FBAF17BC1B42B"></a></p>
+
+<h5>1.5-5 ContractMiniFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ContractMiniFace</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Collapses minimal cell <span class="SimpleMath">adr</span> in polytope <span class="SimpleMath">pol</span>. That is, withdraws <span class="SimpleMath">adr</span> from the complex, and its two boundary cells (of dimension less by 1 than <span class="SimpleMath">adr</span>) are, accordingly, glued together into one cell.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=sphereTriangul(1); # triangulated sphere of dimension 1</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ] ], vertices := [ 1 .. 3 ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=ContractMiniFace(s1,[1,1]);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ 1, 3 ] )
+						</pre></div>
+
+<p>In some cases, the result of collapsing a minimal cell may <em>not</em> be a ball complex. This function does not check this, this is left to the user! For instance, if we try to collapse one more edge in the above circle <span class="SimpleMath">s1</span>, we get</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=ContractMiniFace(s1,[1,1]);</span>
+rec( faces := [ [ [ 1 ] ] ], vertices := [ 1 ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsPolytope(s1);</span>
+false
+						</pre></div>
+
+<p><a id="X7AF2A3E286F2E10F" name="X7AF2A3E286F2E10F"></a></p>
+
+<h5>1.5-6 DivideFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DivideFace</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var>, <var class="Arg">set</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Let there be a cell <span class="SimpleMath">adr</span> of dimension <span class="SimpleMath">d=adr[1]</span> in ball complex <span class="SimpleMath">pol</span>, and let <span class="SimpleMath">set</span> be a set (in the GAP sense) of cells that lie in the boundary of cell <span class="SimpleMath">adr</span>, and form together a <span class="SimpleMath">(d-2)</span>-sphere <span class="SimpleMath">S^d-2</span>.</p>
+
+<p>The function breaks the cell <span class="SimpleMath">adr</span> into two parts by spanning a disk <span class="SimpleMath">D^d-1</span> over <span class="SimpleMath">S^d-2</span> and inside cell <span class="SimpleMath">adr</span>.</p>
+
+<p>Warning: the function does <em>not</em> check whether <span class="SimpleMath">set</span> really makes a sphere in the boundary of <span class="SimpleMath">adr</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octahedron;</span>
+rec(
+  faces :=
+	[ [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 2, 5 ], [ 3, 5 ], 
+  		[ 4, 5 ], [ 1, 6 ], [ 2, 6 ], [ 3, 6 ], [ 4, 6 ] ],
+	  [ [ 1, 5, 6 ], [ 2, 6, 7 ], [ 3, 7, 8 ], [ 4, 5, 8 ], [ 1, 9, 10 ],
+	  	[ 2, 10, 11 ], [ 3, 11, 12 ], [ 4, 9, 12 ] ], [ [ 1 .. 8 ] ] ], 
+	vertices := [ 1 .. 6 ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DivideFace(octahedron,[3,1],[1,2,3,4]);</span>
+rec(
+  faces :=
+ 	[ [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 2, 5 ], [ 3, 5 ],
+  		[ 4, 5 ], [ 1, 6 ], [ 2, 6 ], [ 3, 6 ], [ 4, 6 ] ],
+	  [ [ 1, 5, 6 ], [ 2, 6, 7 ], [ 3, 7, 8 ], [ 4, 5, 8 ], [ 1, 9, 10 ], 
+	    [ 2, 10, 11 ], [ 3, 11, 12 ], [ 4, 9, 12 ], [ 1, 2, 3, 4 ] ],
+	  [ [ 1, 4, 2, 3, 9 ], [ 5, 6, 7, 8, 9 ] ] ], 
+		vertices := [ 1 .. 6 ] )
+						</pre></div>
+
+<p>There is also a special case where a 1-cell <span class="SimpleMath">adr</span> is divided, by adding a vertex in its middle. In this case, the name of this new vertex is indicated instead of the set <span class="SimpleMath">set</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=sphereAB(1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DivideFace(s1,[1,1],3);</span>
+rec( faces := [ [ [ 1, 3 ], [ 1, 2 ], [ 2, 3 ] ] ], vertices := [ "A", "B", 3 ] )
+						</pre></div>
+
+<p><a id="X81F8A08386AC2C68" name="X81F8A08386AC2C68"></a></p>
+
+<h5>1.5-7 UnionFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UnionFaces</code>( <var class="Arg">pol</var>, <var class="Arg">cell1</var>, <var class="Arg">cell2</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>The input is ball compex <span class="SimpleMath">pol</span> and two cells <span class="SimpleMath">cell1</span> and <span class="SimpleMath">cell2</span> of the same dimension, whose intersection - the <em>partition</em> between them - is just one (closed) cell of dimension less by one. The function unites these cells into one and deletes the partition cell. The details are as follows.</p>
+
+<p>First, we assume that <span class="SimpleMath">pol</span> is a correctly defined ball complex. Then, the function checks that the intersection of <span class="SimpleMath">cell1</span> and <span class="SimpleMath">cell2</span> is indeed exactly one closed cell, as described above. This implies, of course, the checking of <em>all</em> cells of <em>all</em> dimensions less than that of <span class="SimpleMath">cell1</span> and <span class="SimpleMath">cell2</span>.</p>
+
+<p>Moreover, one more check is performed within the <em>star</em> (see <code class="code">StarFace</code>) of the partition being deleted: the absence of dead links after the deletion. Namely, the partition cell must not enter in the boundary of any <em>other</em> cell of the same dimension as <span class="SimpleMath">cell1</span> and <span class="SimpleMath">cell2</span>.</p>
+
+<p>If the result of any of these checks is negative, then the function returns the <em>initial</em> polytope. ****What is "p3" below?****</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">p3 := dataPachner(3,3).l.pol; # this gives a cluster of 3 tetrahedra </span>
+                                   # around an edge, as in the l.h.s.
+                                   # of Pachner move 3-2
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ], 
+          [ 2, 5 ], [ 3, 5 ], [ 4, 5 ] ], 
+      [ [ 2, 4, 6 ], [ 2, 7, 9 ], [ 4, 7, 10 ], [ 3, 5, 6 ], [ 3, 8, 9 ], 
+          [ 5, 8, 10 ], [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 7, 8 ] ], 
+      [ [ 1, 4, 7, 8 ], [ 2, 5, 7, 9 ], [ 3, 6, 8, 9 ] ] ], 
+  vertices := [ 1, 2, 3, 4, 5 ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsPolytope(p3);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">p3 := UnionFaces(p3,[3,1],[3,2]); # in the new p3, the first two</span>
+                                       # tetrahedra are united into one cell
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ], 
+          [ 2, 5 ], [ 3, 5 ], [ 4, 5 ] ], 
+      [ [ 2, 4, 6 ], [ 2, 7, 9 ], [ 4, 7, 10 ], [ 3, 5, 6 ], [ 3, 8, 9 ], 
+          [ 5, 8, 10 ], [ 1, 4, 5 ], [ 1, 7, 8 ] ], 
+      [ [ 1, 2, 4, 5, 7, 8 ], [ 3, 6, 7, 8 ] ] ], 
+  vertices := [ 1, 2, 3, 4, 5 ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsPolytope(p3);</span>
+true
+						</pre></div>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UnionFaces(T2,[2,1],[2,3]) = T2;   # T2 is a 2-torus made of four squares</span>
+true
+						</pre></div>
+
+<p><a id="X784F04327D5BD9A8" name="X784F04327D5BD9A8"></a></p>
+
+<h5>1.5-8 PolSimplify</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolSimplify</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Simplifies polytope <span class="SimpleMath">pol</span> using <code class="code">UnionFaces</code>. The function searches through all possibilities, starting from the cells of the maximal dimension. Note, however, that, after applying this function, new possibilities may occur. So, the function can be applied several times, in order to simplify the polytope as far as possible.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a:=ballTriangul(3); # triangulated 3-ball (tetrahedron)</span>
+rec( 
+  faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ], 
+      [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 2, 3, 6 ], [ 4, 5, 6 ] ], [ [ 1 .. 4 ] ] ]
+    , vertices := [ 1 .. 4 ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolSimplify(a);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ] ] ]
+    , vertices := [ 1, 2 ] )
+						</pre></div>
+
+<p><a id="X84A34BC282FD8BF3" name="X84A34BC282FD8BF3"></a></p>
+
+<h4>1.6 <span class="Heading">Topological operations</span></h4>
+
+<p><a id="X833B125E832EA5F5" name="X833B125E832EA5F5"></a></p>
+
+<h5>1.6-1 FreeUnionPol</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FreeUnionPol</code>( <var class="Arg">pol1</var>, <var class="Arg">pol2</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Free union of polytopes</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FreeUnionPol(s1,s1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ] ] ],
+  vertices := [ [ 1, "A" ], [ 1, "B" ], [ 2, "A" ], [ 2, "B" ] ] )
+						</pre></div>
+
+<p>The free union is performed by concatenating the lists of faces. The indices (numbers) of faces belonging to the second polytope are shifted - increased by the number of corresponding faces in the first polytope.</p>
+
+<p><a id="X813B0AA1829E736E" name="X813B0AA1829E736E"></a></p>
+
+<h5>1.6-2 PolDoubleCone</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolDoubleCone</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Makes a double cone with vertices V1 and V2 over the given polytope <span class="SimpleMath">pol</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolDoubleCone(s1);</span>
+rec(
+  faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ] ],
+      [ [ 1, 3, 4 ], [ 2, 3, 4 ], [ 1, 5, 6 ], [ 2, 5, 6 ] ] ],
+  vertices := [ "A", "B", "V1", "V2" ] )
+						</pre></div>
+
+<p><a id="X7F680736784EA2B0" name="X7F680736784EA2B0"></a></p>
+
+<h5>1.6-3 ConnectedSum</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedSum</code>( <var class="Arg">N</var>, <var class="Arg">M</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Makes a connected sum of two polytopes <span class="SimpleMath">N</span> and <span class="SimpleMath">M</span> of the same dimension.</p>
+
+<p>Currently, the function does not take care of orientations. An improved function is expected to appear in this package, where the result will depend on the orientations prescribed by the user.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s2 := sphereAB(2);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ] ], 
+  vertices := [ "A", "B" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s2s2 := ConnectedSum(s2,s2);</span>
+rec( 
+  faces := [ [ [ 1, 2 ], [ 1, 2 ], [ 1, 2 ], [ 1, 2 ] ], 
+      [ [ 1, 3 ], [ 1, 2 ], [ 3, 4 ], [ 2, 4 ] ] ], 
+  vertices := [ [ 1, "A" ], [ 1, "B" ] ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s2s2 := PolSimplify(s2s2);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ] ], 
+  vertices := [ [ 1, "A" ], [ 1, "B" ] ] )
+						</pre></div>
+
+<p>We see also that here <code class="code">PolSimplify</code> returns essentially the same <code class="code">s2</code> from which we started.</p>
+
+<p><a id="X7A9E18837F637D8D" name="X7A9E18837F637D8D"></a></p>
+
+<h5>1.6-4 PolProduct</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolProduct</code>( <var class="Arg">pol1</var>, <var class="Arg">pol2</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the Cartesian product of two ball complexes <span class="SimpleMath">pol1</span> and <span class="SimpleMath">pol2</span>. This is the ball complex made of all balls <span class="SimpleMath">D^s_i × D^t_j</span>, where <span class="SimpleMath">D^s_i</span> and <span class="SimpleMath">D^t_j</span> are cells in <span class="SimpleMath">M</span> and <span class="SimpleMath">N</span>, respectively.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolProduct(s1,s1);</span>
+rec(
+  faces :=
+    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ],
+          [ 2, 4 ] ],
+      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ],
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+						</pre></div>
+
+<p><a id="X7F0929CD82A0CE28" name="X7F0929CD82A0CE28"></a></p>
+
+<h5>1.6-5 ImageInPolProduct</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ImageInPolProduct</code>( <var class="Arg">pol1</var>, <var class="Arg">pol2</var>, <var class="Arg">cells</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Auxiliary function for calculating the Cartesian product of polytopes <span class="SimpleMath">pol1</span> and <span class="SimpleMath">pol2</span>. The last argument <span class="SimpleMath">cells</span> is the list of two cells <span class="SimpleMath">kl1</span> and <span class="SimpleMath">kl2</span> belonging to these two respective polytopes. Computes the address of cell <span class="SimpleMath">kl1 × kl2</span> in the mentioned Cartesian product.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=sphereAB(1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ImageInPolProduct(s1,s1,[[1,2],[1,1]]);</span>
+[ 2, 3 ]
+						</pre></div>
+
+<p>One more possibility for the input is named lists instead of polytopes <span class="SimpleMath">pol1</span> and <span class="SimpleMath">pol2</span>. In these, to each dimension <span class="SimpleMath">k</span> corresponds the cardinality of the set of <span class="SimpleMath">k</span>-cells. This possibility helps if the function is frequently called for one and the same Cartesian product.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ls1:=rec(0:=2, 1:=2);</span>
+rec( 0 := 2, 1 := 2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ImageInPolProduct(ls1,ls1,[[1,2],[1,1]]);</span>
+[ 2, 3 ]
+						</pre></div>
+
+<p>Note that the function is valid only for the complex obtained by <code class="code">PolProduct</code>. If the complex has changed somehow, the address may become incorrect.</p>
+
+<p><a id="X7C2DFBEA78356D9D" name="X7C2DFBEA78356D9D"></a></p>
+
+<h5>1.6-6 PreimageInPolProduct</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PreimageInPolProduct</code>( <var class="Arg">pol1</var>, <var class="Arg">pol2</var>, <var class="Arg">imageface</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>For a given cell <span class="SimpleMath">imageface</span> in the Cartesian product of polytopes <span class="SimpleMath">pol1</span> and <span class="SimpleMath">pol2</span>, returns the list of two cells whose Cartesian product is <span class="SimpleMath">imageface</span>. The Cartesian product is of course made according to <code class="code">PolProduct</code>.</p>
+
+<p><a id="X7A32AE2D8733963A" name="X7A32AE2D8733963A"></a></p>
+
+<h5>1.6-7 PolProductSyms</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolProductSyms</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Cartesian product of two polytopes with symmetries of multipliers transferred to it. First go the symmetries of the first multiplier, then - the second.</p>
+
+<p><a id="X7B4164647D6C5EC6" name="X7B4164647D6C5EC6"></a></p>
+
+<h5>1.6-8 PolProductSymsDict</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolProductSymsDict</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Cartesian product of two polytopes with symmetries of multipliers transferred to it. First go the symmetries of the first multiplier, then - the second. Also returns the face dictionary.</p>
+
+<p><a id="X7A3091A38613DA64" name="X7A3091A38613DA64"></a></p>
+
+<h5>1.6-9 PolFactorInvolution</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolFactorInvolution</code>( <var class="Arg">pol</var>, <var class="Arg">invol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p><span class="SimpleMath">pol</span> is a polytope with symmetries, <span class="SimpleMath">invol</span> is such a list of some of its symmetries (repetitions possible) that it is known that the product of symmetries in <span class="SimpleMath">invol</span> is an involution. Returns the factored polytope.</p>
+
+<p>The function is used in <code class="code">KummerSurface()</code>.</p>
+
+<p><a id="X8075B08079BDE7F4" name="X8075B08079BDE7F4"></a></p>
+
+<h4>1.7 <span class="Heading">Main principles of ball complex re-buildings</span></h4>
+
+<p>Here, we expalin the main principles of ball complex re-buildings that are related to the change of cell indexation (numbers of cells in the lists). Change of cell indexation is one of the main difficulties for writing our programs in a fast and easy way. In the second version of package <strong class="pkg">PL</strong>, we used the following idea. As far as it is feasible, the addresses of cells not taking part in an operation must remain unchanged. This is, however, not always possible. For instance, this is impossible if a cell is removed from a polytope. If shifting indices cannot be avoided, then we must try to change the minimal amount of indices. The fact that all the polytope construction is based upon the cell numbers in the lists <span class="SimpleMath">pol</span><code class="code">.faces[</code><span class="SimpleMath">k</span><code class="code">]</code>, complicates the work related to complex re-buildings. Starting from the third version of package <strong class="pkg">PL</strong>, a possibility will be implemented for a rigid cell indexation, where the position of a cell in <span class="SimpleMath">pol</span><code class="code">.faces[</code><span class="SimpleMath">k</span><code class="code">]</code> will be also the name of this cell. This will mean, in particular, that empty entries may appear in the lists <span class="SimpleMath">pol</span><code class="code">.faces[</code><span class="SimpleMath">k</span><code class="code">]</code>. At this moment, there are the following functions that permit to change the polytope structure and attached information.</p>
+
+<p><a id="X7F4B33CD85588148" name="X7F4B33CD85588148"></a></p>
+
+<h5>1.7-1 DelFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DelFace</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Cell <span class="SimpleMath">adr</span> is removed from polytope <span class="SimpleMath">pol</span>. Note that the result may is not guaranteed to be a correct polytope:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1 := sphereAB(1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t2 := PolProduct(s1,s1);</span>
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], 
+          [ 2, 4 ] ], 
+      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ], 
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pol := DelFace(t2,[1,2]);</span>
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], [ 2, 4 ] ]
+        , [ [ 1, 2, 4, 5 ], [ 3, 4, 5 ], [ 1, 2, 6, 7 ], [ 3, 6, 7 ] ] ], 
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsPolytope(pol);</span>
+false
+					</pre></div>
+
+<p>This function contains the most frequently used code that permits to remove all mentionings of the given cell and prepare the data for the further work of the algorithm. Namely, it does the following:</p>
+
+
+<ul>
+<li><p>the cell <span class="SimpleMath">adr = [d, k]</span> is removed,</p>
+
+</li>
+<li><p>references to this cell are removed,</p>
+
+</li>
+<li><p>the indexation of <span class="SimpleMath">d</span>-cells is changed,</p>
+
+</li>
+<li><p>accordingly, the references to <span class="SimpleMath">d</span>-cells in <span class="SimpleMath">(d+1)</span>-cells are changed.</p>
+
+</li>
+</ul>
+<p><a id="X8371078A7CD87B96" name="X8371078A7CD87B96"></a></p>
+
+<h5>1.7-2 wasDelFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; wasDelFace</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Corrects the information attached to polytope <span class="SimpleMath">pol</span> that may have changed after removing cell <span class="SimpleMath">adr</span>. The indices of the cells of the same dimension as <span class="SimpleMath">adr</span> and that go after <span class="SimpleMath">adr</span> must be decreased by 1.</p>
+
+<p>Currently, this function works only for the information defining a 2-knot in a polytope. Namely, in the case if a 2-cell is removed, the relevant message will be displayed, the index of the 2-cell will be removed from the list <code class="code">.2knot.sheets</code> and, if there is a reference to this 2-cell in <code class="code">.2knot.dpoints.(</code><span class="SimpleMath">1kl</span><code class="code">)</code>, then the corresponding position will be cleared.</p>
+
+<p>In order to simplify polytope re-buildings, we will stick to the following principle in the following releases of <strong class="pkg">PL</strong>. The index of a <span class="SimpleMath">k</span>-cell in the list <code class="code">pol.faces[</code><span class="SimpleMath">k</span><code class="code">]</code> is simultaneously its identifier. This will allow us to create lists (skeletons) <code class="code">pol.faces[</code><span class="SimpleMath">k</span><code class="code">]</code> with empty positions. If a cell is removed from a skeleton, the corresponding position in <code class="code">pol.faces[</code><span class="SimpleMath">k</span><code class="code">]</code> is emptied. This will alow us to simplify the calculations related to the re-enumerating of cells. This principle will be supported starting from the third version of Package <strong class="pkg">PL</strong>. Starting from the fourth version, <em>only</em> this way of re-building will be supported.</p>
+
+<p><a id="X81281B4283BA7F71" name="X81281B4283BA7F71"></a></p>
+
+<h4>1.8 <span class="Heading">The library of polytopes</span></h4>
+
+<p>Here we list some ball complex realizations of "standard" manifolds. There are the following functions for the disks and spheres of a given dimension.</p>
+
+<p><a id="X83EC07DE83EC07DE" name="X83EC07DE83EC07DE"></a></p>
+
+<h5>1.8-1 ballAB</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ballAB</code>( <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates the minimal ball complex decomposition of a <span class="SimpleMath">dim</span>-ball, with just two vertices "A" and "B".</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ballAB(3);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ] ] ]
+    , vertices := [ "A", "B" ] )
+                    </pre></div>
+
+<p><a id="X791C9DFE87250DEF" name="X791C9DFE87250DEF"></a></p>
+
+<h5>1.8-2 sphereAB</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; sphereAB</code>( <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates the minimal ball complex decomposition of a <span class="SimpleMath">dim</span>-sphere, with just two vertices "A" and "B".</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">sphereAB(3);</span>
+rec(
+faces := [ [ [ 1, 2 ], [ 1, 2 ] ], [ [ 1, 2 ], [ 1, 2 ] ],
+  [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+                    </pre></div>
+
+<p>There are also <em>triangulated</em> balls and spheres.</p>
+
+<p><a id="X82DB526A7F364516" name="X82DB526A7F364516"></a></p>
+
+<h5>1.8-3 ballTriangul</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ballTriangul</code>( <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a simplex of dimension <span class="SimpleMath">dim</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ballTriangul(2);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ], [ [ 1 .. 3 ] ] ],
+vertices := [ 1 .. 3 ] )
+                    </pre></div>
+
+<p><a id="X80EEACD2781E40F7" name="X80EEACD2781E40F7"></a></p>
+
+<h5>1.8-4 sphereTriangul</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; sphereTriangul</code>( <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a triangulated sphere in the form of the boundary of a <span class="SimpleMath">(dim+1)</span>simplex.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">sphereTriangul(1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ] ], vertices := [ 1 .. 3 ] )
+                    </pre></div>
+
+<p><a id="X87EEC49B7E1457D8" name="X87EEC49B7E1457D8"></a></p>
+
+<h5>1.8-5 projectivePlane</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; projectivePlane</code>( <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Real projective space of dimension <span class="SimpleMath">dim</span></p>
+
+<p><a id="X85AAD06F7C9492C8" name="X85AAD06F7C9492C8"></a></p>
+
+<h5>1.8-6 s2s2twisted</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; s2s2twisted</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<p>Twisted product of two spheres <span class="SimpleMath">S^2</span></p>
+
+<p><a id="X83ACE6A984BDC4F7" name="X83ACE6A984BDC4F7"></a></p>
+
+<h5>1.8-7 cp2</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; cp2</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<p>Complex projective plane</p>
+
+<p><a id="X847517A37F6E2C3B" name="X847517A37F6E2C3B"></a></p>
+
+<h5>1.8-8 PoincareSphere</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PoincareSphere</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<p>Poincare sphere</p>
+
+<p><a id="X847B369C82DCDA9D" name="X847B369C82DCDA9D"></a></p>
+
+<h5>1.8-9 TorTwist</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TorTwist</code>( <var class="Arg">n</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Twisted 3-torus - the torus bundle over <span class="SimpleMath">S^1</span>, with the monodromy matrix <code class="code"> [ [ 1, -n ], [ 0, 1 ]</code> The algorithm works for <em>natural</em> <span class="SimpleMath">n=1,2,3,...</span>.</p>
+
+<p><a id="X7BB7FEDB878DC7B1" name="X7BB7FEDB878DC7B1"></a></p>
+
+<h5>1.8-10 KummerSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; KummerSurface</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates the Kummer surface, with singularities resolved - i.e., a true 4-manifold.</p>
+
+<p><a id="X783B77F17E964030" name="X783B77F17E964030"></a></p>
+
+<h5>1.8-11 Lens</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Lens</code>( <var class="Arg">n</var>, <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Three-dimensional lens space <span class="SimpleMath">L(n,k)</span>.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

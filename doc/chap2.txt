@@ -1,0 +1,164 @@
+  
+  [1X2 [33X[0;0YSubpolytopes and embeddings[133X[101X
+  
+  [33X[0;0YSubpolytope [22Xsubpol[122X will be understood as a set of cells of a given dimension
+  [22Xk[122X  if  the  union of these cells (cells are understood as [13Xclosed[113X) forms a PL
+  submanifold  [22XN  ⊂  M[122X.  The  simplest  example  of  a  subpolytope  is a disk
+  represented  as  the list of just one element of any dimension of a polytope
+  [22Xpol[122X.  We will not, however, define subpolytope as any rigid construction. It
+  will be clear from the context what we mean each time.[133X
+  
+  
+  [1X2.1 [33X[0;0YSubpolytopes, boundaries, gluing, removing neighborhoods...[133X[101X
+  
+  [1X2.1-1 SetOfFacesBoundary[101X
+  
+  [29X[2XSetOfFacesBoundary[102X( [3Xpol[103X, [3Xsubpol[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0YReturns the boundary of subpolytope [22Xsubpol[122X of dimension [22Xdim[122X of polytope [22Xpol[122X.
+  To  be  exact,  [22Xsubpol[122X here is a list of some [22Xdim[122X-cells in [22Xpol[122X. The returned
+  boundary is, accordingly, a list of [22X(dim-1)[122X-cells.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs1 := sphereAB(1);[127X[104X
+    [4X[28Xrec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )[128X[104X
+    [4X[25Xgap>[125X [27Xt2 := PolProduct(s1,s1);[127X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  faces := [128X[104X
+    [4X[28X    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], [128X[104X
+    [4X[28X          [ 2, 4 ] ], [128X[104X
+    [4X[28X      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ], [128X[104X
+    [4X[28X  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )[128X[104X
+    [4X[25Xgap>[125X [27XSetOfFacesBoundary(t2,[1],2);[127X[104X
+    [4X[28X[ 1, 3, 5, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XSetOfFacesBoundary(t2,[2],2);[127X[104X
+    [4X[28X[ 2, 4, 5, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XSetOfFacesBoundary(t2,[2,1],2);[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X2.1-2 SubPolytope[101X
+  
+  [29X[2XSubPolytope[102X( [3Xpol[103X, [3Xsubpol[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0Y[22Xsubpol[122X  is  a  list  of some [22Xdim[122X-cells in polytope [22Xpol[122X. The function returns
+  (the closure of) [22Xsubpol[122X as a separate polytope.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSubPolytope(t2,[1,2],1);[127X[104X
+    [4X[28Xrec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ],[128X[104X
+    [4X[28X  vertices := [ [ "A", "A" ], [ "A", "B" ] ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X2.1-3 ParallelSimplify[101X
+  
+  [29X[2XParallelSimplify[102X( [3Xpol[103X, [3Xsubpol[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0YPolytope  [22Xpol[122X  is  simplified  using  function  [10XUnionFaces[110X,  along  with its
+  subpolytope  [22Xsubpol[122X of dimension [22Xdim[122X which is simplified simultaneously. The
+  result  is in the form of polytope but with an additional named list [10X.subpol[110X
+  containing  the  numbers of [22Xdim[122X-cells of the simplified polytope that belong
+  to  the  simplified  subpolytope.  The  function works only for subpolytopes
+  whose dimension [22Xdim[122X is strictly less than the dimension of [22Xpol[122X.[133X
+  
+  [1X2.1-4 PolMinusFace[101X
+  
+  [29X[2XPolMinusFace[102X( [3Xpol[103X, [3Xadr[103X ) [32X function
+  
+  [33X[0;0YCuts out a neighborhood of a face with adress [22Xadr[122X from polytope [22Xpol[122X. In this
+  way,  new  cells  may  appear,  while  some of the old cells are returned in
+  several  copies.  The  function is organized in such way that the olds cells
+  retain  the  same  positions  in lists [22Xpol[122X[10X.faces[[110X[22Xi[122X[10X][110X and [22Xpol[122X[10X.vertices[110X as they
+  they  had  in  the  input polytope [22Xpol[122X; for a multiplicated cell, one of its
+  copies  stays  in  that position (while the other copies are added of course
+  somewhere on the right of the corresponding list).[133X
+  
+  [1X2.1-5 PolMinusFaceDoublingMethod[101X
+  
+  [29X[2XPolMinusFaceDoublingMethod[102X( [3Xpol[103X, [3Xadr[103X ) [32X function
+  
+  [33X[0;0YSuppose  there  is  a  neighborhood  of  a  [22Xk[122X-cell [22Xadr[122X in a ball complex [22Xpol[122X
+  homeomorphic  to  several  [22Xn[122X-disks [22XD^n_i[122X glued along the cell [22Xadr[122X. Then, the
+  withdrawal  of  [22Xadr[122X  can be performed more economically, namely by creating,
+  for each [22Xn[122X-disk, its own copy of [22Xadr[122X.[133X
+  
+  [33X[0;0YThe  following  simple  example  deals with a bouquet of line segments glued
+  together in vertex [22Xadr=[0,1][122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbuket:=rec( vertices := [ 1, 2, 3, 4 ],[127X[104X
+    [4X[28Xfaces := [ [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ] ] ] );;[128X[104X
+    [4X[25Xgap>[125X [27XPolMinusFaceDoublingMethod(buket,[0,1]);[127X[104X
+    [4X[28Xrec( vertices := [ 1, 2, 3, 4, 5, 6 ],[128X[104X
+    [4X[28X faces:=[ [ [ 1, 2 ], [ 3, 5 ], [ 4, 6 ] ] ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X2.1-6 PolMinusPol[101X
+  
+  [29X[2XPolMinusPol[102X( [3Xpol[103X, [3Xsubpol[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0YCuts  out  subpolytope  [22Xsubpol[122X of dimension [22Xdim[122X from polytope [22Xpol[122X. As far as
+  possible, the most economical way is chosen for doing this.[133X
+  
+  [1X2.1-7 GlueFaces[101X
+  
+  [29X[2XGlueFaces[102X( [3Xpol[103X, [3Xpair[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0YGlues  together  two  cells  in polytope [22Xpol[122X, [13Xassuming that their boundaries
+  coincide[113X.  The  cells  have dimension [22Xdim[122X, and [22Xpair[122X is the list of their two
+  numbers.  Remark:  the function does [13Xnot[113X check whether the cells have indeed
+  the  same  boundary.  Neither  does it check that the result is a valid ball
+  complex. Here is a simple example where the result is [13Xnot[113X a ball complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28Xgap>d2:=ballAB(2);;[128X[104X
+    [4X[28Xgap>GlueFaces(d2,[1,2],1);[128X[104X
+    [4X[28Xrec(faces:=[ [ [1,2] ], [ [1] ] ],[128X[104X
+    [4X[28X	vertices:= ["A","B"][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X2.1-8 VerticesRullGlueFace[101X
+  
+  [29X[2XVerticesRullGlueFace[102X( [3Xpol[103X, [3Xpair[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0YGlues  together two cells in polytope [22Xpol[122X. The cells have dimension [22Xdim[122X, and
+  [22Xpair[122X is the list of their two numbers.[133X
+  
+  [33X[0;0YThe  function looks at the [13Xnames[113X of vertices of two cells in [22Xpair[122X, and glues
+  them in such way that the [13Xsame-name[113X vertices are identified.[133X
+  
+  [1X2.1-9 VerticesRullGluePol[101X
+  
+  [29X[2XVerticesRullGluePol[102X( [3Xpol[103X, [3Xsubpol1[103X, [3Xsubpol2[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0Y[13XIdentical[113X  subpolytopes [22Xsubpol1[122X and [22Xsubpol2[122X of polytope [22Xpol[122X and of dimension
+  [22Xdim[122X are glued into one.[133X
+  
+  [33X[0;0YEach  of  these  subpolytopes  must have at least one [22Xdim[122X-cell with at least
+  [22Xdim+1[122X  vertices and, moreover, be [13Xcombinatorial[113X in the following sense: both
+  this  cell  and  all its subcells must be determined uniquely by the sets of
+  their vertices.[133X
+  
+  [33X[0;0YThe   gluing   rules  are  determined  by  the  [13Xvertex  names[113X  in  the  list
+  [22Xpol[122X[10X.vertices[110X.  The  function  begins  with gluing together the two identical
+  combinatorial  [22Xdim[122X-cells  described above, starting with gluing each pair of
+  same-named  vertices into one. Then the process continues inductively on all
+  cells  of  [22Xsubpol1[122X  and [22Xsubpol2[122X. The presence of the two mentioned identical
+  combinatorial  [22Xdim[122X-cells  ensures  that  the gluing is performed in a unique
+  way.[133X
+  
+  [33X[0;0YIf  [13Xtwo[113X  polytopes  are  to be glued together by identifying their identical
+  subpolytopes, then [10XFreeUnionPol[110X can be used first.[133X
+  
+  [1X2.1-10 GlueIndenticalSubpolitops[101X
+  
+  [29X[2XGlueIndenticalSubpolitops[102X( [3Xpol[103X, [3Xsub1[103X, [3Xsub2[103X, [3Xdim[103X ) [32X function
+  
+  [33X[0;0YGlues  together  two  identical  subpolytopes [22Xsub1[122X and [22Xsub2[122X of polytope [22Xpol[122X.
+  Faces  with identical indices are identified. ***A more detailed description
+  is required.***[133X
+  

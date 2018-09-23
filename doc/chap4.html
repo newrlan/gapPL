@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (PL-manual) - Chapter 4: Related structures, auxiliary functions</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap4"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap3.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p><a id="X872A6F2A7A3FCCC7" name="X872A6F2A7A3FCCC7"></a></p>
+<div class="ChapSects"><a href="chap4.html#X872A6F2A7A3FCCC7">4 <span class="Heading">Related structures, auxiliary functions</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7FF4EDFE7802C632">4.1 <span class="Heading">Some useful lists</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7E8931D08158230B">4.1-1 ConnectedSubset</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X81893FB17D432793">4.1-2 SortCircle</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7906B3DC7F85CC27">4.1-3 LineOrdering</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7D0AE6B386CD97BE">4.2 <span class="Heading">Rational functions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7C3E05D57A855C98">4.2-1 ConvertPolynomeToRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7A779D807C39FF10">4.2-2 ConvertToRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7F0A392F7EC34763">4.2-3 ConvertFromRatFuncToPolynom</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7DF541D77AED60BA">4.2-4 ConvertFromRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X85525EF3795860BC">4.2-5 SimplifyRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X82E0B0FC7992BA2E">4.2-6 SumRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7B1F22A07F55E140">4.2-7 ProdRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X8500B73B8429F14B">4.2-8 GcdPolynomial</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7CC8FF297DA9CF6B">4.2-9 LcmPolynomial</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X81EA09AF878104FB">4.2-10 DerivativePolynomRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X8112D91385A27DB0">4.2-11 DerivativeRatFunc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7F66B38A832B0FBD">4.2-12 JacobiMatRatFunc</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X812CCAB278643A59">4.3 <span class="Heading">Matrices</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7A4302F685FA84A8">4.3-1 Pfaffian</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7882DD9079FFCDF6">4.4 <span class="Heading">Grassmann algebras</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X860AA41783165689">4.4-1 GrassmannMonomialsProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7F3EE70681C3D8C0">4.4-2 GrassmannProduct</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X79DFD3ED7FDCC6D8">4.4-3 GrassmannSum</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X80094E517830BE72">4.4-4 BerezinIntegral</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7A3ACABF7E9F9F6D">4.4-5 BerezinMultipleIntegral</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X857C8EEA7D750403">4.5 <span class="Heading">Four-manifold invariants from hexagon cohomology</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X87E75A3387308126">4.5-1 actionlib</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X82C5CFFC7A96C163">4.5-2 getLsystem</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7C239D99842548A1">4.5-3 lookover</a></span>
+</div></div>
+</div>
+
+<h3>4 <span class="Heading">Related structures, auxiliary functions</span></h3>
+
+<p><a id="X7FF4EDFE7802C632" name="X7FF4EDFE7802C632"></a></p>
+
+<h4>4.1 <span class="Heading">Some useful lists</span></h4>
+
+<p><a id="X7E8931D08158230B" name="X7E8931D08158230B"></a></p>
+
+<h5>4.1-1 ConnectedSubset</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedSubset</code>( <var class="Arg">list</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Let <span class="SimpleMath">list</span> be a list of lists. We say that its entries <span class="SimpleMath">list[i]</span> and <span class="SimpleMath">list[k]</span> <em>can be joined</em> if there exist such chain of entries <span class="SimpleMath">list[i]=list[j_0], list[j_1], ...,list[j_n]=list[k]</span> where every two neighbors have a non-empty intersection. The function returns all indiced <span class="SimpleMath">i</span> of those entries that can be joined with <span class="SimpleMath">list[1]</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">list:=[[2,3],[4,5],[6,7],[1,4],[2,1]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ConnectedSubset(list);</span>
+[ 1, 5, 4, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ConnectedSubset(T2.faces[1]);</span>
+[ 1, 4, 5, 8, 2, 6, 3, 7 ]
+					</pre></div>
+
+<p>This function is applied to finding the connected components of a manifold, hence its name.</p>
+
+<p><a id="X81893FB17D432793" name="X81893FB17D432793"></a></p>
+
+<h5>4.1-2 SortCircle</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SortCircle</code>( <var class="Arg">list</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>The input <span class="SimpleMath">list</span> must consist of two-element lists; these can be thought of as edges of a graph. The function sorts <span class="SimpleMath">list</span>, assuming that this graph is a cycle.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">list:=T2.faces[1]{T2.faces[2][3]};</span>
+[ [ 2, 3 ], [ 1, 4 ], [ 1, 2 ], [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SortCircle(list);</span>
+[ [ 2, 3 ], [ 1, 2 ], [ 1, 4 ], [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">list;</span>
+[  ]
+					</pre></div>
+
+<p><a id="X7906B3DC7F85CC27" name="X7906B3DC7F85CC27"></a></p>
+
+<h5>4.1-3 LineOrdering</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LineOrdering</code>( <var class="Arg">list</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>The input <span class="SimpleMath">list</span> must consist of two-element lists; these can be thought of as edges of a graph. Assuming that the graph is just a chain of <span class="SimpleMath">n</span> edges joining <span class="SimpleMath">n+1</span> vertices, the function returns one of the two corresponding linear orderings of the edges as list <code class="code">.order</code>, and their consistent orientations as <code class="code">.orient</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">list:=[ [ 2, 3 ], [ 4, 1 ], [ 2, 4 ], [ 15, 1 ], [ 15, 5 ] ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LineOrdering(list);</span>
+rec( order := [ 5, 4, 2, 3, 1 ], orient := [ 1, -1, 1, -1, 1 ] )
+					</pre></div>
+
+<p>If the graph is not such a chain, the fuction finds some (random) subgraph in it that <em>is</em> a chain.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cycle:=[[1,2],[3,4],[4,2],[1,3]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LineOrdering(cycle);</span>
+rec( order := [ 3, 1, 4, 2 ], orient := [ 1, -1, 1, 1 ] )
+					</pre></div>
+
+<p><a id="X7D0AE6B386CD97BE" name="X7D0AE6B386CD97BE"></a></p>
+
+<h4>4.2 <span class="Heading">Rational functions</span></h4>
+
+<p>Given a polynomial <span class="SimpleMath">f</span>, it can be factored, using the GAP's <code class="code">Factors</code> algorithm, as <span class="SimpleMath">f = a f_1^k_1 ⋯ f_n^k_n</span>. We will write such factorization as <span class="SimpleMath">[a, f_1, k_1, ... , f_n, k_n]</span>. The first element in this list is the coefficient <span class="SimpleMath">a</span>, and then each even element is a factor, and each odd element is the multiplicity of the preceding factor. We call such way of describing a polynomial RatFunc format.</p>
+
+<p>A <em>rational function</em> <span class="SimpleMath">r</span> is represented in RatFunc format as a two-element list. The first element is its numerator, and the second - its denominator. If one of these elements is empty, this means that the numerator or denominator is 1.</p>
+
+<p><a id="X7C3E05D57A855C98" name="X7C3E05D57A855C98"></a></p>
+
+<h5>4.2-1 ConvertPolynomeToRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConvertPolynomeToRatFunc</code>( <var class="Arg">f</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Converts polynomial <span class="SimpleMath">f</span> into the RatFunc format.</p>
+
+<p><a id="X7A779D807C39FF10" name="X7A779D807C39FF10"></a></p>
+
+<h5>4.2-2 ConvertToRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConvertToRatFunc</code>( <var class="Arg">f</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Converts rational function <span class="SimpleMath">f</span> into the RatFunc format.</p>
+
+<p><a id="X7F0A392F7EC34763" name="X7F0A392F7EC34763"></a></p>
+
+<h5>4.2-3 ConvertFromRatFuncToPolynom</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConvertFromRatFuncToPolynom</code>( <var class="Arg">f</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Converts polynomial <span class="SimpleMath">f</span> from RatFunc to usual format.</p>
+
+<p><a id="X7DF541D77AED60BA" name="X7DF541D77AED60BA"></a></p>
+
+<h5>4.2-4 ConvertFromRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConvertFromRatFunc</code>( <var class="Arg">f</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Converts rational function <span class="SimpleMath">f</span> from RatFunc to usual format.</p>
+
+<p><a id="X85525EF3795860BC" name="X85525EF3795860BC"></a></p>
+
+<h5>4.2-5 SimplifyRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplifyRatFunc</code>( <var class="Arg">f</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Simplifies a rational function <span class="SimpleMath">f</span>. It can be given either in the usual or RatFunc format.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">x:=Indeterminate(Rationals,"x");;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">y:=Indeterminate(Rationals,"y");;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f:=(x^2-y^2)/(x+y)^2;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f1:=ConvertToRatFunc(f);</span>
+[ [ 1, x-y, 1, x+y, 1 ], [ 1, x+y, 2 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SimplifyRatFunc(f1);</span>
+[ [ 1, x-y, 1 ], [ 1, x+y, 1 ] ]
+					</pre></div>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g:=[[2,x-y^2,0],[]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SimplifyRatFunc(g);</span>
+[ [ 2 ], [ 1 ] ]
+					</pre></div>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">x:=Indeterminate(GF(2),"x");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">y:=Indeterminate(GF(2),"y");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">z:=Indeterminate(GF(2),"z");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f:=x^2+y^2+z^2;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ConvertToRatFunc(f);</span>
+[ [ Z(2)^0, x+y+z, 2 ], [ Z(2)^0 ] ]
+					</pre></div>
+
+<p><a id="X82E0B0FC7992BA2E" name="X82E0B0FC7992BA2E"></a></p>
+
+<h5>4.2-6 SumRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SumRatFunc</code>( <var class="Arg">f</var>, <var class="Arg">g</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the sum of rational functions <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span> given in the RatFunc format.</p>
+
+<p><a id="X7B1F22A07F55E140" name="X7B1F22A07F55E140"></a></p>
+
+<h5>4.2-7 ProdRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ProdRatFunc</code>( <var class="Arg">f</var>, <var class="Arg">g</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the product of rational functions <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span> given in the RatFunc format.</p>
+
+<p><a id="X8500B73B8429F14B" name="X8500B73B8429F14B"></a></p>
+
+<h5>4.2-8 GcdPolynomial</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GcdPolynomial</code>( <var class="Arg">f</var>, <var class="Arg">g</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the greatest common divisor of polynomials <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span>. These can be entered either in RatFunc or usual, format; the result is in RatFunc format.</p>
+
+<p>This calculation does not involve the overall coefficients of <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span>, their gcd must be calculated separately.</p>
+
+<p><a id="X7CC8FF297DA9CF6B" name="X7CC8FF297DA9CF6B"></a></p>
+
+<h5>4.2-9 LcmPolynomial</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LcmPolynomial</code>( <var class="Arg">f</var>, <var class="Arg">g</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the least common multiple of polynomials <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span>. These can be entered either in RatFunc or usual, format; the result is in RatFunc format.</p>
+
+<p>This calculation does not involve the overall coefficients of <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span>, their lcm must be calculated separately.</p>
+
+<p><a id="X81EA09AF878104FB" name="X81EA09AF878104FB"></a></p>
+
+<h5>4.2-10 DerivativePolynomRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DerivativePolynomRatFunc</code>( <var class="Arg">f</var>, <var class="Arg">x</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the derivative of polynomial <span class="SimpleMath">f</span> given in RatFunc format.</p>
+
+<p><a id="X8112D91385A27DB0" name="X8112D91385A27DB0"></a></p>
+
+<h5>4.2-11 DerivativeRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DerivativeRatFunc</code>( <var class="Arg">f</var>, <var class="Arg">x</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the derivative of rational function <span class="SimpleMath">f</span> given in RatFunc format.</p>
+
+<p><a id="X7F66B38A832B0FBD" name="X7F66B38A832B0FBD"></a></p>
+
+<h5>4.2-12 JacobiMatRatFunc</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JacobiMatRatFunc</code>( <var class="Arg">listf</var>, <var class="Arg">listx</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>For list <span class="SimpleMath">listf</span> of rational functions, and list <span class="SimpleMath">listx</span> of variables, the Jacobian matrix is calculated. The data in <span class="SimpleMath">listf</span> can be given in a mixed format: some entries in the usual, and others in the RatFunc format.</p>
+
+<p><a id="X812CCAB278643A59" name="X812CCAB278643A59"></a></p>
+
+<h4>4.3 <span class="Heading">Matrices</span></h4>
+
+<p><a id="X7A4302F685FA84A8" name="X7A4302F685FA84A8"></a></p>
+
+<h5>4.3-1 Pfaffian</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Pfaffian</code>( <var class="Arg">mat</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the Pfaffian of a skew-symmetric matrix <span class="SimpleMath">mat</span>. Uses an analogue of the Gauss algorithm.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">mat:=[[0,-3,-1,1],[3,0,-1,2],[1,1,0,3],[-1,-2,-3,0]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PrintArray(mat);</span>
+[ [   0,  -3,  -1,   1 ],
+  [   3,   0,  -1,   2 ],
+  [   1,   1,   0,   3 ],
+  [  -1,  -2,  -3,   0 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Pfaffian(mat);</span>
+-8
+				</pre></div>
+
+<p><a id="X7882DD9079FFCDF6" name="X7882DD9079FFCDF6"></a></p>
+
+<h4>4.4 <span class="Heading">Grassmann algebras</span></h4>
+
+<p>At the moment, we don't have any realization of Grassmann algebra structures that could allow to declare variables as `Grassmann'. Nevertheless, here is how we can operate with Grassmann monomials and their sums - arbitrary Grassmann algebra elements.</p>
+
+<p>We assume that all Grassmann variables are numbered. The default ordering of Grassmann variables is lexicographical: for instance, the result of multiplication of two Grassmann polynomials (see below) will have its monomials ordered lexicographically.</p>
+
+<p>A Grassmann monomial - product of some Grassmann variables and a scalar - is represented as a two-element list whose first element is the list of indices of the Grassmann variables, and whose second element is the scalar (element of a field, or commutative ring or algebra).</p>
+
+<p>A Grassmann algebra element ( = function of Grassmann variables) <span class="SimpleMath">f(x_1, x_2, dots, x_k) = ∑ a_i_1, ..., i_s x_i_1 ⋯ x_i_s</span> is represented as a named list with two fields <span class="SimpleMath">f</span><code class="code">.monomials</code> and <span class="SimpleMath">f</span><code class="code">.coeffs</code>. The first of these contains, at its <span class="SimpleMath">j</span>-th position, a word of Grassmann variables, while the second contains, at the same position, the coefficient corresponding to this word (that is, <code class="code">f.monomials[j]</code> and <code class="code">f.coeffs[j]</code> describe together one monomial entering in <span class="SimpleMath">f</span>.</p>
+
+<p>Note that a monomial may contain <em>repeated variables</em>, which would mean its vanishing, of course. Using <code class="code">GrassmannProduct</code> with unity (represented as <code class="code">rec(monomials := [[]], coeffs := [1])</code>) brings a Grassmann polynomial into the canonical form, deleting, in particular, such monomials.</p>
+
+<p><a id="X860AA41783165689" name="X860AA41783165689"></a></p>
+
+<h5>4.4-1 GrassmannMonomialsProduct</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrassmannMonomialsProduct</code>( <var class="Arg">mon1</var>, <var class="Arg">mon2</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculate the product of two Grassmann monomials <span class="SimpleMath">mon1</span> and <span class="SimpleMath">mon2</span>. Here is how this works for the following two products: <span class="SimpleMath">(2 a_1a_2) * (3 a_5a_4a_6)=-6 a_1a_2a_3a_4a_5 a_6</span> and <span class="SimpleMath">(2 a_1 a_2) * ( 3 a_5 a_2 a_6) = 0</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">GrassmannMonomialsProduct([[1,2],2],[[5,4,6],3]);</span>
+[ [ 1, 2, 4, 5, 6 ], -6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">GrassmannMonomialsProduct([[1,2],2],[[5,2,6],3]);</span>
+[ [  ], 0 ]
+					</pre></div>
+
+<p><a id="X7F3EE70681C3D8C0" name="X7F3EE70681C3D8C0"></a></p>
+
+<h5>4.4-2 GrassmannProduct</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrassmannProduct</code>( <var class="Arg">f</var>, <var class="Arg">g</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the product of Grassmann algebra elements <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span>.</p>
+
+<p><a id="X79DFD3ED7FDCC6D8" name="X79DFD3ED7FDCC6D8"></a></p>
+
+<h5>4.4-3 GrassmannSum</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GrassmannSum</code>( <var class="Arg">f</var>, <var class="Arg">g</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the sum of Grassmann algebra elements <span class="SimpleMath">f</span> and <span class="SimpleMath">g</span>.</p>
+
+<p><a id="X80094E517830BE72" name="X80094E517830BE72"></a></p>
+
+<h5>4.4-4 BerezinIntegral</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BerezinIntegral</code>( <var class="Arg">f</var>, <var class="Arg">a</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the Berezin integral of function <span class="SimpleMath">f</span> w.r.t. Grassmann variable (indexed as) <span class="SimpleMath">a</span>.</p>
+
+<p><a id="X7A3ACABF7E9F9F6D" name="X7A3ACABF7E9F9F6D"></a></p>
+
+<h5>4.4-5 BerezinMultipleIntegral</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BerezinMultipleIntegral</code>( <var class="Arg">f</var>, <var class="Arg">list</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the multiple Berezin integral of function <span class="SimpleMath">f</span> w.r.t. those Grassmann variables whose indices are in <span class="SimpleMath">list</span>. The order of integration is determined by the order of variables in <span class="SimpleMath">list</span>.</p>
+
+<p><a id="X857C8EEA7D750403" name="X857C8EEA7D750403"></a></p>
+
+<h4>4.5 <span class="Heading">Four-manifold invariants from hexagon cohomology</span></h4>
+
+<p>Hexagon cohomologies produce "discrete action densities" for piecewise linear TQFT's, see <span class="URL"><a href="https://arxiv.org/abs/1707.02847">https://arxiv.org/abs/1707.02847</a></span>. These action densities are polynomials over a field of finite characteristic. Currently, this package provides tools for calculating manifold invariants only in characteristic two, although some functions can already work in different characteristics.</p>
+
+<p><a id="X87E75A3387308126" name="X87E75A3387308126"></a></p>
+
+<h5>4.5-1 actionlib</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; actionlib</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<p>A data structure containing nontrivial discrete action densities for different characteristics. It consists of lists <code class="code">actionlib.</code><span class="SimpleMath">char.deg</span>, each containing (some) action densities that are <em>homogeneous</em> polynomials of degree <span class="SimpleMath">deg</span> over the prime field of characteristic <span class="SimpleMath">char</span>. Our discrete action densities are actually actions for a single pentachoron, and they are written in <code class="code">actionlib</code> for pentachoron 12345 with the standard orientation.</p>
+
+<p>The nontriviality of a discrete action density means here that it corresponds to a nontrivial (not being a coboundary) hexagon cocycle.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">actionlib.2.3[1];</span>
+rec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],
+  monoms := [ [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 3, 5 ], [ 2, 3, 5 ], [ 2, 4, 5 ] ] )
+                </pre></div>
+
+<p>As we see, the action density is represented as a dictionary with keys <code class="code">coeffs</code> and <code class="code">monoms</code>. The list <code class="code">.monoms</code> consists of the monomials, while the list <code class="code">.coeffs</code> consists of their coefficients, making together the polynomial in question. So, the action density in the above example is <span class="SimpleMath">x_1x_2x_4 + x_1x_3x_4 + x_1x_3x_5 + x_2x_3x_5 + x_2x_4x_5</span>. The variables <span class="SimpleMath">x_1,...,x_5</span> correspond to the 3-faces of pentachoron 12345, going in the lexicographic order: 1234, ..., 2345.</p>
+
+<p><a id="X82C5CFFC7A96C163" name="X82C5CFFC7A96C163"></a></p>
+
+<h5>4.5-2 getLsystem</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; getLsystem</code>( <var class="Arg">pol</var>, <var class="Arg">action</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Produces a simplified form of the action for the whole polytope <span class="SimpleMath">pol</span> from a given input <span class="SimpleMath">action</span> for pentachoron <span class="SimpleMath">u = 12345</span> - i.e., here <span class="SimpleMath">action</span> is an action density as stored in <code class="code">actionlib</code>. Also, produces the "rough invariant" of the manifold, as introduced in <span class="URL"><a href="https://arxiv.org/abs/1707.02847">https://arxiv.org/abs/1707.02847</a></span>.</p>
+
+<p>The simplified form means the following. The action for the whole polytope is the sum over all pentachora (with proper signs determined by their orientations), hence it depends on a humongous lot of variables <span class="SimpleMath">x_i</span>. But actually there exists a huge subspace <span class="SimpleMath">W</span> in the linear space of all variables <span class="SimpleMath">x_i</span>, such that the action is always constant along <span class="SimpleMath">W</span>, see again the above mentioned paper. This means that the action depends in fact only on a few linear combinations of <span class="SimpleMath">x_i</span>.</p>
+
+<p>So, the result contains field <code class="code">.dim</code> - number of these linear combinations now thought of as independent variables on which the (polynomial) action depends, field <code class="code">.monomes</code> - the monomials entering in the action, and field <code class="code">.coeffs</code> - their coefficients. There is also field <code class="code">.rough_invariant</code> containing the "rough invariant" of the manifold.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1:=sphereAB(1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t2:=PolProduct(s1,s1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t4:=PolProduct(t2,t2);; # we made thus a 4-torus</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">action := actionlib.2.3[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t4syst := getLsystem(t4, action);</span>
+rec( coeffs := [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ],
+  dim := 6, monomes := [ [ 1, 1, 6 ], [ 1, 6, 6 ], [ 5, 6, 6 ], [ 5, 5, 6 ],
+      [ 2, 2, 5 ], [ 3, 3, 4 ], [ 3, 4, 4 ], [ 2, 5, 5 ] ], rough_invariant := 6 )
+               </pre></div>
+
+<p><a id="X7C239D99842548A1" name="X7C239D99842548A1"></a></p>
+
+<h5>4.5-3 lookover</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; lookover</code>( <var class="Arg">lsystem</var>, <var class="Arg">k</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Here <span class="SimpleMath">lsystem</span> is a polynomial given by its monomials <code class="code">.monomes</code>, their corresponding coefficients <code class="code">.coeffs</code>, and the number of variables <code class="code">.dim</code>, like produced by the <code class="code">getLsystem</code> command (but <code class="code">rough_invariant</code> is not needed here). When the variables take all the values in the field of degree <span class="SimpleMath">k</span> (note that the characteristic is automatically taken from the polynomial), the polynomials takes values in the same field with some <em>frequencies</em> (numbers of times).</p>
+
+<p>The command produces these frequencies for all field elements, written in the form of a list. The order of corresponding field elements can be seen using function <code class="code">List(field, x -&gt; x)</code> (exactly this function!).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">lookover(t4syst, 2);</span>
+[ 2080, 0, 2016, 0 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(GF(4), x -&gt; x);</span>
+[ 0*Z(2), Z(2^2), Z(2)^0, Z(2^2)^2 ]
+                </pre></div>
+
+<p>As we have computed <code class="code">t4syst</code> over the field <code class="code">GF(2)</code>, and we put <span class="SimpleMath">k = 2</span> in the example, the result contains the frequencies of elements from field <code class="code">GF(4)</code>.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap3.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

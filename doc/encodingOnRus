@@ -1,0 +1,81 @@
+#!/bin/bash
+
+sed -i_save "s/Unicode(1040)/А/g" manPL.tex
+sed -i_save "s/Unicode(1041)/Б/g" manPL.tex
+sed -i_save "s/Unicode(1042)/В/g" manPL.tex
+sed -i_save "s/Unicode(1043)/Г/g" manPL.tex
+sed -i_save "s/Unicode(1044)/Д/g" manPL.tex
+sed -i_save "s/Unicode(1045)/Е/g" manPL.tex
+sed -i_save "s/Unicode(1046)/Ж/g" manPL.tex
+sed -i_save "s/Unicode(1047)/З/g" manPL.tex
+sed -i_save "s/Unicode(1048)/И/g" manPL.tex
+sed -i_save "s/Unicode(1049)/Й/g" manPL.tex
+sed -i_save "s/Unicode(1050)/К/g" manPL.tex
+sed -i_save "s/Unicode(1051)/Л/g" manPL.tex
+sed -i_save "s/Unicode(1052)/М/g" manPL.tex
+sed -i_save "s/Unicode(1053)/Н/g" manPL.tex
+sed -i_save "s/Unicode(1054)/О/g" manPL.tex
+sed -i_save "s/Unicode(1055)/П/g" manPL.tex
+sed -i_save "s/Unicode(1056)/Р/g" manPL.tex
+sed -i_save "s/Unicode(1057)/С/g" manPL.tex
+sed -i_save "s/Unicode(1058)/Т/g" manPL.tex
+sed -i_save "s/Unicode(1059)/У/g" manPL.tex
+sed -i_save "s/Unicode(1060)/Ф/g" manPL.tex
+sed -i_save "s/Unicode(1061)/Х/g" manPL.tex
+sed -i_save "s/Unicode(1062)/Ц/g" manPL.tex
+sed -i_save "s/Unicode(1063)/Ч/g" manPL.tex
+sed -i_save "s/Unicode(1064)/Ш/g" manPL.tex
+sed -i_save "s/Unicode(1065)/Щ/g" manPL.tex
+sed -i_save "s/Unicode(1066)/Ъ/g" manPL.tex
+sed -i_save "s/Unicode(1067)/Ы/g" manPL.tex
+sed -i_save "s/Unicode(1068)/Ь/g" manPL.tex
+sed -i_save "s/Unicode(1069)/Э/g" manPL.tex
+sed -i_save "s/Unicode(1070)/Ю/g" manPL.tex
+sed -i_save "s/Unicode(1071)/Я/g" manPL.tex
+
+sed -i_save "s/Unicode(1072)/а/g" manPL.tex
+sed -i_save "s/Unicode(1073)/б/g" manPL.tex
+sed -i_save "s/Unicode(1074)/в/g" manPL.tex
+sed -i_save "s/Unicode(1075)/г/g" manPL.tex
+sed -i_save "s/Unicode(1076)/д/g" manPL.tex
+sed -i_save "s/Unicode(1077)/е/g" manPL.tex
+sed -i_save "s/Unicode(1078)/ж/g" manPL.tex
+sed -i_save "s/Unicode(1079)/з/g" manPL.tex
+sed -i_save "s/Unicode(1080)/и/g" manPL.tex
+sed -i_save "s/Unicode(1081)/й/g" manPL.tex
+sed -i_save "s/Unicode(1082)/к/g" manPL.tex
+sed -i_save "s/Unicode(1083)/л/g" manPL.tex
+sed -i_save "s/Unicode(1084)/м/g" manPL.tex
+sed -i_save "s/Unicode(1085)/н/g" manPL.tex
+sed -i_save "s/Unicode(1086)/о/g" manPL.tex
+sed -i_save "s/Unicode(1087)/п/g" manPL.tex
+sed -i_save "s/Unicode(1088)/р/g" manPL.tex
+sed -i_save "s/Unicode(1089)/с/g" manPL.tex
+sed -i_save "s/Unicode(1090)/т/g" manPL.tex
+sed -i_save "s/Unicode(1091)/у/g" manPL.tex
+sed -i_save "s/Unicode(1092)/ф/g" manPL.tex
+sed -i_save "s/Unicode(1093)/х/g" manPL.tex
+sed -i_save "s/Unicode(1094)/ц/g" manPL.tex
+sed -i_save "s/Unicode(1095)/ч/g" manPL.tex
+sed -i_save "s/Unicode(1096)/ш/g" manPL.tex
+sed -i_save "s/Unicode(1097)/щ/g" manPL.tex
+sed -i_save "s/Unicode(1098)/ъ/g" manPL.tex
+sed -i_save "s/Unicode(1099)/ы/g" manPL.tex
+sed -i_save "s/Unicode(1100)/ь/g" manPL.tex
+sed -i_save "s/Unicode(1101)/э/g" manPL.tex
+sed -i_save "s/Unicode(1102)/ю/g" manPL.tex
+sed -i_save "s/Unicode(1103)/я/g" manPL.tex
+
+# в юникодовской кодировке это символы \"е , но у меня на клавиатуре этой буквы
+# уже нет, я решил заменить ее на 'е'.
+sed -i_save "s/Unicode(1025)/Е/g" manPL.tex
+sed -i_save "s/Unicode(1105)/е/g" manPL.tex
+
+# для корректной компиляции tex-файла на русском языке
+sed -i_save "s/latin1/utf8/g" manPL.tex
+# эту замену нужно сделать более аккуратной
+sed -i_save "s/T1/T2A/g" manPL.tex
+
+rm -rf manPL.tex_save
+pdflatex manPL.tex
+pdflatex manPL.tex

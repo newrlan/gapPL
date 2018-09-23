@@ -1,0 +1,568 @@
+  
+  [1X3 [33X[0;0YImmersions and knots[133X[101X
+  
+  [33X[0;0YPackage [5XPL[105X provides the possibility to work with usual one-dimensional knots
+  and with two-dimensional knotted surfaces.[133X
+  
+  
+  [1X3.1 [33X[0;0YClassical knots[133X[101X
+  
+  [33X[0;0YThere  are  two  different  ways of describing a knot diagram in package [5XPL[105X.
+  Both of these have their own advantages.[133X
+  
+  
+  [1X3.1-1 [33X[0;0YDescribing a knot diagram[133X[101X
+  
+  [33X[0;0YThe  first  way of describing a knot diagram is as follows. Assign a name to
+  each  double  point,  call  these names "generators", choose arbitrarily the
+  initial  point  (not  being  a double point of the diagram) and the positive
+  direction  on the knot. Go along the knot in the positive direction and make
+  the  [13Xword[113X  according  to  the  following rule: at the beginning, the word is
+  empty, then each double point is written on the right of the word and in the
+  degree  [22X-1[122X if we are moving along the underpass, or [22X1[122X if we are moving along
+  the overpass. The word is ready when we have returned to the initial point.[133X
+  
+  [33X[0;0YAdditionally,  each  double point has its [13Xorientation[113X. If the pair "positive
+  directions  of  the  overpass and underpass" at a double point determine the
+  positive orientation of the plane, then the orientation is [22X1[122X, otherwise [22X-1[122X.[133X
+  
+  [33X[0;0YThe mirror image of a knot corresponds to changing all orientations.[133X
+  
+  [33X[0;0YFor  the trefoil knot, the simplest diagram yields the word [22Xac^-1ba^-1cb^-1[122X,
+  and  all  orientations are negative. Here is how this diagram is represented
+  in the package [5XPL[105X library.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTrefoil;[127X[104X
+    [4X[28Xrec( kod := [ [ "a", 1 ], [ "c", -1 ], [ "b", 1 ],[128X[104X
+    [4X[28X              [ "a", -1 ], [ "c", 1 ], [ "b", -1 ] ],[128X[104X
+    [4X[28X     orient := [ [ "a", -1 ], [ "b", -1 ], [ "c", -1 ] ] )[128X[104X
+    [4X[28X  				[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  word and the orientations are thus represented as [10X.kod[110X and [10X.orient[110X, and
+  the example makes it clear how exactly this is done.[133X
+  
+  [33X[0;0YTo describe [13Xlinks[113X in this way is slightly more complicated, because the link
+  components  must  be  identified additionally. For instance, [10XTorusKnot(2,4);[110X
+  produces a two-component [13Xlink[113X as follows:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTorusKnot(2,4);[127X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  kod := rec( 1 := [ [ 1, 1 ], [ 2, -1 ], [ 3, 1 ], [ 4, -1 ] ], [128X[104X
+    [4X[28X      2 := [ [ 1, -1 ], [ 2, 1 ], [ 3, -1 ], [ 4, 1 ] ] ), [128X[104X
+    [4X[28X  orient := [ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ] ] )[128X[104X
+    [4X[28X                [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  second  way  of describing a knot diagram consists in building the ball
+  complex  decomposition of sphere [22XS^2[122X corresponding naturally to the diagram.
+  In this description, the knot goes along the 1-cells of the complex.[133X
+  
+  [33X[0;0YThe details can be seen on the following example.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28Xrec([128X[104X
+    [4X[28X  1knot :=[128X[104X
+    [4X[28X    rec([128X[104X
+    [4X[28X      dpoints := rec( 1 := [ 6, 1, 3, 4 ], 2 := [ 2, 3, 5, 6 ],[128X[104X
+    [4X[28X          3 := [ 4, 5, 1, 2 ] ), sheets := [ 1 .. 6 ] ),[128X[104X
+    [4X[28X  faces := [ [ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ] ],[128X[104X
+    [4X[28X      [ [ 1, 3, 5 ], [ 1, 4 ], [ 2, 4, 6 ], [ 2, 5 ], [ 3, 6 ] ] ],[128X[104X
+    [4X[28X  vertices := [ "a", "b", "c" ] )[128X[104X
+    [4X[28X			[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis example shows a trefoil diagram made as a ball complex decomposition of
+  [22XS^2[122X with the additional information concerning the knot itself, and included
+  in  the  named list [10X.1knot[110X (meaning "one-dimensional knot", in contrast with
+  knotted 2-surfaces). This latter contains the list [10X.sheets[110X (remark: the word
+  "sheets"  may look a bit strange here, but the point is that there is also a
+  parallel  construction  for  2-knots!)  of  all 1-cells along which the knot
+  diagram goes, and the named list [10X.dpoints[110X which assigns 4-lists to the names
+  -  double  point indices. The first two entries in each of these 4-lists are
+  the  indices  of two 1-cells forming the overpass at the double point, while
+  the second two entries are the indices of two 1-cells forming the underpass.[133X
+  
+  [33X[0;0YThis  desription contains redundant information and is not really convenient
+  for  writing  it  manually  looking at a knot diagram. It has, nevertheless,
+  some  advantages.  First,  it  allows  to  work directly with link diagrams.
+  Second,  this  way  of  description is easily generalized to two-dimensional
+  knotted surfaces, which will be explained below.[133X
+  
+  [1X3.1-2 Knot1OnSphere2[101X
+  
+  [29X[2XKnot1OnSphere2[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YCreates  a  ball  complex  decomposition  of sphere [22XS^2[122X with all information
+  about the [22Xknot[122X diagram, as explained above.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XKnot1OnSphere2(Figure8);[127X[104X
+    [4X[28Xrec([128X[104X
+    [4X[28X  1knot :=[128X[104X
+    [4X[28X    rec([128X[104X
+    [4X[28X      dpoints := rec( 1 := [ 8, 1, 4, 3 ], 2 := [ 4, 5, 8, 7 ],[128X[104X
+    [4X[28X          3 := [ 2, 3, 5, 6 ], 4 := [ 6, 7, 1, 2 ] ), sheets := [ 1 .. 8 ] ),[128X[104X
+    [4X[28X  faces :=[128X[104X
+    [4X[28X    [ [ [ 1, 4 ], [ 3, 4 ], [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 2, 4 ],[128X[104X
+    [4X[28X          [ 1, 2 ] ],[128X[104X
+    [4X[28X      [ [ 1, 3, 6 ], [ 1, 4, 7 ], [ 2, 5, 7 ], [ 2, 6 ], [ 3, 5, 8 ], [ 4, 8 ][128X[104X
+    [4X[28X         ] ], vertices := [ "a", "b", "c", "d" ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.1-3 KnotInS3[101X
+  
+  [29X[2XKnotInS3[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YCreates  a  ball  complex decomposition of [13Xthree[113X-dimensional sphere [22XS^3[122X. The
+  1-cells along which the [22Xknot[122X goes are shown in the named list [10X.knot[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XKnotInS3(Figure8);[127X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  faces := [128X[104X
+    [4X[28X    [ [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 1, 7 ], [ 2, 8 ], [ 5, 7 ], [128X[104X
+    [4X[28X          [ 6, 8 ], [ 1, 5 ], [ 2, 6 ], [ 1, 3 ], [ 2, 4 ], [ 3, 5 ], [128X[104X
+    [4X[28X          [ 4, 6 ], [ 5, 7 ], [ 6, 8 ], [ 3, 7 ], [ 4, 8 ], [ 1, 3 ], [128X[104X
+    [4X[28X          [ 2, 4 ], [ 1, 8 ], [ 5, 8 ], [ 2, 5 ], [ 2, 3 ], [ 3, 6 ], [128X[104X
+    [4X[28X          [ 6, 7 ], [ 4, 7 ], [ 1, 4 ] ], [128X[104X
+    [4X[28X      [ [ 1, 6, 21 ], [ 3, 8, 22 ], [ 1, 9, 23 ], [ 1, 11, 24 ], [128X[104X
+    [4X[28X          [ 2, 14, 25 ], [ 3, 15, 26 ], [ 2, 17, 27 ], [ 1, 20, 28 ], [128X[104X
+    [4X[28X          [ 5, 11, 17 ], [ 6, 12, 18 ], [ 7, 13, 17 ], [ 8, 14, 18 ], [128X[104X
+    [4X[28X          [ 7, 15 ], [ 8, 16 ], [ 9, 13, 19 ], [ 10, 14, 20 ], [ 11, 19 ], [128X[104X
+    [4X[28X          [ 12, 20 ], [ 4, 5, 21 ], [ 4, 7, 22 ], [ 3, 10, 23 ], [128X[104X
+    [4X[28X          [ 2, 12, 24 ], [ 3, 13, 25 ], [ 4, 16, 26 ], [ 4, 18, 27 ], [128X[104X
+    [4X[28X          [ 2, 19, 28 ] ], [128X[104X
+    [4X[28X      [ [ 1, 4, 7, 9, 10, 19, 22, 25 ], [ 2, 5, 7, 11, 12, 20, 23, 25 ], [128X[104X
+    [4X[28X          [ 2, 6, 13, 14, 20, 24 ], [ 3, 5, 8, 15, 16, 21, 23, 26 ], [128X[104X
+    [4X[28X          [ 4, 8, 17, 18, 22, 26 ], [128X[104X
+    [4X[28X          [ 1, 3, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 24 ] ] ], [128X[104X
+    [4X[28X  knot := [ 21, 22, 23, 24, 25, 26, 27, 28 ], [128X[104X
+    [4X[28X  vertices := [ [ "a", "1" ], [ "a", "0" ], [ "b", "1" ], [ "b", "0" ], [128X[104X
+    [4X[28X      [ "c", "1" ], [ "c", "0" ], [ "d", "1" ], [ "d", "0" ] ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.1-4 Reidemeister10Everywhere[101X
+  
+  [29X[2XReidemeister10Everywhere[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YChecks  the  [22Xknot[122X  diagram for presence of free loops that can be removed by
+  the first Reidemeister move [22XR^-1_0[122X, and removes them.[133X
+  
+  [33X[0;0YThe  numbers [22X10[122X in the function name are because such a Reidemeister takes 1
+  vertex and returns (locally) 0 vertices.[133X
+  
+  [1X3.1-5 ZeroLinkFromKnot[101X
+  
+  [29X[2XZeroLinkFromKnot[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YGiven  a  [22Xknot[122X  diagram, creates a link, adding to [22Xknot[122X its copy having zero
+  linking number with it.[133X
+  
+  [33X[0;0YFirst,  a  tubular  neighborhood  of  [22Xknot[122X in the three-dimensional space is
+  made.  The  copy  mentioned above is the projection of [22Xknot[122X along the [22Xz[122X axis
+  onto the boundary of this tubular neighborhood.[133X
+  
+  [1X3.1-6 KnotGroup[101X
+  
+  [29X[2XKnotGroup[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YCalculates  the  knot  group,  i.e.,  the  fundamental  group  of  the  knot
+  complement in [22XS^3[122X. Wirtinger relations are used.[133X
+  
+  [1X3.1-7 TorusKnot[101X
+  
+  [29X[2XTorusKnot[102X( [3Xq[103X, [3Xp[103X ) [32X function
+  
+  [33X[0;0YCreates  a  diagram  of  the  torus  knot  [22X(q,p)[122X, if [22Xq[122X and [22Xp[122X are coprime, or
+  otherwise  of  the  corresponding  link.  Parameter  [22Xq  > 0[122X is the number of
+  threads, while [22Xp[122X is the number of revolutions.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xk:=TorusKnot(2,3);[127X[104X
+    [4X[28Xrec( kod := [ [ 1, 1 ], [ 2, -1 ], [ 3, 1 ], [ 1, -1 ], [ 2, 1 ], [ 3, -1 ] ],[128X[104X
+    [4X[28X  orient := [ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.1-8 ZeifertSurface[101X
+  
+  [29X[2XZeifertSurface[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YCreates a Seifert surface of the [22Xknot[122X, embedded in the 3-sphere. All 2-cells
+  belonging to the Seifert surface are listed in the list [10X.zeifert[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpol:=ZeifertSurface(Knot7_7);;[127X[104X
+    [4X[25Xgap>[125X [27Xzeif:=SubPolytope(pol, pol.zeifert, 2);;[127X[104X
+    [4X[25Xgap>[125X [27XPolOrient(zeif);[127X[104X
+    [4X[28X[ 1, 1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, 1 ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YHere we have created a sphere with a Seifert surface in it, then singled out
+  this Seifert surface as a separate polytope, and checked that this latter is
+  orientable by constructing an explicit orientation of its 2-cells.[133X
+  
+  [1X3.1-9 ZeifertSurfaceWithSimplyBoundary[101X
+  
+  [29X[2XZeifertSurfaceWithSimplyBoundary[102X( [3Xknot[103X ) [32X function
+  
+  [33X[0;0YCreates  a  Seifert  surface of the [22Xknot[122X whose boundary consists of only two
+  1-cells (and the knot goes, accordinly, along these two cells).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpol:=ZeifertSurfaceWithSimplyBoundary(Knot7_7);;[127X[104X
+    [4X[25Xgap>[125X [27XSetOfFacesBoundary(pol,pol.zeifert,2);[127X[104X
+    [4X[28X[ 49, 159 ][128X[104X
+    [4X[28X				[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.2 [33X[0;0YKnotted surfaces[133X[101X
+  
+  [33X[0;0YHere  we  understand  a  knotted  surface,  or surface-knot, as a 2-surface,
+  connected  or not, and embedded in the four-dimensional Euclidean space [22XR^4[122X.
+  Projection  [22Xπ  :: R^4 -> R^3[122X is [13Xgeneric[113X for knotted surface [22XT[122X if the image [22Xπ
+  (T)[122X  is  [22XR^3[122X  is  locally homeomorphic to either (1) 2-disk, (2) two 2-disks
+  intersecting transversally, (3) three 2-disks intersecting transversally, or
+  (4)  Whitney  umbrella. Points having neighborhoods of types (2), (3) or (4)
+  are  called [13Xdouble points[113X, [13Xtriple points[113X, or [13Xbranching points[113X, respectively.
+  The  set  of  all  points  (2),  (3)  and (4) is called [13Xsingularity set[113X. The
+  [13Xdiagram[113X of [22XT[122X is its image [22Xπ (T)[122X together with the information on which sheet
+  is "higher" or "lower" near all double points, w.r.t. to the projection [22Xπ[122X.[133X
+  
+  
+  [1X3.2-1 [33X[0;0YDefining knotted surfaces[133X[101X
+  
+  [33X[0;0YBy  a  one-point  compactification, we pass from [22XR^3[122X to the 3-sphere [22XS^3[122X. We
+  pepresent  a  knotted  surface [22XT[122X diagram as a ball decomposition of [22XS^3[122X such
+  that  all  sheets of [22XT[122X lie in its 2-skeleton. All information concerning the
+  diagram  within the polytope is contained in the attached named list [10X.2knot[110X.
+  This list contains, in its turn, named list [10X.sheets[110X where the indiced of all
+  2-cells are collected belonging to the surface knot, and named list [10X.dpoints[110X
+  where the names are the double point edges, and to each edge, a four-element
+  list is attached of the 2-cells lying in the diagram and in the star of this
+  edge.  The first two entries in this list are the 2-cells lying in the upper
+  sheet,  while  the  two  last  -  the 2-cells lying in the lower sheet. This
+  information  is  of  course enough to identify also the triple and branching
+  points.[133X
+  
+  [1X3.2-2 PolSimplifyWith2Knot[101X
+  
+  [29X[2XPolSimplifyWith2Knot[102X( [3Xpol[103X ) [32X function
+  
+  [33X[0;0YSimplifies   polytope  [22Xpol[122X  containing  a  knotted  surface.  Uses  function
+  [10XUnionFaces[110X which unites pairs of balls in the polytope.[133X
+  
+  [33X[0;0YThis  function,  similarly  to  [10XPolSimplify[110X,  does not check whether further
+  simplifications  of  the obtained polytope are possible. So, its makes sense
+  to apply this function several times.[133X
+  
+  [1X3.2-3 SingularitySet2Knot[101X
+  
+  [29X[2XSingularitySet2Knot[102X( [3Xpol[103X ) [32X function
+  
+  [33X[0;0YReturns  the  singularity  set,  i.e.,  the  double  point  graph  (actually
+  containing  also  triple  and  branching  points)  for  the knotted surfaces
+  diagram  which is supposed to be contained in the record [22Xpol[122X. The list [10X.graf[110X
+  contains  all  1-cells  of the ambient polytope [22Xpol[122X that enter in the double
+  point  graph.  Also,  there is the named list [10X.order[110X where the names are the
+  indices  of  vertices, and the corresponding entry describes the vertex star
+  in  the following format. For a triple point, the first two elements are the
+  "upper" edges - those formed by the intersection of the upper and the middle
+  sheets; the second two elements are the "middle" edges - those formed by the
+  intersection  of  the  upper and the lower sheets; and the last two elements
+  are  the  "lower" edges - those formed by the intersection of the middle and
+  the  lower sheets. For a double point, the list contains just two edges, and
+  for a branching point - just one edge.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSingularitySet2Knot(TurnKnot(Trefoil,2));[127X[104X
+    [4X[28X	...[128X[104X
+    [4X[28Xrec( graf := [ 7, 4, 5, 6, 19, 20, 21, 22, 17, 18, 23, 8, 9, 10, 12, 45, 32,[128X[104X
+    [4X[28X      31, 25, 26, 51, 54, 55, 64, 112, 113, 114, 115, 134, 136, 137, 138,[128X[104X
+    [4X[28X      131, 130, 129, 119, 109, 118, 127, 106, 124, 105, 123, 104, 122, 102,[128X[104X
+    [4X[28X      99, 98, 79, 97, 78, 53, 94, 52, 59, 93, 92, 57, 73, 56, 72, 90, 70, 69,[128X[104X
+    [4X[28X      68, 67, 66, 65 ],[128X[104X
+    [4X[28X  order := rec( 1 := [ 137, 92 ], 10 := [ 12, 102 ], 11 := [ 10, 12 ],[128X[104X
+    [4X[28X      13 := [ 4 ], 14 := [ 22, 17, 19, 20, 104, 97 ],[128X[104X
+    [4X[28X      15 := [ 19, 18, 21, 22, 105, 98 ], 16 := [ 20, 21, 18, 23, 106, 99 ],[128X[104X
+    [4X[28X      19 := [ 25 ], 2 := [ 138, 94 ], 20 := [ 32, 31, 25, 26, 109, 102 ],[128X[104X
+    [4X[28X      21 := [ 23, 26 ], 23 := [ 17, 32 ], 24 := [ 31, 112 ],[128X[104X
+    [4X[28X      25 := [ 113, 104 ], 26 := [ 114, 105 ], 27 := [ 115, 106 ],[128X[104X
+    [4X[28X      30 := [ 45, 109 ], 34 := [ 45, 112 ], 36 := [ 113, 118 ],[128X[104X
+    [4X[28X      37 := [ 115, 119 ], 40 := [ 51, 56, 54, 53, 118, 122 ],[128X[104X
+    [4X[28X      41 := [ 53, 52, 55, 56, 114, 123 ], 42 := [ 54, 55, 52, 57, 119, 124 ],[128X[104X
+    [4X[28X      45 := [ 127, 59 ], 46 := [ 59, 57 ], 48 := [ 51 ],[128X[104X
+    [4X[28X      49 := [ 64, 69, 67, 66, 129, 122 ], 5 := [ 4, 9, 7, 6, 97, 92 ],[128X[104X
+    [4X[28X      50 := [ 66, 65, 69, 68, 130, 123 ], 51 := [ 68, 67, 70, 65, 131, 124 ],[128X[104X
+    [4X[28X      54 := [ 72 ], 55 := [ 79, 78, 73, 72, 134, 127 ], 56 := [ 73, 70 ],[128X[104X
+    [4X[28X      58 := [ 64, 79 ], 59 := [ 136, 78 ], 6 := [ 5, 6, 8, 9, 98, 93 ],[128X[104X
+    [4X[28X      60 := [ 137, 129 ], 61 := [ 130, 93 ], 62 := [ 138, 131 ],[128X[104X
+    [4X[28X      64 := [ 134, 90 ], 67 := [ 136, 90 ], 7 := [ 7, 8, 5, 10, 99, 94 ] ) )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-4 TripleDoubleBranchPoints[101X
+  
+  [29X[2XTripleDoubleBranchPoints[102X( [3Xpol[103X ) [32X function
+  
+  [33X[0;0YReturns,  for a ball complex [22Xpol[122X with a knotted surface diagram inside it, a
+  named  list  (record)  containing, in its turn, named lists [10X.triple[110X, [10X.double[110X
+  and  [10X.branch[110X  where  the names are those polytope vertices which are triple,
+  double  or  branching  points  of the diagram, respectively. In [10X.triple[110X, for
+  each  vertex  [22Xv[122X again a named list is returned, containing the fields [10X.u[110X, [10X.m[110X
+  and  [10X.d[110X  being  the lists of the 2-cells belonging to the upper, middle, and
+  lower sheets and lying in the star of [22Xv[122X. In [10X.double[110X, there are only lists [10X.u[110X
+  and [10X.d[110X. As for the named list [10X.branch[110X, it simply returns, for each branching
+  vertex  [22Xv[122X, the list of 2-cells belonging to the knotted surface and lying in
+  the star of [22Xv[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X gap> pol:=TurnKnot(Trefoil,1);;[128X[104X
+    [4X[28X ...[128X[104X
+    [4X[28X gap> TripleDoubleBranchPoints(pol);[128X[104X
+    [4X[28Xrec( branch := rec( 13 := [ 2, 6, 22, 30 ], 19 := [ 13, 16, 37, 44 ] ),[128X[104X
+    [4X[28X  double :=[128X[104X
+    [4X[28X    rec( 1 := rec( d := [ 24, 25, 41, 57 ], u := [ 22, 57, 51, 27 ] ),[128X[104X
+    [4X[28X      10 := rec( d := [ 28, 37, 38 ], u := [ 2, 30, 7 ] ),[128X[104X
+    [4X[28X      11 := rec( d := [ 28, 36, 38 ], u := [ 2, 6, 7 ] ),[128X[104X
+    [4X[28X      2 := rec( d := [ 23, 28, 55, 52, 55 ], u := [ 25, 41, 26 ] ),[128X[104X
+    [4X[28X      21 := rec( d := [ 36, 38, 43 ], u := [ 8, 12, 14 ] ),[128X[104X
+    [4X[28X      23 := rec( d := [ 30, 39, 48 ], u := [ 8, 12, 16 ] ),[128X[104X
+    [4X[28X      24 := rec( d := [ 7, 46, 47 ], u := [ 13, 44, 14 ] ),[128X[104X
+    [4X[28X      25 := rec( d := [ 24, 40, 41 ], u := [ 27, 39, 51 ] ),[128X[104X
+    [4X[28X      26 := rec( d := [ 26, 42, 27 ], u := [ 23, 24, 40 ] ),[128X[104X
+    [4X[28X      27 := rec( d := [ 23, 43, 52 ], u := [ 26, 42, 41 ] ),[128X[104X
+    [4X[28X      30 := rec( d := [ 47, 48, 51, 57 ], u := [ 19, 44, 20, 43 ] ),[128X[104X
+    [4X[28X      34 := rec( d := [ 46, 54, 57, 47 ], u := [ 14, 20, 19, 44 ] ) ),[128X[104X
+    [4X[28X  triple :=[128X[104X
+    [4X[28X    rec([128X[104X
+    [4X[28X      14 := rec( d := [ 32, 33, 40, 41 ], m := [ 27, 30, 35, 39 ],[128X[104X
+    [4X[28X          u := [ 8, 9, 11, 12 ] ),[128X[104X
+    [4X[28X      15 := rec( d := [ 27, 34, 35, 42 ], m := [ 23, 31, 32, 40 ],[128X[104X
+    [4X[28X          u := [ 9, 10, 11, 12 ] ),[128X[104X
+    [4X[28X      16 := rec( d := [ 23, 31, 36, 43 ], m := [ 33, 34, 41, 42 ],[128X[104X
+    [4X[28X          u := [ 8, 9, 10, 12 ] ),[128X[104X
+    [4X[28X      20 := rec( d := [ 37, 38, 43, 44 ], m := [ 7, 30, 47, 48 ],[128X[104X
+    [4X[28X          u := [ 8, 13, 14, 16 ] ),[128X[104X
+    [4X[28X      5 := rec( d := [ 24, 25, 32, 33 ], m := [ 22, 27, 30, 35 ],[128X[104X
+    [4X[28X          u := [ 2, 3, 5, 6 ] ),[128X[104X
+    [4X[28X      6 := rec( d := [ 26, 27, 34, 35 ], m := [ 23, 24, 31, 32 ],[128X[104X
+    [4X[28X          u := [ 3, 4, 5, 6 ] ),[128X[104X
+    [4X[28X      7 := rec( d := [ 23, 28, 31, 36 ], m := [ 25, 26, 33, 34 ],[128X[104X
+    [4X[28X          u := [ 2, 3, 4, 6 ] ) ) )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-5 IsDiagrammOf2Knot[101X
+  
+  [29X[2XIsDiagrammOf2Knot[102X( [3Xpol[103X ) [32X function
+  
+  [33X[0;0YCheck  a  2-knot diagram in a 3-manifold. Namely: (1) the correctness of all
+  references to polytope cells, (2) the double point graph, (3) the absence of
+  self-osculation points.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X gap> pol:=TurnKnot(Figure8,-1);;[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X  All good![128X[104X
+    [4X[28X[128X[104X
+    [4X[28X gap> IsDiagrammOf2Knot(pol);[128X[104X
+    [4X[28X true[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-6 SurfaceOf2Knot[101X
+  
+  [29X[2XSurfaceOf2Knot[102X( [3XM3[103X ) [32X function
+  
+  [33X[0;0YFor  a  3-manifold [22XM^3[122X equipped with a knotted surface diagram, the preimage
+  of  the  surface  is  returned,  that  is,  the  2-manifold,  where also the
+  preimages  of  double, triple, and branching points are indicated. The named
+  list  [10X.preimages[110Xcontains  lists  [10X.1[110X  and  [10X.0.[110X.  List [10X.1[110X consists of pairs of
+  preimages  of  double  point edges; the first entry is the edge lying in the
+  lower sheet, and the second entry is the edge lying in the upper sheet. List
+  [10X.0[110X  consists  of  lists  of  length  either  1  or 3; these are the lists of
+  preimages of branching and triple points, respectively. For a triple points,
+  the  preimages  go  in  the  following  order: the vertex on the lower sheet
+  first, then the middle, and then the upper vertex.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-7 TurnKnot[101X
+  
+  [29X[2XTurnKnot[102X( [3Xknot[103X, [3Xnumber[103X ) [32X function
+  
+  [33X[0;0YReturns  a  diagram,  embedded in the 3-sphere [22XS^3[122X, of the [13Xtwist-spun[113X 2-knot
+  obtained  from  the 1-knot diagram [22Xknot[122X. The [22Xnumber[122X is the number of twists;
+  it  can  be  positive,  negative  or  zero.  In the last case, we get just a
+  spun-diagram.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTurnKnot(Trefoil,0);[127X[104X
+    [4X[28XI'm trying simplify a polytope.[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X  ...[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X All good![128X[104X
+    [4X[28X[128X[104X
+    [4X[28Xrec([128X[104X
+    [4X[28X  2knot :=[128X[104X
+    [4X[28X    rec( dpoints := rec( 11 := [ 12, 7, 9, 10 ], 12 := [ 8, 9, 11, 12 ],[128X[104X
+    [4X[28X          13 := [ 10, 11, 13, 8 ], 14 := [ 18, 7, 15, 16 ],[128X[104X
+    [4X[28X          15 := [ 14, 15, 17, 18 ], 16 := [ 16, 17, 13, 14 ] ),[128X[104X
+    [4X[28X      sheets := [ 7, 8, 14, 9, 15, 10, 16, 11, 17, 12, 18, 13 ] ),[128X[104X
+    [4X[28X  faces :=[128X[104X
+    [4X[28X    [ [ [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 5, 6 ], [ 4, 5 ],[128X[104X
+    [4X[28X          [ 4, 6 ], [ 5, 6 ], [ 4, 5 ], [ 1, 4 ], [ 2, 5 ], [ 3, 6 ],[128X[104X
+    [4X[28X          [ 1, 4 ], [ 2, 5 ], [ 3, 6 ] ],[128X[104X
+    [4X[28X      [ [ 1, 3, 5 ], [ 1, 4 ], [ 2, 5 ], [ 6, 8, 10 ], [ 6, 9 ], [ 7, 10 ],[128X[104X
+    [4X[28X          [ 11, 14 ], [ 1, 6, 12, 13 ], [ 2, 7, 11, 12 ], [ 3, 8, 11, 13 ],[128X[104X
+    [4X[28X          [ 4, 9, 12, 13 ], [ 5, 10, 11, 12 ], [ 13, 16 ], [ 1, 6, 15, 16 ],[128X[104X
+    [4X[28X          [ 2, 7, 14, 15 ], [ 3, 8, 14, 16 ], [ 4, 9, 15, 16 ],[128X[104X
+    [4X[28X          [ 5, 10, 14, 15 ] ],[128X[104X
+    [4X[28X      [ [ 7, 10, 13, 16 ], [ 1, 4, 8, 10, 12 ], [ 2, 5, 8, 11 ],[128X[104X
+    [4X[28X          [ 3, 6, 9, 12 ], [ 1, 4, 14, 16, 18 ], [ 2, 5, 14, 17 ],[128X[104X
+    [4X[28X          [ 3, 6, 15, 18 ] ] ],[128X[104X
+    [4X[28X  vertices := [ [ 1, "a" ], [ 1, "b" ], [ 1, "c" ], [ 2, "a" ], [ 2, "b" ],[128X[104X
+    [4X[28X      [ 2, "c" ] ] )[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-8 2KnotInS4[101X
+  
+  [29X[2X2KnotInS4[102X( [3Xpol[103X ) [32X function
+  
+  [33X[0;0YGiven  a three-dimensional polytope [22Xpol[122X with a surface knot [22XT[122X diagram in it,
+  returns  an  embedding  of  [22XT[122X  into  the  4-sphere [22XS^4[122X. The result is a ball
+  complex  decomposition of [22XS^4[122X with the additional list [10X.2knot[110X containing the
+  2-faces that form the surface knot.[133X
+  
+  [1X3.2-9 OrientBrockenDiagramm[101X
+  
+  [29X[2XOrientBrockenDiagramm[102X( [3Xs3[103X ) [32X function
+  
+  [33X[0;0YReturns a broken diagram for an orientable connected knotted surface.[133X
+  
+  [33X[0;0YFor an orientable 2-knot in 3-sphere [22Xs3[122X, its broken diagram and double point
+  graph are computed. Returns a named list, as explained below.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs3:=TurnKnot(Trefoil,2);;[127X[104X
+    [4X[25Xgap>[125X [27Xrez:=OrientBrockenDiagramm(s3);;[127X[104X
+    [4X[25Xgap>[125X [27XRecNames(date);          [127X[104X
+    [4X[28X[ "images", "preimages", "manifold", "colines", "cosheets", "cofaces", [128X[104X
+    [4X[28X  "coorient" ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  list  [10Xrez.manifold[110X  contains  the  preimage  of  the 2-knot, that is, a
+  2-manifold.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XRecNames(rez.manifold);  [127X[104X
+    [4X[28X[ "vertices", "faces" ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe list [10Xrez.images[110X contains the images of the singular points in the 2-knot
+  diagram.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPrintObj(rez.images);[127X[104X
+    [4X[28Xrec([128X[104X
+    [4X[28X  0 := [ 4, 5, 6, 11, 12, 13, 14, 17, 18, 38, 39, 40, 45, 46, 47, 48, 51, 52 [128X[104X
+    [4X[28X     ],[128X[104X
+    [4X[28X  1 := [ 7, 4, 5, 6, 19, 20, 21, 22, 24, 16, 17, 18, 8, 9, 10, 11, 25, 54, [128X[104X
+    [4X[28X                . . .[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  list  [10Xrez.images.0[110X  contains  the vertex indices in polytope [22Xs3[122X for the
+  triple and branching points. The list [10Xrez.images.1[110X contains the edge indices
+  in [22Xs3[122X for the double point edges.[133X
+  
+  [33X[0;0YThe  list  [10Xrez.preimages[110X  contains  the  preimages of singular points in the
+  2-knot diagram.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPrintObj(rez.preimages);[127X[104X
+    [4X[28Xrec([128X[104X
+    [4X[28X  0 := [ [ 69, 4, 70 ], [ 71, 5, 72 ], [ 6, 73, 74 ], [ 11 ], [128X[104X
+    [4X[28X                . . .[128X[104X
+    [4X[28X  1 := [ [ 7, 143 ], [ 4, 144 ], [ 5, 145 ], [ 6, 146 ], [ 19, 147 ], [128X[104X
+    [4X[28X                . . .[128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  list  [10Xrez.preimages.0[110X  contains the indices of the triple and branching
+  points  preimages,  and the list [10Xrez.preimages.1[110X contains the indices of the
+  double  edges.  These  indices  correspond  to  the record [10Xrez.manifold[110X. The
+  numerations  in  [10Xrez.images.i[110X and [10Xrez.preimages.i[110X coincide in the sense that
+  the  preimage  of  element  [10Xrez.images.[110X[22Xi[k][122X  consists  of  the  elements  in
+  [10Xrez.preimages.[110X[22Xi[k][122X. For instance, the preimage of vertex 14 - a triple point
+  -  consists  of  three points in [10Xrez.manifold[110X. Vertex 11 in polytope [22Xs3[122X is a
+  branching  point  in  the  2-knot  diagram,  so we get just one point as its
+  preimage in polytope [10Xrez.manifold[110X[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpos:=Position(rez.images.0,14);;[127X[104X
+    [4X[25Xgap>[125X [27Xrez.preimages.0[pos];[127X[104X
+    [4X[28X[ 82, 14, 81 ][128X[104X
+    [4X[25Xgap>[125X [27Xpos:=Position(rez.images.0,11);;[127X[104X
+    [4X[25Xgap>[125X [27Xrez.preimages.0[pos];          [127X[104X
+    [4X[28X[ 11 ][128X[104X
+    [4X[28X					[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAnd finally, each double edge has exactly two preimages.[133X
+  
+  [33X[0;0YThe  singular  point  graph  has  the  triple  and  branching  points as its
+  vertices,  and  the  diagram's  double  edges  as  its edges. An edge of the
+  singular point graph may pass through several edges of the ball complex. The
+  singular  point  graph  edges  are  numbered in some arbitrary way. The list
+  [10Xrez.colines[110X  assigns to each [22Xi[122X-th double edge from [10Xrez.images.1[110X the singular
+  point graph edges that passes through it.[133X
+  
+  [33X[0;0YThe  list  [10Xrez.cosheets[110X  shows,  for  an [22Xi[122X-th 2-cell from [10Xs3.2knot[110X, to which
+  2-cell of the broken diagram it belongs.[133X
+  
+  [33X[0;0YAs  it  is assumed that the preimage of the 2-knot is orientable, it follows
+  that the double edges can also be oriented, and orientations can be assigned
+  to  the  graph  vertices  as well. Namely, the direction of a double edge is
+  positive  if  it  makes  a  positive  vector triple together with the normal
+  vectors   to   the  corresponding  upper  and  lower  sheets.  Triple  point
+  orientation  is  the  sign  of  the triple of the outgoing double edges, and
+  branching point orientation tells whether the oriented double edge points at
+  or  from it. These orientations are contained in the lists [10Xrez.coorient.[110X[22Xdim[122X,
+  where [22Xdim=0[122X or [22X1[122X.[133X
+  
+  [33X[0;0YNote  that,  as  all edges are written as 2-lists of their vertices going in
+  the  [13Xincreasing[113X  order, the orientation of an edge is written as either [22X1[122X or
+  [22X-1[122X  depending  on whether or not this increasing order orientation coincides
+  with the double edge orientation described above.[133X
+  
+  [33X[0;0YThe  list  [10Xrez.cofaces.0[110X  contains, in its [22Xi[122X-th position, the list of double
+  point  graph edges that contain the [22Xi[122X-th vertex of the graph. If this vertex
+  is  a  triple point, then there are six such edges. The first three in their
+  list  [10Xrez.cofaces.0[[110X[22Xi[122X[10X][110X are the edges pointing into the [22Xi[122Xth vertex, while the
+  last  three  point  out  of  the  vertex.  Moreover,  the edges in the lists
+  [10Xrez.cofaces.0[110X,  for  triple  points,  are  strictly ordered. The 1st and 4th
+  entries  are  the upper edges, the 2nd and 5th entries are the middle edges,
+  and the 3rd and 6th entries are the lower edges.[133X
+  
+  [33X[0;0YThe  list [10Xrez.cofaces.1[110X gives, for each double point graph edge, the list of
+  three  entries,  of  which  the  first  is the index of the upper sheet, the
+  second  is  the  index of that lower sheet that lies in the direction of the
+  positive  normal  vector  to  the upper sheet, and the third is the index of
+  that  lower  sheet  that  lies  against the direction of the positive normal
+  vector to the upper sheet.[133X
+  

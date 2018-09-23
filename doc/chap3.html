@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (PL-manual) - Chapter 3: Immersions and knots</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap3"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p><a id="X79D698DC87F13737" name="X79D698DC87F13737"></a></p>
+<div class="ChapSects"><a href="chap3.html#X79D698DC87F13737">3 <span class="Heading">Immersions and knots</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7C8CDF037A1F8B6C">3.1 <span class="Heading">Classical knots</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X87BA8A577B5E701D">3.1-1 <span class="Heading">Describing a knot diagram</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7879B1EE80994B6E">3.1-2 Knot1OnSphere2</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7A626B2A84CAD77E">3.1-3 KnotInS3</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7D7395747EC32627">3.1-4 Reidemeister10Everywhere</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7E710DED7C4E5B3A">3.1-5 ZeroLinkFromKnot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X797F8D4A848DD9BC">3.1-6 KnotGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7EB8D0A97D7D5E57">3.1-7 TorusKnot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8575EC5C7B564A45">3.1-8 ZeifertSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7D8D06467FBEB8CF">3.1-9 ZeifertSurfaceWithSimplyBoundary</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7824CA9382EBA957">3.2 <span class="Heading">Knotted surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X780A382580DA1540">3.2-1 <span class="Heading">Defining knotted surfaces</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X845EC0BA802775BB">3.2-2 PolSimplifyWith2Knot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X859D50D9858D5B25">3.2-3 SingularitySet2Knot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X81D8934B80A7BE6A">3.2-4 TripleDoubleBranchPoints</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8448826B8111EC48">3.2-5 IsDiagrammOf2Knot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X870383C87924E495">3.2-6 SurfaceOf2Knot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X857BA8697BA2F587">3.2-7 TurnKnot</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X848FEA1F80CF0734">3.2-8 2KnotInS4</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X780890177ADEBF2C">3.2-9 OrientBrockenDiagramm</a></span>
+</div></div>
+</div>
+
+<h3>3 <span class="Heading">Immersions and knots</span></h3>
+
+<p>Package <strong class="pkg">PL</strong> provides the possibility to work with usual one-dimensional knots and with two-dimensional knotted surfaces.</p>
+
+<p><a id="X7C8CDF037A1F8B6C" name="X7C8CDF037A1F8B6C"></a></p>
+
+<h4>3.1 <span class="Heading">Classical knots</span></h4>
+
+<p>There are two different ways of describing a knot diagram in package <strong class="pkg">PL</strong>. Both of these have their own advantages.</p>
+
+<p><a id="X87BA8A577B5E701D" name="X87BA8A577B5E701D"></a></p>
+
+<h5>3.1-1 <span class="Heading">Describing a knot diagram</span></h5>
+
+<p>The first way of describing a knot diagram is as follows. Assign a name to each double point, call these names "generators", choose arbitrarily the initial point (not being a double point of the diagram) and the positive direction on the knot. Go along the knot in the positive direction and make the <em>word</em> according to the following rule: at the beginning, the word is empty, then each double point is written on the right of the word and in the degree <span class="SimpleMath">-1</span> if we are moving along the underpass, or <span class="SimpleMath">1</span> if we are moving along the overpass. The word is ready when we have returned to the initial point.</p>
+
+<p>Additionally, each double point has its <em>orientation</em>. If the pair "positive directions of the overpass and underpass" at a double point determine the positive orientation of the plane, then the orientation is <span class="SimpleMath">1</span>, otherwise <span class="SimpleMath">-1</span>.</p>
+
+<p>The mirror image of a knot corresponds to changing all orientations.</p>
+
+<p>For the trefoil knot, the simplest diagram yields the word <span class="SimpleMath">ac^-1ba^-1cb^-1</span>, and all orientations are negative. Here is how this diagram is represented in the package <strong class="pkg">PL</strong> library.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Trefoil;</span>
+rec( kod := [ [ "a", 1 ], [ "c", -1 ], [ "b", 1 ],
+              [ "a", -1 ], [ "c", 1 ], [ "b", -1 ] ],
+     orient := [ [ "a", -1 ], [ "b", -1 ], [ "c", -1 ] ] )
+  				</pre></div>
+
+<p>The word and the orientations are thus represented as <code class="code">.kod</code> and <code class="code">.orient</code>, and the example makes it clear how exactly this is done.</p>
+
+<p>To describe <em>links</em> in this way is slightly more complicated, because the link components must be identified additionally. For instance, <code class="code">TorusKnot(2,4);</code> produces a two-component <em>link</em> as follows:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TorusKnot(2,4);</span>
+rec( 
+  kod := rec( 1 := [ [ 1, 1 ], [ 2, -1 ], [ 3, 1 ], [ 4, -1 ] ], 
+      2 := [ [ 1, -1 ], [ 2, 1 ], [ 3, -1 ], [ 4, 1 ] ] ), 
+  orient := [ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ] ] )
+                </pre></div>
+
+<p>The second way of describing a knot diagram consists in building the ball complex decomposition of sphere <span class="SimpleMath">S^2</span> corresponding naturally to the diagram. In this description, the knot goes along the 1-cells of the complex.</p>
+
+<p>The details can be seen on the following example.</p>
+
+
+<div class="example"><pre>
+rec(
+  1knot :=
+    rec(
+      dpoints := rec( 1 := [ 6, 1, 3, 4 ], 2 := [ 2, 3, 5, 6 ],
+          3 := [ 4, 5, 1, 2 ] ), sheets := [ 1 .. 6 ] ),
+  faces := [ [ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ] ],
+      [ [ 1, 3, 5 ], [ 1, 4 ], [ 2, 4, 6 ], [ 2, 5 ], [ 3, 6 ] ] ],
+  vertices := [ "a", "b", "c" ] )
+			</pre></div>
+
+<p>This example shows a trefoil diagram made as a ball complex decomposition of <span class="SimpleMath">S^2</span> with the additional information concerning the knot itself, and included in the named list <code class="code">.1knot</code> (meaning "one-dimensional knot", in contrast with knotted 2-surfaces). This latter contains the list <code class="code">.sheets</code> (remark: the word "sheets" may look a bit strange here, but the point is that there is also a parallel construction for 2-knots!) of all 1-cells along which the knot diagram goes, and the named list <code class="code">.dpoints</code> which assigns 4-lists to the names - double point indices. The first two entries in each of these 4-lists are the indices of two 1-cells forming the overpass at the double point, while the second two entries are the indices of two 1-cells forming the underpass.</p>
+
+<p>This desription contains redundant information and is not really convenient for writing it manually looking at a knot diagram. It has, nevertheless, some advantages. First, it allows to work directly with link diagrams. Second, this way of description is easily generalized to two-dimensional knotted surfaces, which will be explained below.</p>
+
+<p><a id="X7879B1EE80994B6E" name="X7879B1EE80994B6E"></a></p>
+
+<h5>3.1-2 Knot1OnSphere2</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Knot1OnSphere2</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a ball complex decomposition of sphere <span class="SimpleMath">S^2</span> with all information about the <span class="SimpleMath">knot</span> diagram, as explained above.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Knot1OnSphere2(Figure8);</span>
+rec(
+  1knot :=
+    rec(
+      dpoints := rec( 1 := [ 8, 1, 4, 3 ], 2 := [ 4, 5, 8, 7 ],
+          3 := [ 2, 3, 5, 6 ], 4 := [ 6, 7, 1, 2 ] ), sheets := [ 1 .. 8 ] ),
+  faces :=
+    [ [ [ 1, 4 ], [ 3, 4 ], [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 2, 4 ],
+          [ 1, 2 ] ],
+      [ [ 1, 3, 6 ], [ 1, 4, 7 ], [ 2, 5, 7 ], [ 2, 6 ], [ 3, 5, 8 ], [ 4, 8 ]
+         ] ], vertices := [ "a", "b", "c", "d" ] )
+					</pre></div>
+
+<p><a id="X7A626B2A84CAD77E" name="X7A626B2A84CAD77E"></a></p>
+
+<h5>3.1-3 KnotInS3</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; KnotInS3</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a ball complex decomposition of <em>three</em>-dimensional sphere <span class="SimpleMath">S^3</span>. The 1-cells along which the <span class="SimpleMath">knot</span> goes are shown in the named list <code class="code">.knot</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">KnotInS3(Figure8);</span>
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 1, 7 ], [ 2, 8 ], [ 5, 7 ], 
+          [ 6, 8 ], [ 1, 5 ], [ 2, 6 ], [ 1, 3 ], [ 2, 4 ], [ 3, 5 ], 
+          [ 4, 6 ], [ 5, 7 ], [ 6, 8 ], [ 3, 7 ], [ 4, 8 ], [ 1, 3 ], 
+          [ 2, 4 ], [ 1, 8 ], [ 5, 8 ], [ 2, 5 ], [ 2, 3 ], [ 3, 6 ], 
+          [ 6, 7 ], [ 4, 7 ], [ 1, 4 ] ], 
+      [ [ 1, 6, 21 ], [ 3, 8, 22 ], [ 1, 9, 23 ], [ 1, 11, 24 ], 
+          [ 2, 14, 25 ], [ 3, 15, 26 ], [ 2, 17, 27 ], [ 1, 20, 28 ], 
+          [ 5, 11, 17 ], [ 6, 12, 18 ], [ 7, 13, 17 ], [ 8, 14, 18 ], 
+          [ 7, 15 ], [ 8, 16 ], [ 9, 13, 19 ], [ 10, 14, 20 ], [ 11, 19 ], 
+          [ 12, 20 ], [ 4, 5, 21 ], [ 4, 7, 22 ], [ 3, 10, 23 ], 
+          [ 2, 12, 24 ], [ 3, 13, 25 ], [ 4, 16, 26 ], [ 4, 18, 27 ], 
+          [ 2, 19, 28 ] ], 
+      [ [ 1, 4, 7, 9, 10, 19, 22, 25 ], [ 2, 5, 7, 11, 12, 20, 23, 25 ], 
+          [ 2, 6, 13, 14, 20, 24 ], [ 3, 5, 8, 15, 16, 21, 23, 26 ], 
+          [ 4, 8, 17, 18, 22, 26 ], 
+          [ 1, 3, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 24 ] ] ], 
+  knot := [ 21, 22, 23, 24, 25, 26, 27, 28 ], 
+  vertices := [ [ "a", "1" ], [ "a", "0" ], [ "b", "1" ], [ "b", "0" ], 
+      [ "c", "1" ], [ "c", "0" ], [ "d", "1" ], [ "d", "0" ] ] )
+					</pre></div>
+
+<p><a id="X7D7395747EC32627" name="X7D7395747EC32627"></a></p>
+
+<h5>3.1-4 Reidemeister10Everywhere</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Reidemeister10Everywhere</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Checks the <span class="SimpleMath">knot</span> diagram for presence of free loops that can be removed by the first Reidemeister move <span class="SimpleMath">R^-1_0</span>, and removes them.</p>
+
+<p>The numbers <span class="SimpleMath">10</span> in the function name are because such a Reidemeister takes 1 vertex and returns (locally) 0 vertices.</p>
+
+<p><a id="X7E710DED7C4E5B3A" name="X7E710DED7C4E5B3A"></a></p>
+
+<h5>3.1-5 ZeroLinkFromKnot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeroLinkFromKnot</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Given a <span class="SimpleMath">knot</span> diagram, creates a link, adding to <span class="SimpleMath">knot</span> its copy having zero linking number with it.</p>
+
+<p>First, a tubular neighborhood of <span class="SimpleMath">knot</span> in the three-dimensional space is made. The copy mentioned above is the projection of <span class="SimpleMath">knot</span> along the <span class="SimpleMath">z</span> axis onto the boundary of this tubular neighborhood.</p>
+
+<p><a id="X797F8D4A848DD9BC" name="X797F8D4A848DD9BC"></a></p>
+
+<h5>3.1-6 KnotGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; KnotGroup</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Calculates the knot group, i.e., the fundamental group of the knot complement in <span class="SimpleMath">S^3</span>. Wirtinger relations are used.</p>
+
+<p><a id="X7EB8D0A97D7D5E57" name="X7EB8D0A97D7D5E57"></a></p>
+
+<h5>3.1-7 TorusKnot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TorusKnot</code>( <var class="Arg">q</var>, <var class="Arg">p</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a diagram of the torus knot <span class="SimpleMath">(q,p)</span>, if <span class="SimpleMath">q</span> and <span class="SimpleMath">p</span> are coprime, or otherwise of the corresponding link. Parameter <span class="SimpleMath">q &gt; 0</span> is the number of threads, while <span class="SimpleMath">p</span> is the number of revolutions.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">k:=TorusKnot(2,3);</span>
+rec( kod := [ [ 1, 1 ], [ 2, -1 ], [ 3, 1 ], [ 1, -1 ], [ 2, 1 ], [ 3, -1 ] ],
+  orient := [ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ] ] )
+					</pre></div>
+
+<p><a id="X8575EC5C7B564A45" name="X8575EC5C7B564A45"></a></p>
+
+<h5>3.1-8 ZeifertSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeifertSurface</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a Seifert surface of the <span class="SimpleMath">knot</span>, embedded in the 3-sphere. All 2-cells belonging to the Seifert surface are listed in the list <code class="code">.zeifert</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pol:=ZeifertSurface(Knot7_7);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">zeif:=SubPolytope(pol, pol.zeifert, 2);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolOrient(zeif);</span>
+[ 1, 1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, 1 ]
+					</pre></div>
+
+<p>Here we have created a sphere with a Seifert surface in it, then singled out this Seifert surface as a separate polytope, and checked that this latter is orientable by constructing an explicit orientation of its 2-cells.</p>
+
+<p><a id="X7D8D06467FBEB8CF" name="X7D8D06467FBEB8CF"></a></p>
+
+<h5>3.1-9 ZeifertSurfaceWithSimplyBoundary</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeifertSurfaceWithSimplyBoundary</code>( <var class="Arg">knot</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Creates a Seifert surface of the <span class="SimpleMath">knot</span> whose boundary consists of only two 1-cells (and the knot goes, accordinly, along these two cells).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pol:=ZeifertSurfaceWithSimplyBoundary(Knot7_7);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetOfFacesBoundary(pol,pol.zeifert,2);</span>
+[ 49, 159 ]
+				</pre></div>
+
+<p><a id="X7824CA9382EBA957" name="X7824CA9382EBA957"></a></p>
+
+<h4>3.2 <span class="Heading">Knotted surfaces</span></h4>
+
+<p>Here we understand a knotted surface, or surface-knot, as a 2-surface, connected or not, and embedded in the four-dimensional Euclidean space <span class="SimpleMath">R^4</span>. Projection <span class="SimpleMath">π :: R^4 -&gt; R^3</span> is <em>generic</em> for knotted surface <span class="SimpleMath">T</span> if the image <span class="SimpleMath">π (T)</span> is <span class="SimpleMath">R^3</span> is locally homeomorphic to either (1) 2-disk, (2) two 2-disks intersecting transversally, (3) three 2-disks intersecting transversally, or (4) Whitney umbrella. Points having neighborhoods of types (2), (3) or (4) are called <em>double points</em>, <em>triple points</em>, or <em>branching points</em>, respectively. The set of all points (2), (3) and (4) is called <em>singularity set</em>. The <em>diagram</em> of <span class="SimpleMath">T</span> is its image <span class="SimpleMath">π (T)</span> together with the information on which sheet is "higher" or "lower" near all double points, w.r.t. to the projection <span class="SimpleMath">π</span>.</p>
+
+<p><a id="X780A382580DA1540" name="X780A382580DA1540"></a></p>
+
+<h5>3.2-1 <span class="Heading">Defining knotted surfaces</span></h5>
+
+<p>By a one-point compactification, we pass from <span class="SimpleMath">R^3</span> to the 3-sphere <span class="SimpleMath">S^3</span>. We pepresent a knotted surface <span class="SimpleMath">T</span> diagram as a ball decomposition of <span class="SimpleMath">S^3</span> such that all sheets of <span class="SimpleMath">T</span> lie in its 2-skeleton. All information concerning the diagram within the polytope is contained in the attached named list <code class="code">.2knot</code>. This list contains, in its turn, named list <code class="code">.sheets</code> where the indiced of all 2-cells are collected belonging to the surface knot, and named list <code class="code">.dpoints</code> where the names are the double point edges, and to each edge, a four-element list is attached of the 2-cells lying in the diagram and in the star of this edge. The first two entries in this list are the 2-cells lying in the upper sheet, while the two last - the 2-cells lying in the lower sheet. This information is of course enough to identify also the triple and branching points.</p>
+
+<p><a id="X845EC0BA802775BB" name="X845EC0BA802775BB"></a></p>
+
+<h5>3.2-2 PolSimplifyWith2Knot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolSimplifyWith2Knot</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Simplifies polytope <span class="SimpleMath">pol</span> containing a knotted surface. Uses function <code class="code">UnionFaces</code> which unites pairs of balls in the polytope.</p>
+
+<p>This function, similarly to <code class="code">PolSimplify</code>, does not check whether further simplifications of the obtained polytope are possible. So, its makes sense to apply this function several times.</p>
+
+<p><a id="X859D50D9858D5B25" name="X859D50D9858D5B25"></a></p>
+
+<h5>3.2-3 SingularitySet2Knot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SingularitySet2Knot</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns the singularity set, i.e., the double point graph (actually containing also triple and branching points) for the knotted surfaces diagram which is supposed to be contained in the record <span class="SimpleMath">pol</span>. The list <code class="code">.graf</code> contains all 1-cells of the ambient polytope <span class="SimpleMath">pol</span> that enter in the double point graph. Also, there is the named list <code class="code">.order</code> where the names are the indices of vertices, and the corresponding entry describes the vertex star in the following format. For a triple point, the first two elements are the "upper" edges - those formed by the intersection of the upper and the middle sheets; the second two elements are the "middle" edges - those formed by the intersection of the upper and the lower sheets; and the last two elements are the "lower" edges - those formed by the intersection of the middle and the lower sheets. For a double point, the list contains just two edges, and for a branching point - just one edge.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SingularitySet2Knot(TurnKnot(Trefoil,2));</span>
+	...
+rec( graf := [ 7, 4, 5, 6, 19, 20, 21, 22, 17, 18, 23, 8, 9, 10, 12, 45, 32,
+      31, 25, 26, 51, 54, 55, 64, 112, 113, 114, 115, 134, 136, 137, 138,
+      131, 130, 129, 119, 109, 118, 127, 106, 124, 105, 123, 104, 122, 102,
+      99, 98, 79, 97, 78, 53, 94, 52, 59, 93, 92, 57, 73, 56, 72, 90, 70, 69,
+      68, 67, 66, 65 ],
+  order := rec( 1 := [ 137, 92 ], 10 := [ 12, 102 ], 11 := [ 10, 12 ],
+      13 := [ 4 ], 14 := [ 22, 17, 19, 20, 104, 97 ],
+      15 := [ 19, 18, 21, 22, 105, 98 ], 16 := [ 20, 21, 18, 23, 106, 99 ],
+      19 := [ 25 ], 2 := [ 138, 94 ], 20 := [ 32, 31, 25, 26, 109, 102 ],
+      21 := [ 23, 26 ], 23 := [ 17, 32 ], 24 := [ 31, 112 ],
+      25 := [ 113, 104 ], 26 := [ 114, 105 ], 27 := [ 115, 106 ],
+      30 := [ 45, 109 ], 34 := [ 45, 112 ], 36 := [ 113, 118 ],
+      37 := [ 115, 119 ], 40 := [ 51, 56, 54, 53, 118, 122 ],
+      41 := [ 53, 52, 55, 56, 114, 123 ], 42 := [ 54, 55, 52, 57, 119, 124 ],
+      45 := [ 127, 59 ], 46 := [ 59, 57 ], 48 := [ 51 ],
+      49 := [ 64, 69, 67, 66, 129, 122 ], 5 := [ 4, 9, 7, 6, 97, 92 ],
+      50 := [ 66, 65, 69, 68, 130, 123 ], 51 := [ 68, 67, 70, 65, 131, 124 ],
+      54 := [ 72 ], 55 := [ 79, 78, 73, 72, 134, 127 ], 56 := [ 73, 70 ],
+      58 := [ 64, 79 ], 59 := [ 136, 78 ], 6 := [ 5, 6, 8, 9, 98, 93 ],
+      60 := [ 137, 129 ], 61 := [ 130, 93 ], 62 := [ 138, 131 ],
+      64 := [ 134, 90 ], 67 := [ 136, 90 ], 7 := [ 7, 8, 5, 10, 99, 94 ] ) )
+					</pre></div>
+
+<p><a id="X81D8934B80A7BE6A" name="X81D8934B80A7BE6A"></a></p>
+
+<h5>3.2-4 TripleDoubleBranchPoints</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TripleDoubleBranchPoints</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns, for a ball complex <span class="SimpleMath">pol</span> with a knotted surface diagram inside it, a named list (record) containing, in its turn, named lists <code class="code">.triple</code>, <code class="code">.double</code> and <code class="code">.branch</code> where the names are those polytope vertices which are triple, double or branching points of the diagram, respectively. In <code class="code">.triple</code>, for each vertex <span class="SimpleMath">v</span> again a named list is returned, containing the fields <code class="code">.u</code>, <code class="code">.m</code> and <code class="code">.d</code> being the lists of the 2-cells belonging to the upper, middle, and lower sheets and lying in the star of <span class="SimpleMath">v</span>. In <code class="code">.double</code>, there are only lists <code class="code">.u</code> and <code class="code">.d</code>. As for the named list <code class="code">.branch</code>, it simply returns, for each branching vertex <span class="SimpleMath">v</span>, the list of 2-cells belonging to the knotted surface and lying in the star of <span class="SimpleMath">v</span>.</p>
+
+
+<div class="example"><pre>
+ gap&gt; pol:=TurnKnot(Trefoil,1);;
+ ...
+ gap&gt; TripleDoubleBranchPoints(pol);
+rec( branch := rec( 13 := [ 2, 6, 22, 30 ], 19 := [ 13, 16, 37, 44 ] ),
+  double :=
+    rec( 1 := rec( d := [ 24, 25, 41, 57 ], u := [ 22, 57, 51, 27 ] ),
+      10 := rec( d := [ 28, 37, 38 ], u := [ 2, 30, 7 ] ),
+      11 := rec( d := [ 28, 36, 38 ], u := [ 2, 6, 7 ] ),
+      2 := rec( d := [ 23, 28, 55, 52, 55 ], u := [ 25, 41, 26 ] ),
+      21 := rec( d := [ 36, 38, 43 ], u := [ 8, 12, 14 ] ),
+      23 := rec( d := [ 30, 39, 48 ], u := [ 8, 12, 16 ] ),
+      24 := rec( d := [ 7, 46, 47 ], u := [ 13, 44, 14 ] ),
+      25 := rec( d := [ 24, 40, 41 ], u := [ 27, 39, 51 ] ),
+      26 := rec( d := [ 26, 42, 27 ], u := [ 23, 24, 40 ] ),
+      27 := rec( d := [ 23, 43, 52 ], u := [ 26, 42, 41 ] ),
+      30 := rec( d := [ 47, 48, 51, 57 ], u := [ 19, 44, 20, 43 ] ),
+      34 := rec( d := [ 46, 54, 57, 47 ], u := [ 14, 20, 19, 44 ] ) ),
+  triple :=
+    rec(
+      14 := rec( d := [ 32, 33, 40, 41 ], m := [ 27, 30, 35, 39 ],
+          u := [ 8, 9, 11, 12 ] ),
+      15 := rec( d := [ 27, 34, 35, 42 ], m := [ 23, 31, 32, 40 ],
+          u := [ 9, 10, 11, 12 ] ),
+      16 := rec( d := [ 23, 31, 36, 43 ], m := [ 33, 34, 41, 42 ],
+          u := [ 8, 9, 10, 12 ] ),
+      20 := rec( d := [ 37, 38, 43, 44 ], m := [ 7, 30, 47, 48 ],
+          u := [ 8, 13, 14, 16 ] ),
+      5 := rec( d := [ 24, 25, 32, 33 ], m := [ 22, 27, 30, 35 ],
+          u := [ 2, 3, 5, 6 ] ),
+      6 := rec( d := [ 26, 27, 34, 35 ], m := [ 23, 24, 31, 32 ],
+          u := [ 3, 4, 5, 6 ] ),
+      7 := rec( d := [ 23, 28, 31, 36 ], m := [ 25, 26, 33, 34 ],
+          u := [ 2, 3, 4, 6 ] ) ) )
+					</pre></div>
+
+<p><a id="X8448826B8111EC48" name="X8448826B8111EC48"></a></p>
+
+<h5>3.2-5 IsDiagrammOf2Knot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDiagrammOf2Knot</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Check a 2-knot diagram in a 3-manifold. Namely: (1) the correctness of all references to polytope cells, (2) the double point graph, (3) the absence of self-osculation points.</p>
+
+
+<div class="example"><pre>
+ gap&gt; pol:=TurnKnot(Figure8,-1);;
+
+  All good!
+
+ gap&gt; IsDiagrammOf2Knot(pol);
+ true
+					</pre></div>
+
+<p><a id="X870383C87924E495" name="X870383C87924E495"></a></p>
+
+<h5>3.2-6 SurfaceOf2Knot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SurfaceOf2Knot</code>( <var class="Arg">M3</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>For a 3-manifold <span class="SimpleMath">M^3</span> equipped with a knotted surface diagram, the preimage of the surface is returned, that is, the 2-manifold, where also the preimages of double, triple, and branching points are indicated. The named list <code class="code">.preimages</code>contains lists <code class="code">.1</code> and <code class="code">.0.</code>. List <code class="code">.1</code> consists of pairs of preimages of double point edges; the first entry is the edge lying in the lower sheet, and the second entry is the edge lying in the upper sheet. List <code class="code">.0</code> consists of lists of length either 1 or 3; these are the lists of preimages of branching and triple points, respectively. For a triple points, the preimages go in the following order: the vertex on the lower sheet first, then the middle, and then the upper vertex.</p>
+
+
+<div class="example"><pre>
+					</pre></div>
+
+<p><a id="X857BA8697BA2F587" name="X857BA8697BA2F587"></a></p>
+
+<h5>3.2-7 TurnKnot</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TurnKnot</code>( <var class="Arg">knot</var>, <var class="Arg">number</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns a diagram, embedded in the 3-sphere <span class="SimpleMath">S^3</span>, of the <em>twist-spun</em> 2-knot obtained from the 1-knot diagram <span class="SimpleMath">knot</span>. The <span class="SimpleMath">number</span> is the number of twists; it can be positive, negative or zero. In the last case, we get just a spun-diagram.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TurnKnot(Trefoil,0);</span>
+I'm trying simplify a polytope.
+
+  ...
+
+ All good!
+
+rec(
+  2knot :=
+    rec( dpoints := rec( 11 := [ 12, 7, 9, 10 ], 12 := [ 8, 9, 11, 12 ],
+          13 := [ 10, 11, 13, 8 ], 14 := [ 18, 7, 15, 16 ],
+          15 := [ 14, 15, 17, 18 ], 16 := [ 16, 17, 13, 14 ] ),
+      sheets := [ 7, 8, 14, 9, 15, 10, 16, 11, 17, 12, 18, 13 ] ),
+  faces :=
+    [ [ [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 5, 6 ], [ 4, 5 ],
+          [ 4, 6 ], [ 5, 6 ], [ 4, 5 ], [ 1, 4 ], [ 2, 5 ], [ 3, 6 ],
+          [ 1, 4 ], [ 2, 5 ], [ 3, 6 ] ],
+      [ [ 1, 3, 5 ], [ 1, 4 ], [ 2, 5 ], [ 6, 8, 10 ], [ 6, 9 ], [ 7, 10 ],
+          [ 11, 14 ], [ 1, 6, 12, 13 ], [ 2, 7, 11, 12 ], [ 3, 8, 11, 13 ],
+          [ 4, 9, 12, 13 ], [ 5, 10, 11, 12 ], [ 13, 16 ], [ 1, 6, 15, 16 ],
+          [ 2, 7, 14, 15 ], [ 3, 8, 14, 16 ], [ 4, 9, 15, 16 ],
+          [ 5, 10, 14, 15 ] ],
+      [ [ 7, 10, 13, 16 ], [ 1, 4, 8, 10, 12 ], [ 2, 5, 8, 11 ],
+          [ 3, 6, 9, 12 ], [ 1, 4, 14, 16, 18 ], [ 2, 5, 14, 17 ],
+          [ 3, 6, 15, 18 ] ] ],
+  vertices := [ [ 1, "a" ], [ 1, "b" ], [ 1, "c" ], [ 2, "a" ], [ 2, "b" ],
+      [ 2, "c" ] ] )
+					</pre></div>
+
+<p><a id="X848FEA1F80CF0734" name="X848FEA1F80CF0734"></a></p>
+
+<h5>3.2-8 2KnotInS4</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; 2KnotInS4</code>( <var class="Arg">pol</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Given a three-dimensional polytope <span class="SimpleMath">pol</span> with a surface knot <span class="SimpleMath">T</span> diagram in it, returns an embedding of <span class="SimpleMath">T</span> into the 4-sphere <span class="SimpleMath">S^4</span>. The result is a ball complex decomposition of <span class="SimpleMath">S^4</span> with the additional list <code class="code">.2knot</code> containing the 2-faces that form the surface knot.</p>
+
+<p><a id="X780890177ADEBF2C" name="X780890177ADEBF2C"></a></p>
+
+<h5>3.2-9 OrientBrockenDiagramm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OrientBrockenDiagramm</code>( <var class="Arg">s3</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns a broken diagram for an orientable connected knotted surface.</p>
+
+<p>For an orientable 2-knot in 3-sphere <span class="SimpleMath">s3</span>, its broken diagram and double point graph are computed. Returns a named list, as explained below.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s3:=TurnKnot(Trefoil,2);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rez:=OrientBrockenDiagramm(s3);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RecNames(date);          </span>
+[ "images", "preimages", "manifold", "colines", "cosheets", "cofaces", 
+  "coorient" ]
+					</pre></div>
+
+<p>The list <code class="code">rez.manifold</code> contains the preimage of the 2-knot, that is, a 2-manifold.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RecNames(rez.manifold);  </span>
+[ "vertices", "faces" ]
+					</pre></div>
+
+<p>The list <code class="code">rez.images</code> contains the images of the singular points in the 2-knot diagram.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PrintObj(rez.images);</span>
+rec(
+  0 := [ 4, 5, 6, 11, 12, 13, 14, 17, 18, 38, 39, 40, 45, 46, 47, 48, 51, 52 
+     ],
+  1 := [ 7, 4, 5, 6, 19, 20, 21, 22, 24, 16, 17, 18, 8, 9, 10, 11, 25, 54, 
+                . . .
+					</pre></div>
+
+<p>The list <code class="code">rez.images.0</code> contains the vertex indices in polytope <span class="SimpleMath">s3</span> for the triple and branching points. The list <code class="code">rez.images.1</code> contains the edge indices in <span class="SimpleMath">s3</span> for the double point edges.</p>
+
+<p>The list <code class="code">rez.preimages</code> contains the preimages of singular points in the 2-knot diagram.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PrintObj(rez.preimages);</span>
+rec(
+  0 := [ [ 69, 4, 70 ], [ 71, 5, 72 ], [ 6, 73, 74 ], [ 11 ], 
+                . . .
+  1 := [ [ 7, 143 ], [ 4, 144 ], [ 5, 145 ], [ 6, 146 ], [ 19, 147 ], 
+                . . .
+					</pre></div>
+
+<p>The list <code class="code">rez.preimages.0</code> contains the indices of the triple and branching points preimages, and the list <code class="code">rez.preimages.1</code> contains the indices of the double edges. These indices correspond to the record <code class="code">rez.manifold</code>. The numerations in <code class="code">rez.images.i</code> and <code class="code">rez.preimages.i</code> coincide in the sense that the preimage of element <code class="code">rez.images.</code><span class="SimpleMath">i[k]</span> consists of the elements in <code class="code">rez.preimages.</code><span class="SimpleMath">i[k]</span>. For instance, the preimage of vertex 14 - a triple point - consists of three points in <code class="code">rez.manifold</code>. Vertex 11 in polytope <span class="SimpleMath">s3</span> is a branching point in the 2-knot diagram, so we get just one point as its preimage in polytope <code class="code">rez.manifold</code></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pos:=Position(rez.images.0,14);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rez.preimages.0[pos];</span>
+[ 82, 14, 81 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pos:=Position(rez.images.0,11);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rez.preimages.0[pos];          </span>
+[ 11 ]
+					</pre></div>
+
+<p>And finally, each double edge has exactly two preimages.</p>
+
+<p>The singular point graph has the triple and branching points as its vertices, and the diagram's double edges as its edges. An edge of the singular point graph may pass through several edges of the ball complex. The singular point graph edges are numbered in some arbitrary way. The list <code class="code">rez.colines</code> assigns to each <span class="SimpleMath">i</span>-th double edge from <code class="code">rez.images.1</code> the singular point graph edges that passes through it.</p>
+
+<p>The list <code class="code">rez.cosheets</code> shows, for an <span class="SimpleMath">i</span>-th 2-cell from <code class="code">s3.2knot</code>, to which 2-cell of the broken diagram it belongs.</p>
+
+<p>As it is assumed that the preimage of the 2-knot is orientable, it follows that the double edges can also be oriented, and orientations can be assigned to the graph vertices as well. Namely, the direction of a double edge is positive if it makes a positive vector triple together with the normal vectors to the corresponding upper and lower sheets. Triple point orientation is the sign of the triple of the outgoing double edges, and branching point orientation tells whether the oriented double edge points at or from it. These orientations are contained in the lists <code class="code">rez.coorient.</code><span class="SimpleMath">dim</span>, where <span class="SimpleMath">dim=0</span> or <span class="SimpleMath">1</span>.</p>
+
+<p>Note that, as all edges are written as 2-lists of their vertices going in the <em>increasing</em> order, the orientation of an edge is written as either <span class="SimpleMath">1</span> or <span class="SimpleMath">-1</span> depending on whether or not this increasing order orientation coincides with the double edge orientation described above.</p>
+
+<p>The list <code class="code">rez.cofaces.0</code> contains, in its <span class="SimpleMath">i</span>-th position, the list of double point graph edges that contain the <span class="SimpleMath">i</span>-th vertex of the graph. If this vertex is a triple point, then there are six such edges. The first three in their list <code class="code">rez.cofaces.0[</code><span class="SimpleMath">i</span><code class="code">]</code> are the edges pointing into the <span class="SimpleMath">i</span>th vertex, while the last three point out of the vertex. Moreover, the edges in the lists <code class="code">rez.cofaces.0</code>, for triple points, are strictly ordered. The 1st and 4th entries are the upper edges, the 2nd and 5th entries are the middle edges, and the 3rd and 6th entries are the lower edges.</p>
+
+<p>The list <code class="code">rez.cofaces.1</code> gives, for each double point graph edge, the list of three entries, of which the first is the index of the upper sheet, the second is the index of that lower sheet that lies in the direction of the positive normal vector to the upper sheet, and the third is the index of that lower sheet that lies against the direction of the positive normal vector to the upper sheet.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (PL-manual) - Chapter 2: Subpolytopes and embeddings</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap2"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p><a id="X7D9643C07CB9C138" name="X7D9643C07CB9C138"></a></p>
+<div class="ChapSects"><a href="chap2.html#X7D9643C07CB9C138">2 <span class="Heading">Subpolytopes and embeddings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2.html#X7AC0866A80BD94BD">2.1 <span class="Heading">Subpolytopes, boundaries, gluing, removing neighborhoods...</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X846E72167C7779D2">2.1-1 SetOfFacesBoundary</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X857F686C8672E246">2.1-2 SubPolytope</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X83D3EDBD86CC8F58">2.1-3 ParallelSimplify</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X80512E7E8394ADDB">2.1-4 PolMinusFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X7876CF9E8413B6D6">2.1-5 PolMinusFaceDoublingMethod</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X804271D78379B73C">2.1-6 PolMinusPol</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X79DD05937B0FD9D2">2.1-7 GlueFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X7D9ACC967D3ACE2A">2.1-8 VerticesRullGlueFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X86C045E57D71AB84">2.1-9 VerticesRullGluePol</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X83398A4B7AB2F9D1">2.1-10 GlueIndenticalSubpolitops</a></span>
+</div></div>
+</div>
+
+<h3>2 <span class="Heading">Subpolytopes and embeddings</span></h3>
+
+<p>Subpolytope <span class="SimpleMath">subpol</span> will be understood as a set of cells of a given dimension <span class="SimpleMath">k</span> if the union of these cells (cells are understood as <em>closed</em>) forms a PL submanifold <span class="SimpleMath">N ⊂ M</span>. The simplest example of a subpolytope is a disk represented as the list of just one element of any dimension of a polytope <span class="SimpleMath">pol</span>. We will not, however, define subpolytope as any rigid construction. It will be clear from the context what we mean each time.</p>
+
+<p><a id="X7AC0866A80BD94BD" name="X7AC0866A80BD94BD"></a></p>
+
+<h4>2.1 <span class="Heading">Subpolytopes, boundaries, gluing, removing neighborhoods...</span></h4>
+
+<p><a id="X846E72167C7779D2" name="X846E72167C7779D2"></a></p>
+
+<h5>2.1-1 SetOfFacesBoundary</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SetOfFacesBoundary</code>( <var class="Arg">pol</var>, <var class="Arg">subpol</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Returns the boundary of subpolytope <span class="SimpleMath">subpol</span> of dimension <span class="SimpleMath">dim</span> of polytope <span class="SimpleMath">pol</span>. To be exact, <span class="SimpleMath">subpol</span> here is a list of some <span class="SimpleMath">dim</span>-cells in <span class="SimpleMath">pol</span>. The returned boundary is, accordingly, a list of <span class="SimpleMath">(dim-1)</span>-cells.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s1 := sphereAB(1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ], vertices := [ "A", "B" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t2 := PolProduct(s1,s1);</span>
+rec( 
+  faces := 
+    [ [ [ 1, 2 ], [ 1, 2 ], [ 3, 4 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 1, 3 ], 
+          [ 2, 4 ] ], 
+      [ [ 1, 3, 5, 6 ], [ 2, 4, 5, 6 ], [ 1, 3, 7, 8 ], [ 2, 4, 7, 8 ] ] ], 
+  vertices := [ [ "A", "A" ], [ "A", "B" ], [ "B", "A" ], [ "B", "B" ] ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetOfFacesBoundary(t2,[1],2);</span>
+[ 1, 3, 5, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetOfFacesBoundary(t2,[2],2);</span>
+[ 2, 4, 5, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetOfFacesBoundary(t2,[2,1],2);</span>
+[ 1, 2, 3, 4 ]
+					</pre></div>
+
+<p><a id="X857F686C8672E246" name="X857F686C8672E246"></a></p>
+
+<h5>2.1-2 SubPolytope</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SubPolytope</code>( <var class="Arg">pol</var>, <var class="Arg">subpol</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p><span class="SimpleMath">subpol</span> is a list of some <span class="SimpleMath">dim</span>-cells in polytope <span class="SimpleMath">pol</span>. The function returns (the closure of) <span class="SimpleMath">subpol</span> as a separate polytope.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SubPolytope(t2,[1,2],1);</span>
+rec( faces := [ [ [ 1, 2 ], [ 1, 2 ] ] ],
+  vertices := [ [ "A", "A" ], [ "A", "B" ] ] )
+					</pre></div>
+
+<p><a id="X83D3EDBD86CC8F58" name="X83D3EDBD86CC8F58"></a></p>
+
+<h5>2.1-3 ParallelSimplify</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParallelSimplify</code>( <var class="Arg">pol</var>, <var class="Arg">subpol</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Polytope <span class="SimpleMath">pol</span> is simplified using function <code class="code">UnionFaces</code>, along with its subpolytope <span class="SimpleMath">subpol</span> of dimension <span class="SimpleMath">dim</span> which is simplified simultaneously. The result is in the form of polytope but with an additional named list <code class="code">.subpol</code> containing the numbers of <span class="SimpleMath">dim</span>-cells of the simplified polytope that belong to the simplified subpolytope. The function works only for subpolytopes whose dimension <span class="SimpleMath">dim</span> is strictly less than the dimension of <span class="SimpleMath">pol</span>.</p>
+
+<p><a id="X80512E7E8394ADDB" name="X80512E7E8394ADDB"></a></p>
+
+<h5>2.1-4 PolMinusFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolMinusFace</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Cuts out a neighborhood of a face with adress <span class="SimpleMath">adr</span> from polytope <span class="SimpleMath">pol</span>. In this way, new cells may appear, while some of the old cells are returned in several copies. The function is organized in such way that the olds cells retain the same positions in lists <span class="SimpleMath">pol</span><code class="code">.faces[</code><span class="SimpleMath">i</span><code class="code">]</code> and <span class="SimpleMath">pol</span><code class="code">.vertices</code> as they they had in the input polytope <span class="SimpleMath">pol</span>; for a multiplicated cell, one of its copies stays in that position (while the other copies are added of course somewhere on the right of the corresponding list).</p>
+
+<p><a id="X7876CF9E8413B6D6" name="X7876CF9E8413B6D6"></a></p>
+
+<h5>2.1-5 PolMinusFaceDoublingMethod</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolMinusFaceDoublingMethod</code>( <var class="Arg">pol</var>, <var class="Arg">adr</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Suppose there is a neighborhood of a <span class="SimpleMath">k</span>-cell <span class="SimpleMath">adr</span> in a ball complex <span class="SimpleMath">pol</span> homeomorphic to several <span class="SimpleMath">n</span>-disks <span class="SimpleMath">D^n_i</span> glued along the cell <span class="SimpleMath">adr</span>. Then, the withdrawal of <span class="SimpleMath">adr</span> can be performed more economically, namely by creating, for each <span class="SimpleMath">n</span>-disk, its own copy of <span class="SimpleMath">adr</span>.</p>
+
+<p>The following simple example deals with a bouquet of line segments glued together in vertex <span class="SimpleMath">adr=[0,1]</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">buket:=rec( vertices := [ 1, 2, 3, 4 ],</span>
+faces := [ [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ] ] ] );;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolMinusFaceDoublingMethod(buket,[0,1]);</span>
+rec( vertices := [ 1, 2, 3, 4, 5, 6 ],
+ faces:=[ [ [ 1, 2 ], [ 3, 5 ], [ 4, 6 ] ] ] )
+					</pre></div>
+
+<p><a id="X804271D78379B73C" name="X804271D78379B73C"></a></p>
+
+<h5>2.1-6 PolMinusPol</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolMinusPol</code>( <var class="Arg">pol</var>, <var class="Arg">subpol</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Cuts out subpolytope <span class="SimpleMath">subpol</span> of dimension <span class="SimpleMath">dim</span> from polytope <span class="SimpleMath">pol</span>. As far as possible, the most economical way is chosen for doing this.</p>
+
+<p><a id="X79DD05937B0FD9D2" name="X79DD05937B0FD9D2"></a></p>
+
+<h5>2.1-7 GlueFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GlueFaces</code>( <var class="Arg">pol</var>, <var class="Arg">pair</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Glues together two cells in polytope <span class="SimpleMath">pol</span>, <em>assuming that their boundaries coincide</em>. The cells have dimension <span class="SimpleMath">dim</span>, and <span class="SimpleMath">pair</span> is the list of their two numbers. Remark: the function does <em>not</em> check whether the cells have indeed the same boundary. Neither does it check that the result is a valid ball complex. Here is a simple example where the result is <em>not</em> a ball complex:</p>
+
+
+<div class="example"><pre>
+gap&gt;d2:=ballAB(2);;
+gap&gt;GlueFaces(d2,[1,2],1);
+rec(faces:=[ [ [1,2] ], [ [1] ] ],
+	vertices:= ["A","B"]
+					</pre></div>
+
+<p><a id="X7D9ACC967D3ACE2A" name="X7D9ACC967D3ACE2A"></a></p>
+
+<h5>2.1-8 VerticesRullGlueFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesRullGlueFace</code>( <var class="Arg">pol</var>, <var class="Arg">pair</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Glues together two cells in polytope <span class="SimpleMath">pol</span>. The cells have dimension <span class="SimpleMath">dim</span>, and <span class="SimpleMath">pair</span> is the list of their two numbers.</p>
+
+<p>The function looks at the <em>names</em> of vertices of two cells in <span class="SimpleMath">pair</span>, and glues them in such way that the <em>same-name</em> vertices are identified.</p>
+
+<p><a id="X86C045E57D71AB84" name="X86C045E57D71AB84"></a></p>
+
+<h5>2.1-9 VerticesRullGluePol</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesRullGluePol</code>( <var class="Arg">pol</var>, <var class="Arg">subpol1</var>, <var class="Arg">subpol2</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p><em>Identical</em> subpolytopes <span class="SimpleMath">subpol1</span> and <span class="SimpleMath">subpol2</span> of polytope <span class="SimpleMath">pol</span> and of dimension <span class="SimpleMath">dim</span> are glued into one.</p>
+
+<p>Each of these subpolytopes must have at least one <span class="SimpleMath">dim</span>-cell with at least <span class="SimpleMath">dim+1</span> vertices and, moreover, be <em>combinatorial</em> in the following sense: both this cell and all its subcells must be determined uniquely by the sets of their vertices.</p>
+
+<p>The gluing rules are determined by the <em>vertex names</em> in the list <span class="SimpleMath">pol</span><code class="code">.vertices</code>. The function begins with gluing together the two identical combinatorial <span class="SimpleMath">dim</span>-cells described above, starting with gluing each pair of same-named vertices into one. Then the process continues inductively on all cells of <span class="SimpleMath">subpol1</span> and <span class="SimpleMath">subpol2</span>. The presence of the two mentioned identical combinatorial <span class="SimpleMath">dim</span>-cells ensures that the gluing is performed in a unique way.</p>
+
+<p>If <em>two</em> polytopes are to be glued together by identifying their identical subpolytopes, then <code class="code">FreeUnionPol</code> can be used first.</p>
+
+<p><a id="X83398A4B7AB2F9D1" name="X83398A4B7AB2F9D1"></a></p>
+
+<h5>2.1-10 GlueIndenticalSubpolitops</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GlueIndenticalSubpolitops</code>( <var class="Arg">pol</var>, <var class="Arg">sub1</var>, <var class="Arg">sub2</var>, <var class="Arg">dim</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<p>Glues together two identical subpolytopes <span class="SimpleMath">sub1</span> and <span class="SimpleMath">sub2</span> of polytope <span class="SimpleMath">pol</span>. Faces with identical indices are identified. ***A more detailed description is required.***</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

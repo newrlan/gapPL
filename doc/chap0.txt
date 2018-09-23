@@ -1,0 +1,159 @@
+  
+  
+                                [1X The [5XPL[105X package [101X
+  
+  
+                                 Version 2.7.0
+  
+  
+                                 February, 2015
+  
+  
+                               Nurlan M. Sadikov
+  
+                              Alexey I. Korepanov
+  
+                               Igor G. Korepanov
+  
+  
+  
+  Nurlan M. Sadikov
+      Email:    [7Xmailto:ancleCharly@gmail.com[107X
+  
+  -------------------------------------------------------
+  [1XCopyright[101X
+  [33X[0;0Y© 2000-2014 by Nurlan M. Sadykov, Igor G. Korepanov, and Alexey I. Korepanov[133X
+  
+  [33X[0;0YUNKNOWNEntity(PL)  is free sotware; you car redistribute it and/or modify it
+  under     the     terms     of    the    GNU    General    Public    License
+  ([7Xhttp://www.fsf.org/licenses/gpl.html[107X)   as   published   by  Free  Software
+  Foundation;  either  version  2 of the License, or (at any your options) any
+  later version.[133X
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (PL-manual)[101X
+  
+  1 [33X[0;0YBall complexes[133X
+    1.1 [33X[0;0YRepresentation of a PL ball complex[133X
+      1.1-1 IsPolytope
+    1.2 [33X[0;0YClassical invariants[133X
+      1.2-1 EulerNumber
+      1.2-2 FundGroup
+    1.3 [33X[0;0YGeneral information about a ball complex[133X
+      1.3-1 LengthPol
+      1.3-2 PolBoundary
+      1.3-3 PolInnerFaces
+      1.3-4 MaxTree
+      1.3-5 CellOrient
+      1.3-6 PolOrient
+      1.3-7 OrientTriangulated
+      1.3-8 dataPachner
+      1.3-9 FromSimplexToPolytope
+    1.4 [33X[0;0YWorking with cells[133X
+      1.4-1 PolBnd
+      1.4-2 FaceComp
+      1.4-3 StarFace
+      1.4-4 PolCheckComb
+    1.5 [33X[0;0YChanging the ball complex representation of the same manifold[133X
+      1.5-1 PolTriangulate
+      1.5-2 PolCanonicalOrder
+      1.5-3 FirstBoundary
+      1.5-4 PermFaces
+      1.5-5 ContractMiniFace
+      1.5-6 DivideFace
+      1.5-7 UnionFaces
+      1.5-8 PolSimplify
+    1.6 [33X[0;0YTopological operations[133X
+      1.6-1 FreeUnionPol
+      1.6-2 PolDoubleCone
+      1.6-3 ConnectedSum
+      1.6-4 PolProduct
+      1.6-5 ImageInPolProduct
+      1.6-6 PreimageInPolProduct
+      1.6-7 PolProductSyms
+      1.6-8 PolProductSymsDict
+      1.6-9 PolFactorInvolution
+    1.7 [33X[0;0YMain principles of ball complex re-buildings[133X
+      1.7-1 DelFace
+      1.7-2 wasDelFace
+    1.8 [33X[0;0YThe library of polytopes[133X
+      1.8-1 ballAB
+      1.8-2 sphereAB
+      1.8-3 ballTriangul
+      1.8-4 sphereTriangul
+      1.8-5 projectivePlane
+      1.8-6 s2s2twisted
+      1.8-7 cp2
+      1.8-8 PoincareSphere
+      1.8-9 TorTwist
+      1.8-10 KummerSurface
+      1.8-11 Lens
+  2 [33X[0;0YSubpolytopes and embeddings[133X
+    2.1 [33X[0;0YSubpolytopes, boundaries, gluing, removing neighborhoods...[133X
+      2.1-1 SetOfFacesBoundary
+      2.1-2 SubPolytope
+      2.1-3 ParallelSimplify
+      2.1-4 PolMinusFace
+      2.1-5 PolMinusFaceDoublingMethod
+      2.1-6 PolMinusPol
+      2.1-7 GlueFaces
+      2.1-8 VerticesRullGlueFace
+      2.1-9 VerticesRullGluePol
+      2.1-10 GlueIndenticalSubpolitops
+  3 [33X[0;0YImmersions and knots[133X
+    3.1 [33X[0;0YClassical knots[133X
+      3.1-1 [33X[0;0YDescribing a knot diagram[133X
+      3.1-2 Knot1OnSphere2
+      3.1-3 KnotInS3
+      3.1-4 Reidemeister10Everywhere
+      3.1-5 ZeroLinkFromKnot
+      3.1-6 KnotGroup
+      3.1-7 TorusKnot
+      3.1-8 ZeifertSurface
+      3.1-9 ZeifertSurfaceWithSimplyBoundary
+    3.2 [33X[0;0YKnotted surfaces[133X
+      3.2-1 [33X[0;0YDefining knotted surfaces[133X
+      3.2-2 PolSimplifyWith2Knot
+      3.2-3 SingularitySet2Knot
+      3.2-4 TripleDoubleBranchPoints
+      3.2-5 IsDiagrammOf2Knot
+      3.2-6 SurfaceOf2Knot
+      3.2-7 TurnKnot
+      3.2-8 2KnotInS4
+      3.2-9 OrientBrockenDiagramm
+  4 [33X[0;0YRelated structures, auxiliary functions[133X
+    4.1 [33X[0;0YSome useful lists[133X
+      4.1-1 ConnectedSubset
+      4.1-2 SortCircle
+      4.1-3 LineOrdering
+    4.2 [33X[0;0YRational functions[133X
+      4.2-1 ConvertPolynomeToRatFunc
+      4.2-2 ConvertToRatFunc
+      4.2-3 ConvertFromRatFuncToPolynom
+      4.2-4 ConvertFromRatFunc
+      4.2-5 SimplifyRatFunc
+      4.2-6 SumRatFunc
+      4.2-7 ProdRatFunc
+      4.2-8 GcdPolynomial
+      4.2-9 LcmPolynomial
+      4.2-10 DerivativePolynomRatFunc
+      4.2-11 DerivativeRatFunc
+      4.2-12 JacobiMatRatFunc
+    4.3 [33X[0;0YMatrices[133X
+      4.3-1 Pfaffian
+    4.4 [33X[0;0YGrassmann algebras[133X
+      4.4-1 GrassmannMonomialsProduct
+      4.4-2 GrassmannProduct
+      4.4-3 GrassmannSum
+      4.4-4 BerezinIntegral
+      4.4-5 BerezinMultipleIntegral
+    4.5 [33X[0;0YFour-manifold invariants from hexagon cohomology[133X
+      4.5-1 actionlib
+      4.5-2 getLsystem
+      4.5-3 lookover
+  
+  
+  [32X
