@@ -1,6 +1,6 @@
 # Piecewise linear manifolds
 _PL_ is a _GAP_ library for work with piecewise linear manifolds. We define a
-manifold as _CW_-complex with extra axiom:
+manifold as _CW_-complex with one extra axiom:
 
 > Boundary of every n-dimentional cell (n > 1) is a (n-1)-dimensional sphere.
 
