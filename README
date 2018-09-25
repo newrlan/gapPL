@@ -1,5 +1,0 @@
-Please see the file doc/manual.pdf.
-
-Load package by next command
-    SetPackagePath("PL", "~/ProgGAP/PL");
-    LoadPackage("PL");
